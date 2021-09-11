@@ -1,0 +1,516 @@
+﻿@page "/claim"
+@inherits ClaimBase
+
+
+
+
+<div class="col">
+    <div class="row">
+        <div class="col col-lg-8">
+
+            @*PENSIONER*@
+            <div class="layout-top-spacing">
+                <div class="widget-content widget-content-area">
+                    <div class="widget-title">
+                        <h4>ព័ត៌មានសោធនិក</h4>
+                    </div>
+
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-6">
+                            <Label IsRequire="true" Text="លេខអត្ត. ប.ស.ស" for="benid" />
+                            <input type="text" class="form-control" id="benid">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="benname">គោត្តនាម-នាម</label>
+                            <input type="text" disabled class="form-control" id="benname" />
+                        </div>
+                    </div>
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="bennamelatin">គោត្តនាម-នាម (ឡាតាំង)</label>
+                            <input type="text" disabled class="form-control" id="bennamelatin">
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="bensex">ភេទ</label>
+                            <select id="bensex" class="form-control" disabled>
+                                @foreach (GenderModel gen in Genders)
+                                {
+                                    <option value="@gen.GenID">@gen.GenName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="bendob">ថ្ងៃខែឆ្នាំកំណើត</label>
+                            <input type="text" class="form-control" id="bendob" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="bennat">សញ្ញាតិ</label>
+                            <select id="bennat" class="form-control" disabled>
+                                @foreach (var nat in Nationalities)
+                                {
+                                    <option value="@nat.NatID">@nat.NatNameKh</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <Label for="benidcard" Text="អត្ត.ប័ណ្ណ/លិខិតឆ្លងដែន" />
+                            <input type="text" class="form-control" id="benidcard">
+                        </div>
+                    </div>
+                    <div class="form-row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="benent">អត្ត.សហគ្រាស</label>
+                            <input type="text" class="form-control" id="benentid" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="benent">ឈ្មោះសហគ្រាស</label>
+                            <input type="text" class="form-control" id="benentname" disabled>
+                        </div>
+                    </div>
+
+
+
+                    @*</div>*@
+
+                </div>
+            </div>
+
+
+            @*DOCUMENT OF PENSIONER*@
+            <div class="layout-top-spacing">
+                <div class="widget-content widget-content-area">
+                    <div class="widget-title">
+                        <h4>ឯកសារសោធនិក</h4>
+                    </div>
+                    <div class="text-right mb-2">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                            </svg>
+                            បន្ថែម
+                        </button>
+                    </div>
+
+
+                    <!-- Modal -->
+
+                    <div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">ឯកសារសោធនិក</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-row mb-2">
+                                        <div class="form-group col-md-4">
+                                            <Label IsRequire="true" Text="ប្រភេទលិខិត" for="doctype" />
+                                            <select id="doctype" class="form-control" @bind="CurrentDocment.DocID">
+                                                @foreach (DocumentModel doc in Documents)
+                                                {
+                                                    <option value="@doc.DocID">@doc.DocName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="doccode">លេខលិខិត</label>
+                                            <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំចុះលិខិត" for="docdate" />
+                                            <input type="text" class="form-control masked-date datepicker" id="docdate" @bind="CurrentDocment.DocDate">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row mb-2">
+                                        <div class="form-group col-md-4">
+                                            <label for="docby">ចេញលិខិតដោយ</label>
+                                            <input type="text" class="form-control" id="docby" @bind="CurrentDocment.DocBy" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="docby">ចេញលិខិតនៅ</label>
+                                            <input type="text" class="form-control" id="docat" @bind="CurrentDocment.DocAt" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" data-dismiss="modal"><i class="flaticon-cancel-12"></i>បោះបង់</button>
+                                    <button type="button" class="btn btn-primary" @onclick="OnAddClaimDocument">បញ្ចូល</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mb-4">
+                            <thead>
+                                <tr>
+                                    @foreach (string name in TableHeaderDocument)
+                                    {
+                                        <th class="text-center">@name</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ClaimDocuments.Count == 0)
+                                {
+                                    <tr><td colspan="7" class="text-center">មិនទាន់មានឯកសារ</td></tr>
+                                }
+                                else
+                                {
+                                    @foreach (ClaimDocumentModel doc in ClaimDocuments)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@(ClaimDocuments.IndexOf(doc) + 1)</td>
+                                            <td>@doc.DocName</td>
+                                            <td>@doc.DocCode</td>
+                                            <td>@doc.DocDate.Value.ToString("dd-MM-yyyy")</td>
+                                            <td>@doc.DocBy</td>
+                                            <td>@doc.DocAt</td>
+                                            <td class="text-center">
+                                                <span class="removedoc" data-index="@ClaimDocuments.IndexOf(doc)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                    </svg>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+            @*FAMILY OF PENSIONER*@
+            <div class="layout-top-spacing">
+                <div class="widget-content widget-content-area">
+                    <div class="widget-title">
+                        <h4 class="">អ្នកពាក់ព័ន្ធសោធនិក</h4>
+                    </div>
+                    <div class="text-right mb-2">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#family-modal" id="btnfamilymodal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                            </svg>
+                            បន្ថែម
+                        </button>
+                    </div>
+
+
+                    @*FAMILY MODAL*@
+                    <div class="modal fade" id="family-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="familymodaltitle">អ្នកពាក់ព័ន្ធសោធនិក</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="nav nav-tabs  mb-3 mt-3" id="simpletab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">ប្រវត្តិរូប</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="document-tab" data-toggle="tab" href="#document" role="tab" aria-controls="document" aria-selected="false">ឯកសារ</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="simpletabContent">
+                                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                            <div class="form-row mb-2">
+                                                <div class="form-group col-md-2">
+                                                    <Label IsRequire="true" for="doccode" Text="គោត្តនាម" />
+                                                    <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <Label IsRequire="true" for="doccode" Text="នាម" />
+                                                    <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <Label IsRequire="true" for="doccode" Text="គោត្តនាម" />
+                                                    <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <Label IsRequire="true" for="doccode" Text="នាម" />
+                                                    <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-2">
+                                                <div class="form-group col-md-2">
+                                                    <Label IsRequire="true" for="bensex" Text="ភេទ" />
+                                                    <select id="family-sex" class="form-control">
+                                                        @foreach (GenderModel gen in Genders)
+                                                        {
+                                                            <option value="@gen.GenID">@gen.GenName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+                                                    <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំកំណើត" for="doctype" />
+                                                    <input type="text" class="form-control datepicker masked-date" id="docby" @bind="CurrentDocment.DocBy" />
+                                                </div>
+
+                                                <div class="form-group col-md-2">
+                                                    <Label IsRequire="true" for="family-nat" Text="សញ្ជាតិ" />
+                                                    <select id="family-nationality" class="form-control select2">
+                                                        @foreach (NationalityModel nat in Nationalities)
+                                                        {
+                                                            <option value="@nat.NatID">@nat.NatNameKh</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <Label IsRequire="true" for="bensex" Text="អត្ត.ប័ណ្ណ/លិខិតឆ្លងដែន" />
+                                                    <input type="text" class="form-control" id="benidcard">
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-2">
+                                                <div class="form-group col-md-6">
+                                                    <Label Text="លេខទូរស័ព្ទ" for="phone2" />
+                                                    <input type="text" class="form-control masked-phone" id="phone">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <Label IsRequire="true" for="bensex" Text="ត្រូវជា" />
+                                                    <select id="bensex" class="form-control">
+                                                        <option selected>ប្រុស</option>
+                                                        <option>ស្រី</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
+                                            <div class="form-row mb-2">
+                                                <div class="form-group col-md-4">
+                                                    <Label IsRequire="true" Text="ប្រភេទលិខិត" for="doctype" />
+                                                    <select id="doctype" class="form-control" @bind="CurrentDocment.DocID">
+                                                        @foreach (DocumentModel doc in Documents)
+                                                        {
+                                                            <option value="@doc.DocID">@doc.DocName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="doccode">លេខលិខិត</label>
+                                                    <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំចុះលិខិត" for="docdate" />
+                                                    <input type="text" class="form-control datepicker masked-date" id="docdate" @bind="CurrentDocment.DocDate">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row mb-2">
+                                                <div class="form-group col-md-4">
+                                                    <label for="docby">ចេញលិខិតដោយ</label>
+                                                    <input type="text" class="form-control" id="docby" @bind="CurrentDocment.DocBy" />
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="docby">ចេញលិខិតនៅ</label>
+                                                    <input type="text" class="form-control" id="docat" @bind="CurrentDocment.DocAt" />
+                                                </div>
+                                            </div>
+
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped mb-4">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="@TableHeaderDocument.Count" class="table-header">
+                                                                <button type="button" class="btn table-header-button">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill mr-1" viewBox="0 0 16 16">
+                                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                                                                    </svg>
+                                                                     បន្ថែម
+                                                                </button>
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            @foreach (string name in TableHeaderDocument)
+                                                            {
+                                                                <th class="text-center">@name</th>
+                                                            }
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (ClaimDocuments.Count == 0)
+                                                        {
+                                                            <tr><td colspan="@TableHeaderDocument.Count" class="text-center">មិនទាន់មានឯកសារ</td></tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            @foreach (ClaimDocumentModel doc in ClaimDocuments)
+                                                            {
+                                                                <tr>
+                                                                    <td class="text-center">@(ClaimDocuments.IndexOf(doc) + 1)</td>
+                                                                    <td>@doc.DocName</td>
+                                                                    <td>@doc.DocCode</td>
+                                                                    <td>@doc.DocDate.Value.ToString("dd-MM-yyyy")</td>
+                                                                    <td>@doc.DocBy</td>
+                                                                    <td>@doc.DocAt</td>
+                                                                    <td class="text-center">
+                                                                        <span class="removedoc" data-index="@ClaimDocuments.IndexOf(doc)">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                                                                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+                                    
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" data-dismiss="modal"><i class="flaticon-cancel-12"></i>បោះបង់</button>
+                                    <button type="button" class="btn btn-primary" @onclick="OnAddClaimDocument">បញ្ចូល</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mb-4">
+                            <thead>
+                                <tr>
+                                    @foreach (string name in TableHeaderFamily)
+                                    {
+                                        <th class="text-center">@name</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ClaimDocuments.Count == 0)
+                                {
+                                    <tr><td colspan="@TableHeaderFamily.Count" class="text-center">មិនទាន់មានអ្នកពាក់ព័ន្ធ</td></tr>
+                                }
+                                else
+                                {
+                                    @foreach (ClaimDocumentModel doc in ClaimDocuments)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@(ClaimDocuments.IndexOf(doc) + 1)</td>
+                                            <td>@doc.DocName</td>
+                                            <td>@doc.DocCode</td>
+                                            <td>@doc.DocDate.Value.ToString("dd-MM-yyyy")</td>
+                                            <td>@doc.DocBy</td>
+                                            <td>@doc.DocAt</td>
+                                            <td class="text-center">
+                                                <span class="removedoc" data-index="@ClaimDocuments.IndexOf(doc)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                    </svg>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        @*ADDRESS AND CONTACT OF PENSIONER*@
+        <div class="col-lg-4 layout-top-spacing">
+            <div class="widget-content widget-content-area">
+                <div class="widget-title">
+                    <h4>អាសយដ្ឋាន</h4>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="form-group col-md-12">
+                        <Label IsRequire="true" Text="រាជធានី/ខេត្ត" for="province" />
+                        <select id="province" class="form-control select2">
+                            @foreach (var pro in Provinces)
+                            {
+                                <option value="@pro.ProID">@pro.ProType@pro.ProNameKhmer</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="form-group col-md-12">
+                        <Label IsRequire="true" Text="ខណ្ឌ/ក្រុង/ស្រុក" for="district" />
+                        <select id="district" class="form-control select2">
+                            @foreach (var dis in Districts)
+                            {
+                                <option value="@dis.DisID">@(dis.DisType + (dis.DisID > -1 ? dis.DisNameKhmer : ""))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="form-group col-md-12">
+                        <Label IsRequire="true" Text="ឃុំ/សង្កាត់" for="commune" />
+                        <select id="commune" class="form-control select2">
+                            @foreach (var com in Communes)
+                            {
+                                <option value="@com.ComId">@(com.ComType + (com.ComId > -1 ? com.ComNameKhmer : ""))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="form-group col-md-4">
+                        <label for="village">ភូមិ</label>
+                        <input type="text" class="form-control" id="village">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="street">ផ្លូវ</label>
+                        <input type="text" class="form-control" id="street">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="home">ផ្ទះលេខ</label>
+                        <input type="text" class="form-control datepicker masked-date" id="home" />
+                    </div>
+                </div>
+                <div class="form-row mb-2">
+                    <div class="form-group col-md-6">
+                        <Label IsRequire="true" Text="លេខទូរស័ព្ទទី១" for="phone1" />
+                        <input type="text" class="form-control masked-phone" id="phone1">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <Label Text="លេខទូរស័ព្ទទី២" for="phone2" />
+                        <input type="text" class="form-control masked-phone" id="phone2">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,16 @@
+﻿
+
+<label for="@For">@Text</label><label style="color: red !important; font-weight: 400 !important;">@(IsRequire ? " *" : "")</label>
+
+
+@code {
+
+    [Parameter]
+    public bool IsRequire { get; set; } = false;
+
+    [Parameter]
+    public string Text { get; set; } = "";
+
+    [Parameter]
+    public string For { get; set; } = "";
+}
