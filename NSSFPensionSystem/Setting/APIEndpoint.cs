@@ -19,6 +19,7 @@ namespace NSSFPensionSystem.Setting
 
 
         public static string Nationalities { get { return "general/list/Nationality"; } }
+        public static string Relationships(string sexId) { return "general/list/Relationship?id=" + sexId; }
 
 
         public static string Documents { get { return "general/list/Document"; } }

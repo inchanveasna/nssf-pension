@@ -61,10 +61,11 @@ namespace NSSFPensionSystem.Services.Impl
         {
             return Api.Get<List<NationalityModel>>(APIEndpoint.Nationalities);
         }
-        //public Task<List<RelationShip>> GetRelationShips(string sex_id)
-        //{
-        //    return apiService.Get<List<RelationShip>>(ApiEndpoint.RelationShips(sex_id));
-        //}
+
+        public Task<List<RelationshipModel>> GetRelationShips(string sexId)
+        {
+            return Api.Get<List<RelationshipModel>>(APIEndpoint.Relationships(sexId));
+        }
         //public Task<List<HealthStatus>> GetHealthStatuses()
         //{
         //    return apiService.Get<List<HealthStatus>>(ApiEndpoint.HealthStatus);

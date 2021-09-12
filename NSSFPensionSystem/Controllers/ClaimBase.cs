@@ -30,12 +30,18 @@ namespace NSSFPensionSystem.Controllers
         public List<DistrictModel> Districts = new List<DistrictModel>();
         public List<CommuneModel> Communes = new List<CommuneModel>();
         public List<GenderModel> Genders = new List<GenderModel>();
+        public List<RelationshipModel> Relationships = new List<RelationshipModel>();
 
         public ClaimDocumentModel CurrentDocment = new ClaimDocumentModel() { DocID = 1};
+        public ClaimFamilyMemberModel CurrentMember = new ClaimFamilyMemberModel();
+        public ClaimFamilyMemberDocumentModel CurrentMemberDoc = new ClaimFamilyMemberDocumentModel();
+        public List<ClaimFamilyMemberDocumentModel> CurrentMemberDocs = new List<ClaimFamilyMemberDocumentModel>();
+
         public List<ClaimDocumentModel> ClaimDocuments = new List<ClaimDocumentModel>();
+        public List<ClaimFamilyMemberModel> Members = new List<ClaimFamilyMemberModel>();
 
         public List<String> TableHeaderDocument = new List<string>() { "ល.រ", "ប្រភេទឯកសារ", "លេខលិខិត", "ថ្ងៃខែឆ្នាំចុះលិខិត", "ចេញលិខិតដោយ", "ចេញលិខិតនៅ", "លុប"};
-        public List<String> TableHeaderFamily = new List<string>() { "ល.រ", "ប្រតិបត្តិការ", "គោត្តនាម និងនាម", "អក្សរឡាតាំង", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ទំនាក់ទំនង", "ស្ថានភាពសុខភាព", "សញ្ជាតិ", "អ្នកតំណាង", "អ្នកថែរក្សា", "ចំនួនឯកសារភ្ជាប់" };
+        public List<String> TableHeaderMember = new List<string>() { "ល.រ", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ទំនាក់ទំនង", "ស្ថានភាពសុខភាព", "សញ្ជាតិ", "អ្នកតំណាង", "អ្នកថែរក្សា", "ចំនួនឯកសារភ្ជាប់" };
 
 
         #endregion
@@ -47,7 +53,11 @@ namespace NSSFPensionSystem.Controllers
             this.Nationalities = await ConstantValue.GetNationalities();
             this.Documents = await ConstantValue.GetDocuments();
             this.Genders = await ConstantValue.GetGender();
-
+            if(this.Genders != null && this.Genders.Count > 0)
+            {
+                await this.GetRelationships(this.Genders.FirstOrDefault().GenID);
+            }
+            
             this.Provinces = await ConstantValue.GetProvices();
             if (this.Provinces != null && this.Provinces.Count > 0)
             {
@@ -115,6 +125,19 @@ namespace NSSFPensionSystem.Controllers
         }
 
 
+        public void OnAddMemberDocument(EventArgs e)
+        {
+            if (CurrentMemberDoc != null && CurrentMemberDocs.Where(w => w.DocID == CurrentMemberDoc.DocID).Count() < 1)
+            {
+                CurrentMemberDoc.DocName = Documents.Where(w => w.DocID == CurrentMemberDoc.DocID).FirstOrDefault().DocName;
+                CurrentMemberDocs.Add(CurrentMemberDoc);
+                StateHasChanged();
+            }
+            CurrentMemberDoc = new ClaimFamilyMemberDocumentModel() { DocID = 1 };
+            StateHasChanged();
+        }
+
+
         [JSInvokable]
         public void OnRemoveClaimDocument(int index)
         {
@@ -122,6 +145,27 @@ namespace NSSFPensionSystem.Controllers
             this.StateHasChanged();
         }
 
+
+        [JSInvokable]
+        public async Task GetRelationships(object val)
+        {
+            this.Communes = new List<CommuneModel>();
+            StateHasChanged();
+            this.Relationships = await ConstantValue.GetRelationShips(val.ToString());
+            this.StateHasChanged();
+        }
+
+
+        public void OnAddMember(EventArgs e)
+        {
+            CurrentMember.Documents.AddRange(CurrentMemberDocs);
+            Members.Add(CurrentMember);
+            StateHasChanged();
+            
+            CurrentMemberDocs = new List<ClaimFamilyMemberDocumentModel>();
+            CurrentMember = new ClaimFamilyMemberModel();
+            StateHasChanged();
+        }
     }
 }
 

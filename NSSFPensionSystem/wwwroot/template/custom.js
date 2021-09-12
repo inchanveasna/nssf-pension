@@ -14,13 +14,13 @@ function AppInit() {
 
             $('.masked-benid').inputmask('9999999');
             $('.masked-phone').inputmask('999-999-9999');
-            $('.masked-date').inputmask('99-99-9999');
+           /* $('.masked-date').inputmask('99-99-9999');*/
 
             $('.select2').select2({
                 //placeholder: "Make a Selection",
             });
 
-            $('#family-nationality').select2({
+            $('#memnat').select2({
                 //placeholder: "Make a Selection",
                 dropdownParent: $('#family-modal'),
             });
@@ -29,11 +29,7 @@ function AppInit() {
                 $(this).removeClass("mb-4");
             });
 
-            $('.datepicker').flatpickr({
-                dateFormat: "d-m-Y",
-                allowInput: true,
-                dropdownParent: $("#familymodal"),
-            });
+            
            
             
         });
@@ -78,6 +74,11 @@ function ClaimJS(dotNetHelper) {
         return dotNetHelper.invokeMethodAsync('GetCommunes', val);
     });
 
+    $(document).delegate('#memsex', "change", function (event) {
+        var val = $(this).val();
+        return dotNetHelper.invokeMethodAsync('GetRelationships', val);
+    });
+
     $(document).delegate('.removedoc', "click", function (event) {
         var val = $(this).data('index');
         swal({
@@ -98,11 +99,11 @@ function ClaimJS(dotNetHelper) {
         })
     });
 
-    //$('#family-nat').select2({
-    //    tags: true,
-    //    dropdownParent: $('#family-modal'),
-    //});
+    $('.datepicker').flatpickr({
+        dateFormat: "d-m-Y",
 
+        /*allowInput: true,*/
+    });
 }
 
 

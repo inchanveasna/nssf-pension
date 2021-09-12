@@ -17,7 +17,7 @@ namespace NSSFPensionSystem.Services
         //Task<List<FamilyStatus>> GetFamilyStatuses();
         //Task<List<Bank>> GetBanks();
         Task<List<NationalityModel>> GetNationalities();
-        //Task<List<RelationShip>> GetRelationShips(string sex_id);
+        Task<List<RelationshipModel>> GetRelationShips(string sexId);
         //Task<List<HealthStatus>> GetHealthStatuses();
         ////Task<Tuple<FilterClaim, string>> GetFilterClaims(string ben_id);
         Task<List<DocumentModel>> GetDocuments();
