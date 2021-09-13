@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using NSSFPensionSystem.Services;
 using NSSFPensionSystem.Models;
+using NSSFPensionSystem.Shared;
 
 namespace NSSFPensionSystem.Controllers
 {
@@ -41,9 +42,9 @@ namespace NSSFPensionSystem.Controllers
         public List<ClaimFamilyMemberModel> Members = new List<ClaimFamilyMemberModel>();
 
         public List<String> TableHeaderDocument = new List<string>() { "ល.រ", "ប្រភេទឯកសារ", "លេខលិខិត", "ថ្ងៃខែឆ្នាំចុះលិខិត", "ចេញលិខិតដោយ", "ចេញលិខិតនៅ", "លុប"};
-        public List<String> TableHeaderMember = new List<string>() { "ល.រ", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ទំនាក់ទំនង", "ស្ថានភាពសុខភាព", "សញ្ជាតិ", "អ្នកតំណាង", "អ្នកថែរក្សា", "ចំនួនឯកសារភ្ជាប់" };
+        public List<String> TableHeaderMember = new List<string>() { "ល.រ", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ត្រូវជា", "សញ្ជាតិ", "លេខទូរស័ព្ទ", "" };
 
-
+        public Modal modal { get; set; }
         #endregion
 
 
@@ -55,7 +56,7 @@ namespace NSSFPensionSystem.Controllers
             this.Genders = await ConstantValue.GetGender();
             if(this.Genders != null && this.Genders.Count > 0)
             {
-                await this.GetRelationships(this.Genders.FirstOrDefault().GenID);
+                await this.OnSexChanged(this.Genders.FirstOrDefault().GenID);
             }
             
             this.Provinces = await ConstantValue.GetProvices();
@@ -64,7 +65,7 @@ namespace NSSFPensionSystem.Controllers
                 this.Districts = await ConstantValue.GetDistricts(this.Provinces[0].ProID);
                 if (this.Districts != null && this.Districts.Count > 0)
                 {
-                    await GetCommunes(this.Districts.FirstOrDefault().DisID);
+                    await OnDistrictChange(this.Districts.FirstOrDefault().DisID);
                 }
             }
         }
@@ -82,6 +83,7 @@ namespace NSSFPensionSystem.Controllers
             }
         }
 
+
         [JSInvokable]
         public void OnBenIDChanged(object e)
         {
@@ -90,7 +92,7 @@ namespace NSSFPensionSystem.Controllers
 
 
         [JSInvokable]
-        public async Task GetDistricts(object val)
+        public async Task OnProvinceChanged(object val)
         {
             this.Districts = new List<DistrictModel>();
             StateHasChanged();
@@ -99,13 +101,13 @@ namespace NSSFPensionSystem.Controllers
             this.StateHasChanged();
             if (this.Districts != null && this.Districts.Count > 0)
             {
-                await GetCommunes(this.Districts.FirstOrDefault().DisID);
+                await OnDistrictChange(this.Districts.FirstOrDefault().DisID);
             }
             
         }
 
         [JSInvokable]
-        public async Task GetCommunes(object val)
+        public async Task OnDistrictChange(object val)
         {
             this.Communes = new List<CommuneModel>();
             StateHasChanged();
@@ -145,13 +147,24 @@ namespace NSSFPensionSystem.Controllers
             this.StateHasChanged();
         }
 
+        [JSInvokable]
+        public void OnEditClaimDocument(int index)
+        {
+            CurrentDocment = new ClaimDocumentModel();
+            CurrentDocment = ClaimDocuments[index];
+            StateHasChanged();
+            //ClaimDocuments.Insert(index, CurrentDocment);
+            //StateHasChanged();
+        }
+
 
         [JSInvokable]
-        public async Task GetRelationships(object val)
+        public async Task OnSexChanged(object val)
         {
             this.Communes = new List<CommuneModel>();
             StateHasChanged();
             this.Relationships = await ConstantValue.GetRelationShips(val.ToString());
+            this.CurrentMember.RelId = Relationships.FirstOrDefault().RelId;
             this.StateHasChanged();
         }
 
@@ -160,6 +173,8 @@ namespace NSSFPensionSystem.Controllers
         {
             CurrentMember.Documents = new List<ClaimFamilyMemberDocumentModel>();
             CurrentMember.Documents.AddRange(CurrentMemberDocs);
+            CurrentMember.Nationality = Nationalities.Where(w => w.NatID == CurrentMember.NationalId).FirstOrDefault().NatNameKh;
+            CurrentMember.Relationship = Relationships.Where(w => w.RelId == CurrentMember.RelId).FirstOrDefault().RelDesc;
             Members.Add(CurrentMember);
             StateHasChanged();
             

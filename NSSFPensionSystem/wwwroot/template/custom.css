@@ -1,25 +1,31 @@
-﻿.form-control {
+﻿/*----------------------------FORM CONTROL-------------------------------------*/
+/*---------------------------------------------------------------------------*/
+.form-control {
     padding: 0px 8px !important;
     height: calc(1.4em + 1.1rem) !important;
     border-radius: 2px !important;
     font-family: 'Khmer OS Siemreap', 'Khmer OS Content' !important;
 }
 
-
 .form-group label, label {
     font-size: 15px !important;
     font-weight: 300 !important;
-    /*color: #acb0c3;*/
-    color: #1b55e2 !important;
+    color: #0e1726 !important;
     letter-spacing: 1px !important;
     font-family: 'Khmer OS Siemreap', 'Khmer OS Content' !important;
 }
 
-
 .form-group .form-row {
     margin-bottom: 0px !important;
 }
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
+
+
+
+/*----------------------------SELECT 2-------------------------------------*/
+/*---------------------------------------------------------------------------*/
 .select2-container .select2-selection--single .select2-selection__rendered {
     font-family: 'Khmer OS Siemreap', 'Khmer OS Content' !important;
     padding: 8px 8px !important;
@@ -42,27 +48,42 @@
     border-radius: 2px !important;
 }
 
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
-.modal-header {
-    background-color: #E4E4E4 !important;
-}
 
+
+
+/*----------------------------TABLE-------------------------------------*/
+/*---------------------------------------------------------------------------*/
 thead {
-    /*background-color: #E4E4E4 !important;
-    border-color: #E6E6E6 !important;
-    border-width: 1px !important; */
     background-color: #EBEDF2 !important;
 }
 
 .table > thead > tr > th {
     font-size: 15px !important;
     font-weight: bold !important;
-    /*color: #555555 !important;*/
-    color: #1b55e2 !important;
+    color: #0e1726 !important;
     letter-spacing: 1px !important;
     font-family: 'Khmer OS Siemreap', 'Khmer OS Content' !important;
 }
 
+.cell-text {
+    font-weight: bold !important;
+    margin-bottom: 0px !important;
+}
+
+.cell-subtext {
+    font-size: 11px !important;
+}
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
+
+
+
+
+/*----------------------------WIDGET-------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 .widget-content-area {
     border-radius: 6px !important;
@@ -81,16 +102,34 @@ thead {
             content: "";
             height: 2px;
             width: 97px;
-            background: #1b55e2;
+            background: #2196f3;
             border-radius: 50%;
             bottom: -5px;
             left: 15px;
         }
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 .flatpickr-calendar.open {
     z-index: 99999 !important;
 }
 
+
+/*----------------------------MODAL-------------------------------------*/
+/*---------------------------------------------------------------------------*/
+.modal-header {
+    background-color: #E4E4E4 !important;
+}
+
+.modal-title {
+    font-size: 15px !important;
+    font-family: 'Khmer OS Muol Light' !important;
+    /*font-weight: bold !important;*/
+    color: #4E4F50 !important;
+    letter-spacing: 1px !important;
+}
+/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 #content:before {
     content: '';
@@ -102,6 +141,8 @@ thead {
     height: 183px;
     z-index: -1;
 }
+
+
 
 *, ::after, ::before {
     box-sizing: border-box;

@@ -66,17 +66,17 @@ function ClaimJS(dotNetHelper) {
 
     $(document).delegate('#province', "change", function (event) {
         var val = $(this).val();
-        return dotNetHelper.invokeMethodAsync('GetDistricts', val);
+        return dotNetHelper.invokeMethodAsync('OnProvinceChanged', val);
     });
 
     $(document).delegate('#district', "change", function (event) {
         var val = $(this).val();
-        return dotNetHelper.invokeMethodAsync('GetCommunes', val);
+        return dotNetHelper.invokeMethodAsync('OnDistrictChanged', val);
     });
 
     $(document).delegate('#memsex', "change", function (event) {
         var val = $(this).val();
-        return dotNetHelper.invokeMethodAsync('GetRelationships', val);
+        return dotNetHelper.invokeMethodAsync('OnSexChanged', val);
     });
 
     $(document).delegate('.removedoc', "click", function (event) {
@@ -97,6 +97,13 @@ function ClaimJS(dotNetHelper) {
                 dotNetHelper.invokeMethodAsync('OnRemoveClaimDocument', val);
             }
         })
+    });
+
+    $(document).delegate('#edit-doc', "click", function (event) {
+        var val = $(this).data('index');
+        $('#exampleModal').modal('toggle').then(() => {
+            dotNetHelper.invokeMethodAsync('OnEditClaimDocument', val);
+        });
     });
 
     $('.datepicker').flatpickr({
