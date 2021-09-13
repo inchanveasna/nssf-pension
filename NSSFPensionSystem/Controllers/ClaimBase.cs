@@ -158,6 +158,7 @@ namespace NSSFPensionSystem.Controllers
 
         public void OnAddMember(EventArgs e)
         {
+            CurrentMember.Documents = new List<ClaimFamilyMemberDocumentModel>();
             CurrentMember.Documents.AddRange(CurrentMemberDocs);
             Members.Add(CurrentMember);
             StateHasChanged();

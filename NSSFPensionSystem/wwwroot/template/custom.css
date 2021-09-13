@@ -10,17 +10,11 @@
     font-size: 15px !important;
     font-weight: 300 !important;
     /*color: #acb0c3;*/
-    color: #4E4F50 !important;
+    color: #1b55e2 !important;
     letter-spacing: 1px !important;
     font-family: 'Khmer OS Siemreap', 'Khmer OS Content' !important;
 }
 
-
-/*.widget .widget-header h4{
-    font-family: 'Khmer OS Muol Light' !important;
-    font-weight: 300 !important;
-}
-*/
 
 .form-group .form-row {
     margin-bottom: 0px !important;
@@ -49,6 +43,10 @@
 }
 
 
+.modal-header {
+    background-color: #E4E4E4 !important;
+}
+
 thead {
     /*background-color: #E4E4E4 !important;
     border-color: #E6E6E6 !important;
@@ -60,7 +58,7 @@ thead {
     font-size: 15px !important;
     font-weight: bold !important;
     /*color: #555555 !important;*/
-    color: #4E4F50 /*#2196f3*/ !important;
+    color: #1b55e2 !important;
     letter-spacing: 1px !important;
     font-family: 'Khmer OS Siemreap', 'Khmer OS Content' !important;
 }
@@ -74,7 +72,7 @@ thead {
         position: relative;
         font-family: 'Khmer OS Muol Light' !important;
         font-weight: 300 !important;
-        color: #0e1726;  /*#3b3f5c;*/
+        color: #3b3f5c;
         margin: 6px 0px 20px 0;
     }
 
@@ -83,47 +81,15 @@ thead {
             content: "";
             height: 2px;
             width: 97px;
-            background: #2196f3;
+            background: #1b55e2;
             border-radius: 50%;
             bottom: -5px;
             left: 15px;
         }
-.modal-header {
-    background-color: #E4E4E4 !important;
-}
-
-.modal-title {
-    font-size: 15px !important;
-    font-family: 'Khmer OS Muol Light' !important;
-    /*font-weight: bold !important;*/
-    color: #4E4F50 !important;
-    letter-spacing: 1px !important;
-}
 
 .flatpickr-calendar.open {
     z-index: 99999 !important;
 }
-
-.table-header {
-    padding: 0px !important;
-    background-color: #EBEDF2 !important;
-    text-align: right !important;
-}
-
-.table-header-button {
-    /*background-color: #E4E4E4 !important;
-    padding: 8px 16px !important;
-    text-align: 'center' !important;
-    border:none;*/
-    margin: 0px !important;
-    border:none !important;
-    border-radius: 0px !important;
-}
-
-    .table-header-button:hover {
-        /*background-color: #D2D2D2 !important;
-        color: #1b55e2 !important;*/
-    }
 
 
 #content:before {

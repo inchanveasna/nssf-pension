@@ -12,7 +12,7 @@ namespace NSSFPensionSystem.Models
         public int MemId { get; set; } = 0;
 
         [JsonProperty("doc_id")]
-        public int DocID { get; set; } = 0;
+        public int DocID { get; set; } = 1;
 
         [JsonProperty("doc_name")]
         public string DocName { get; set; } = "";

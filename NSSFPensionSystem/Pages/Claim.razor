@@ -371,6 +371,7 @@
                                     <div class="form-row mb-2">
                                         <div class="form-group col-md-4">
                                             <Label IsRequire="true" Text="ប្រភេទលិខិត" for="memdoctype" />
+                                            <p>@CurrentMemberDoc.DocID</p>
                                             <select id="memdoctype" class="form-control" @bind="CurrentMemberDoc.DocID">
                                                 @foreach (DocumentModel doc in Documents)
                                                 {
@@ -431,15 +432,13 @@
                                         <tr>
                                             <td class="text-center">@(Members.IndexOf(mem) + 1)</td>
                                             <td>
-                                                <div class="form-group">
-                                                    <span>@(mem.FirstNameKh + " " + mem.LastNameKh)</span>
-                                                    <span>@(mem.FirstNameLatin + " " + mem.LastNameLatin)</span>
+                                                <div class="col">
+                                                    <label>@(mem.FirstNameKh + " " + mem.LastNameKh)</label>
+                                                    <label>@(mem.FirstNameLatin + " " + mem.LastNameLatin)</label>
                                                 </div>
                                             </td>
-                                            @*<td>@doc.DocCode</td>
-                    <td>@doc.DocDate.Value.ToString("dd-MM-yyyy")</td>
-                    <td>@doc.DocBy</td>
-                    <td>@doc.DocAt</td>*@
+                                            <td>@(mem.GenId == "1" ? "ប្រុស" : "ស្រី" + mem.GenId)</td>
+                                            <td>@mem.DobString</td>
                                             <td class="text-center">
                                                 <span class="removedoc" data-index="@Members.IndexOf(mem)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
