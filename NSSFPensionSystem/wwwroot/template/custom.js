@@ -22,7 +22,7 @@ function AppInit() {
 
             $('#memnat').select2({
                 //placeholder: "Make a Selection",
-                dropdownParent: $('#family-modal'),
+                dropdownParent: $('#ModalMember'),
             });
 
             $(".select2-container").each(function (index, value) {
@@ -60,7 +60,7 @@ function ClaimJS(dotNetHelper) {
     $('#benid').inputmask('9999999', {
         oncomplete: function () {
             var val = $(this).val();
-            return dotNetHelper.invokeMethodAsync('OnBenIDChanged', val);
+            dotNetHelper.invokeMethodAsync('OnBenIDChanged', val);
         }
     });
 
@@ -79,32 +79,32 @@ function ClaimJS(dotNetHelper) {
         return dotNetHelper.invokeMethodAsync('OnSexChanged', val);
     });
 
-    $(document).delegate('.removedoc', "click", function (event) {
-        var val = $(this).data('index');
-        swal({
-           /* title: 'លុប',*/
-            text: "តើអ្នកពិតជាចង់លុបចេញមែនទេ?",
-           /* type: 'question',*/
-            showCancelButton: true,
-            confirmButtonClass: 'btn btn-danger mr-2',
-            confirmButtonText: 'លុប',
-            cancelButtonText: 'បោះបង់',
-            cancelButtonClass: 'btn btn-primary',
-            buttonsStyling: false,
-            padding: '1.2em'
-        }).then(function (result) {
-            if (result.value) {
-                dotNetHelper.invokeMethodAsync('OnRemoveClaimDocument', val);
-            }
-        })
-    });
+    //$(document).delegate('#remove-doc', "click", function (event) {
+    //    var val = $(this).data('index');
+    //    swal({
+    //       /* title: 'លុប',*/
+    //        text: "តើអ្នកពិតជាចង់លុបចេញមែនទេ?",
+    //       /* type: 'question',*/
+    //        showCancelButton: true,
+    //        confirmButtonClass: 'btn btn-danger mr-2',
+    //        confirmButtonText: 'លុប',
+    //        cancelButtonText: 'បោះបង់',
+    //        cancelButtonClass: 'btn btn-primary',
+    //        buttonsStyling: false,
+    //        padding: '1.2em'
+    //    }).then(function (result) {
+    //        if (result.value) {
+    //            dotNetHelper.invokeMethodAsync('OnRemoveClaimDocument', val);
+    //        }
+    //    })
+    //});
 
-    $(document).delegate('#edit-doc', "click", function (event) {
-        var val = $(this).data('index');
-        $('#exampleModal').modal('toggle').then(() => {
-            dotNetHelper.invokeMethodAsync('OnEditClaimDocument', val);
-        });
-    });
+    //$(document).delegate('#edit-doc', "click", function (event) {
+    //    var val = $(this).data('index');
+    //    $('#exampleModal').modal('toggle').then(() => {
+    //        dotNetHelper.invokeMethodAsync('OnEditClaimDocument', val);
+    //    });
+    //});
 
     $('.datepicker').flatpickr({
         dateFormat: "d-m-Y",

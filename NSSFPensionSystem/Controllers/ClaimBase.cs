@@ -7,6 +7,7 @@ using Microsoft.JSInterop;
 using NSSFPensionSystem.Services;
 using NSSFPensionSystem.Models;
 using NSSFPensionSystem.Shared;
+using AutoMapper;
 
 namespace NSSFPensionSystem.Controllers
 {
@@ -36,16 +37,22 @@ namespace NSSFPensionSystem.Controllers
         public ClaimDocumentModel CurrentDocment = new ClaimDocumentModel() { DocID = 1 };
         public int CurrentDocumentSelectedIndex = -1;
         public ClaimFamilyMemberModel CurrentMember = new ClaimFamilyMemberModel();
+        public int CurrentMemberSelectedIndex = -1;
         public ClaimFamilyMemberDocumentModel CurrentMemberDoc = new ClaimFamilyMemberDocumentModel();
+        public int CurrentMemberDocSelectedIndex = -1;
         public List<ClaimFamilyMemberDocumentModel> CurrentMemberDocs = new List<ClaimFamilyMemberDocumentModel>();
 
         public List<ClaimDocumentModel> ClaimDocuments = new List<ClaimDocumentModel>();
         public List<ClaimFamilyMemberModel> Members = new List<ClaimFamilyMemberModel>();
 
-        public List<String> TableHeaderDocument = new List<string>() { "ល.រ", "ប្រភេទឯកសារ", "លេខលិខិត", "ថ្ងៃខែឆ្នាំចុះលិខិត", "ចេញលិខិតដោយ", "ចេញលិខិតនៅ", "លុប"};
-        public List<String> TableHeaderMember = new List<string>() { "ល.រ", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ត្រូវជា", "សញ្ជាតិ", "លេខទូរស័ព្ទ", "" };
+        public List<String> TableHeaderDocument = new List<string>() { "ល.រ", "ប្រភេទឯកសារ", "លេខលិខិត", "ថ្ងៃខែឆ្នាំចុះលិខិត", "ចេញលិខិតដោយ", "ចេញលិខិតនៅ", "សកម្មភាព"};
+        public List<String> TableHeaderMember = new List<string>() { "ល.រ", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ត្រូវជា", "សញ្ជាតិ", "លេខទូរស័ព្ទ", "សកម្មភាព"};
 
-        public Modal modal { get; set; }
+        public Modal ModalClaimDocument { get; set; }
+        public Modal ModalMember { get; set; }
+        public Modal ModalMemberDoc { get; set; }
+        public MessageBox MessageBox { get; set; }
+        public bool MessageBoxResult { get; set; } = false;
         #endregion
 
 
@@ -137,53 +144,89 @@ namespace NSSFPensionSystem.Controllers
             CurrentDocment = new ClaimDocumentModel() { DocID = 1};
             CurrentDocumentSelectedIndex = -1;
             StateHasChanged();
-            modal.Close();
+            ModalClaimDocument.Close();
         }
 
 
         public void OnAddMemberDocument(EventArgs e)
         {
-           
-                if (CurrentMemberDoc != null && CurrentMemberDocs.Where(w => w.DocID == CurrentMemberDoc.DocID).Count() < 1)
-                {
-                    CurrentMemberDoc.DocName = Documents.Where(w => w.DocID == CurrentMemberDoc.DocID).FirstOrDefault().DocName;
-                    CurrentMemberDocs.Add(CurrentMemberDoc);
-                    StateHasChanged();
-                }
-           
-            
+            if (CurrentMemberDoc != null && CurrentMemberDocs.Where(w => w.DocID == CurrentMemberDoc.DocID).Count() < 1)
+            {
+                CurrentMemberDoc.DocName = Documents.Where(w => w.DocID == CurrentMemberDoc.DocID).FirstOrDefault().DocName;
+                CurrentMemberDocs.Add(CurrentMemberDoc);
+                StateHasChanged();
+            }
+
             CurrentMemberDoc = new ClaimFamilyMemberDocumentModel() { DocID = 1 };
+            StateHasChanged();
+            ModalMemberDoc.Close();
+        }
+
+
+        public void OnRemoveClaimDocument(int index)
+        {
+            CurrentDocumentSelectedIndex = index;
+            MessageBox.Open("confirm", "Are you sure?");
+            if (MessageBox.Result)
+            {
+                ClaimDocuments.RemoveAt(CurrentDocumentSelectedIndex);
+                StateHasChanged();
+            }
+        }
+
+        public void OnRemoveMemberDoc(int index)
+        {
+            CurrentMemberDocs.RemoveAt(index);
             StateHasChanged();
         }
 
-
-        [JSInvokable]
-        public void OnRemoveClaimDocument(int index)
+        public void OnRemoveMember(int index)
         {
-            ClaimDocuments.RemoveAt(index);
-            this.StateHasChanged();
+            Members.RemoveAt(index);
+            StateHasChanged();
         }
 
-        
+        public void OnConfirmRemoveClaimDocument(bool confirmed)
+        {
+            if(confirmed)
+            {
+                ClaimDocuments.RemoveAt(CurrentDocumentSelectedIndex);
+                StateHasChanged();
+            }
+            CurrentDocumentSelectedIndex = -1;
+        }
+
+
         public void OnEditClaimDocument(int index)
         {
             CurrentDocumentSelectedIndex = index;
             ClaimDocumentModel selected = ClaimDocuments[index];
-            CurrentDocment = new ClaimDocumentModel()
-            {
-                ClaimID = selected.ClaimID,
-                DocCode = selected.DocCode,
-                DocAt = selected.DocAt,
-                DocBy = selected.DocBy,
-                DocDate = selected.DocDate,
-                DocID = selected.DocID,
-                DocName = selected.DocName
-            };
-          
+            CurrentDocment = Newtonsoft.Json.JsonConvert.DeserializeObject<ClaimDocumentModel>(Newtonsoft.Json.JsonConvert.SerializeObject(selected));
+            
             StateHasChanged();
-            modal.Open();
-            //ClaimDocuments.Insert(index, CurrentDocment);
-            //StateHasChanged();
+            ModalClaimDocument.Open();
+        }
+
+        public void OnEditMemberDocument(int index)
+        {
+            CurrentMemberDocSelectedIndex = index;
+            ClaimFamilyMemberDocumentModel selected = CurrentMemberDocs[index];
+            CurrentMemberDoc = Newtonsoft.Json.JsonConvert.DeserializeObject<ClaimFamilyMemberDocumentModel>(Newtonsoft.Json.JsonConvert.SerializeObject(selected));
+
+            StateHasChanged();
+            ModalMemberDoc.Open();
+        }
+
+
+        public void OnEditMember(int index)
+        {
+            CurrentMemberSelectedIndex = index;
+            ClaimFamilyMemberModel selected = Members[index];
+            CurrentMember = Newtonsoft.Json.JsonConvert.DeserializeObject<ClaimFamilyMemberModel>(Newtonsoft.Json.JsonConvert.SerializeObject(selected));
+            CurrentMemberDocs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ClaimFamilyMemberDocumentModel>>(Newtonsoft.Json.JsonConvert.SerializeObject(selected.Documents));
+
+            StateHasChanged();
+            ModalMember.Open();
         }
 
 
@@ -204,12 +247,23 @@ namespace NSSFPensionSystem.Controllers
             CurrentMember.Documents.AddRange(CurrentMemberDocs);
             CurrentMember.Nationality = Nationalities.Where(w => w.NatID == CurrentMember.NationalId).FirstOrDefault().NatNameKh;
             CurrentMember.Relationship = Relationships.Where(w => w.RelId == CurrentMember.RelId).FirstOrDefault().RelDesc;
-            Members.Add(CurrentMember);
+
+            if (CurrentMemberSelectedIndex == -1)
+            {
+                Members.Add(CurrentMember);
+            }
+            else
+            {
+                Members.RemoveAt(CurrentMemberSelectedIndex);
+                Members.Insert(CurrentMemberSelectedIndex, CurrentMember);
+            }
+
             StateHasChanged();
-            
             CurrentMemberDocs = new List<ClaimFamilyMemberDocumentModel>();
             CurrentMember = new ClaimFamilyMemberModel();
+            CurrentMemberSelectedIndex = -1;
             StateHasChanged();
+            ModalMember.Close();
         }
     }
 }

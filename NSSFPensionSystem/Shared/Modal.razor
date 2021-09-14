@@ -1,8 +1,8 @@
-﻿<div class="modal fade @modalClass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+﻿<div id="@Id" class="modal fade @modalClass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
+    <div class="modal-dialog @(CenterScreen ? "modal-dialog-centered" : "") modal-@Size">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">@Title</h5>
+                <h5 class="modal-title">@Title</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="Close">x</button>
             </div>
             <div class="modal-body">
@@ -25,6 +25,9 @@
 
 @code {
     [Parameter]
+    public string Id { get; set; } = "id";
+
+    [Parameter]
     public RenderFragment Title { get; set; }
 
     [Parameter]
@@ -32,6 +35,13 @@
 
     [Parameter]
     public RenderFragment Footer { get; set; }
+
+    [Parameter]
+    public string Size { get; set; } = "lg";
+
+    [Parameter]
+    public bool CenterScreen { get; set; } = true;
+
 
     private string modalDisplay = "none;";
     private string modalClass = "";

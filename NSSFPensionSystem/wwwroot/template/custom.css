@@ -57,7 +57,7 @@
 /*----------------------------TABLE-------------------------------------*/
 /*---------------------------------------------------------------------------*/
 thead {
-    background-color: #EBEDF2 !important;
+    background-color: #F1F2F3 !important;
 }
 
 .table > thead > tr > th {
@@ -66,6 +66,15 @@ thead {
     color: #0e1726 !important;
     letter-spacing: 1px !important;
     font-family: 'Khmer OS Siemreap', 'Khmer OS Content' !important;
+}
+
+.table-bordered th {
+    /*border: 1px solid #E5E6E7 !important;*/
+    border: none !important;
+}
+
+.table-bordered td {
+    border: none !important;
 }
 
 .cell-text {
@@ -127,6 +136,15 @@ thead {
     /*font-weight: bold !important;*/
     color: #4E4F50 !important;
     letter-spacing: 1px !important;
+}
+
+.modal-title-msg {
+    font-size: 13px !important;
+    font-family: 'Khmer OS Siemreap', 'Khmer OS Content' !important;
+    font-weight: bold !important;
+    color: #4E4F50 !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 0px !important;
 }
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/

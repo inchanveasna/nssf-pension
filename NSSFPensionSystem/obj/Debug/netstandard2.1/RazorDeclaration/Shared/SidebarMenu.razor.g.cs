@@ -13,91 +13,84 @@ namespace NSSFPensionSystem.Shared
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 1 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 2 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using System.Net.Http.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 3 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 4 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 5 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 6 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 7 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 8 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 9 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 10 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem.Controllers;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
-using NSSFPensionSystem.Controllers.Components;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 12 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 11 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 13 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/_Imports.razor"
+#line 12 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem.Services.Impl;
 
 #line default
@@ -111,7 +104,7 @@ using NSSFPensionSystem.Services.Impl;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 63 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/Shared/SidebarMenu.razor"
+#line 63 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\Shared\SidebarMenu.razor"
   private List<MenuModel> menus = new List<MenuModel>();
 
     protected override async Task OnInitializedAsync()

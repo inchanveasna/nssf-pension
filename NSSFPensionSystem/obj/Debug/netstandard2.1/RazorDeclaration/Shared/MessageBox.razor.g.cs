@@ -96,7 +96,7 @@ using NSSFPensionSystem.Services.Impl;
 #line default
 #line hidden
 #nullable disable
-    public partial class MainLayout : LayoutComponentBase
+    public partial class MessageBox : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -104,17 +104,65 @@ using NSSFPensionSystem.Services.Impl;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 196 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\Shared\MainLayout.razor"
+#line 71 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\Shared\MessageBox.razor"
        
-    protected async override Task OnAfterRenderAsync(bool firstRender)
+    [Parameter]
+    public string Id { get; set; } = "id";
+
+    [Parameter]
+    public string Type { get; set; } = "info";
+
+    //[Parameter]
+    //public RenderFragment Message { get; set; }
+
+
+    //[Parameter]
+    //public EventCallback<bool> ConfirmationChanged { get; set; }
+
+    private string modalDisplay = "none;";
+    private string modalClass = "";
+    private bool showBackdrop = false;
+
+    private string Message = "";
+    private bool Confirmation = false;
+
+    public void Open(string type, string message)
     {
-        await runtime.InvokeAsync<object>("AppInit");
+        Confirmation = false;
+        Type = type;
+        Message = message;
+        StateHasChanged();
+
+        modalDisplay = "block;";
+        modalClass = "show";
+        showBackdrop = true;
     }
+
+    public void Close()
+    {
+        modalDisplay = "none";
+        modalClass = "";
+        showBackdrop = false;
+    }
+
+    private void OnConfirmation(bool value)
+    {
+        Confirmation = value;
+        Close();
+        StateHasChanged();
+    }
+
+    public bool Result {get { return Confirmation; } }
+
+    //public async Task OnConfirmationChanged(bool value)
+    //{
+    //    Close();
+    //    await ConfirmationChanged.InvokeAsync(value);
+    //}
 
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime runtime { get; set; }
     }
 }
 #pragma warning restore 1591
