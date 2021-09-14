@@ -1,0 +1,39 @@
+﻿<Properties StartupConfiguration="{6C4D0BA0-83A2-44B7-9454-E12E5A11C485}|Default">
+  <MonoDevelop.Ide.ItemProperties.NSSFPensionSystem PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NSSFPensionSystem/Shared/Confirm.razor">
+    <Files>
+      <File FileName="NSSFPensionSystem/wwwroot/template/custom.css" Line="115" Column="2" />
+      <File FileName="NSSFPensionSystem/Controllers/ClaimBase.cs" Line="138" Column="47" />
+      <File FileName="NSSFPensionSystem/Models/ClaimFamilyMemberDocumentModel.cs" />
+      <File FileName="NSSFPensionSystem/Models/ClaimDocumentModel.cs" Line="11" Column="6" />
+      <File FileName="NSSFPensionSystem/Pages/Claim.razor" Line="324" Column="60" />
+      <File FileName="NSSFPensionSystem/Shared/Modal.razor" Line="1" Column="1" />
+      <File FileName="NSSFPensionSystem/Shared/Confirm.razor" Line="5" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="NSSFPensionSystem" expanded="True">
+            <Node name="NSSFPensionSystem" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Pages" expanded="True" />
+              <Node name="Shared" expanded="True">
+                <Node name="Confirm.razor" selected="True" />
+              </Node>
+              <Node name="wwwroot" expanded="True">
+                <Node name="template" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

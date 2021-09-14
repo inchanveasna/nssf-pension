@@ -88,7 +88,7 @@
                     </div>
                     <div class="text-right mb-1">
                         @*<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">*@
-                        <button type="button" class="btn btn-outline-info" @onclick="() => modal.Open">
+                        <button type="button" class="btn btn-outline-info" @onclick="() => modal.Open()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill mr-1" viewBox="0 0 16 16">
                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
                             </svg>
@@ -135,57 +135,11 @@
                             </div>
                         </Body>
                         <Footer>
-                            <button class="btn btn-danger" data-dismiss="modal"><i class="flaticon-cancel-12" @onclick="() => modal.Close()"></i>បោះបង់</button>
+                            <button class="btn btn-danger" @onclick="() => modal.Close()">បោះបង់</button>
                             <button type="button" class="btn btn-primary" @onclick="OnAddClaimDocument">បញ្ចូល</button>
                         </Footer>
                     </Modal>
-                    @*<div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">ឯកសារសោធនិក</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-row mb-2">
-                                        <div class="form-group col-md-4">
-                                            <Label IsRequire="true" Text="ប្រភេទលិខិត" for="doctype" />
-                                            <select id="doctype" class="form-control" @bind="CurrentDocment.DocID">
-                                                @foreach (DocumentModel doc in Documents)
-                                                {
-                                                    <option value="@doc.DocID">@doc.DocName</option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="doccode">លេខលិខិត</label>
-                                            <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំចុះលិខិត" for="docdate" />
-                                            <input type="text" class="form-control masked-date datepicker" id="docdate" @bind="CurrentDocment.DocDate">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row mb-2">
-                                        <div class="form-group col-md-4">
-                                            <label for="docby">ចេញលិខិតដោយ</label>
-                                            <input type="text" class="form-control" id="docby" @bind="CurrentDocment.DocBy" />
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="docby">ចេញលិខិតនៅ</label>
-                                            <input type="text" class="form-control" id="docat" @bind="CurrentDocment.DocAt" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-danger" data-dismiss="modal"><i class="flaticon-cancel-12"></i>បោះបង់</button>
-                                    <button type="button" class="btn btn-primary" @onclick="OnAddClaimDocument">បញ្ចូល</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
-
+                   
 
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
@@ -214,12 +168,12 @@
                                             <td>@doc.DocBy</td>
                                             <td>@doc.DocAt</td>
                                             <td class="text-center">
-                                                <button id="edit-doc" data-index="@ClaimDocuments.IndexOf(doc)" >
+                                                <span id="edit-doc" data-index="@ClaimDocuments.IndexOf(doc)" @onclick="()=> OnEditClaimDocument(ClaimDocuments.IndexOf(doc))" >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
                                                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                                     </svg>
-                                                </button>
+                                                </span>
                                                 
                                                 <span class="removedoc" data-index="@ClaimDocuments.IndexOf(doc)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">

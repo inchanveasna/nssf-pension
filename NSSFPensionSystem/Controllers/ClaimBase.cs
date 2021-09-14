@@ -33,7 +33,8 @@ namespace NSSFPensionSystem.Controllers
         public List<GenderModel> Genders = new List<GenderModel>();
         public List<RelationshipModel> Relationships = new List<RelationshipModel>();
 
-        public ClaimDocumentModel CurrentDocment = new ClaimDocumentModel() { DocID = 1};
+        public ClaimDocumentModel CurrentDocment = new ClaimDocumentModel() { DocID = 1 };
+        public int CurrentDocumentSelectedIndex = -1;
         public ClaimFamilyMemberModel CurrentMember = new ClaimFamilyMemberModel();
         public ClaimFamilyMemberDocumentModel CurrentMemberDoc = new ClaimFamilyMemberDocumentModel();
         public List<ClaimFamilyMemberDocumentModel> CurrentMemberDocs = new List<ClaimFamilyMemberDocumentModel>();
@@ -118,23 +119,39 @@ namespace NSSFPensionSystem.Controllers
 
         public void OnAddClaimDocument(EventArgs e)
         {
-            if(CurrentDocment != null && ClaimDocuments.Where(w=> w.DocID == CurrentDocment.DocID).Count() < 1)
+            if(this.CurrentDocumentSelectedIndex == -1)
             {
-                CurrentDocment.DocName = Documents.Where(w => w.DocID == CurrentDocment.DocID).FirstOrDefault().DocName;
-                ClaimDocuments.Add(CurrentDocment);
+                if (CurrentDocment != null && ClaimDocuments.Where(w => w.DocID == CurrentDocment.DocID).Count() < 1)
+                {
+                    CurrentDocment.DocName = Documents.Where(w => w.DocID == CurrentDocment.DocID).FirstOrDefault().DocName;
+                    ClaimDocuments.Add(CurrentDocment);
+                }
             }
+            else
+            {
+                ClaimDocuments.RemoveAt(CurrentDocumentSelectedIndex);
+                CurrentDocment.DocName = Documents.Where(w => w.DocID == CurrentDocment.DocID).FirstOrDefault().DocName;
+                ClaimDocuments.Insert(CurrentDocumentSelectedIndex, CurrentDocment);
+            }
+            
             CurrentDocment = new ClaimDocumentModel() { DocID = 1};
+            CurrentDocumentSelectedIndex = -1;
+            StateHasChanged();
+            modal.Close();
         }
 
 
         public void OnAddMemberDocument(EventArgs e)
         {
-            if (CurrentMemberDoc != null && CurrentMemberDocs.Where(w => w.DocID == CurrentMemberDoc.DocID).Count() < 1)
-            {
-                CurrentMemberDoc.DocName = Documents.Where(w => w.DocID == CurrentMemberDoc.DocID).FirstOrDefault().DocName;
-                CurrentMemberDocs.Add(CurrentMemberDoc);
-                StateHasChanged();
-            }
+           
+                if (CurrentMemberDoc != null && CurrentMemberDocs.Where(w => w.DocID == CurrentMemberDoc.DocID).Count() < 1)
+                {
+                    CurrentMemberDoc.DocName = Documents.Where(w => w.DocID == CurrentMemberDoc.DocID).FirstOrDefault().DocName;
+                    CurrentMemberDocs.Add(CurrentMemberDoc);
+                    StateHasChanged();
+                }
+           
+            
             CurrentMemberDoc = new ClaimFamilyMemberDocumentModel() { DocID = 1 };
             StateHasChanged();
         }
@@ -147,12 +164,24 @@ namespace NSSFPensionSystem.Controllers
             this.StateHasChanged();
         }
 
-        [JSInvokable]
+        
         public void OnEditClaimDocument(int index)
         {
-            CurrentDocment = new ClaimDocumentModel();
-            CurrentDocment = ClaimDocuments[index];
+            CurrentDocumentSelectedIndex = index;
+            ClaimDocumentModel selected = ClaimDocuments[index];
+            CurrentDocment = new ClaimDocumentModel()
+            {
+                ClaimID = selected.ClaimID,
+                DocCode = selected.DocCode,
+                DocAt = selected.DocAt,
+                DocBy = selected.DocBy,
+                DocDate = selected.DocDate,
+                DocID = selected.DocID,
+                DocName = selected.DocName
+            };
+          
             StateHasChanged();
+            modal.Open();
             //ClaimDocuments.Insert(index, CurrentDocment);
             //StateHasChanged();
         }

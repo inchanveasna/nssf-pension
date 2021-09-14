@@ -6,7 +6,7 @@
   "linkerEnabled": false,
   "resources": {
     "assembly": {
-      "NSSFPensionSystem.dll": "sha256-HydpWuknj4fmI3XAUcyDki2rVodTsZFwA140PaJzEoc=",
+      "NSSFPensionSystem.dll": "sha256-3A43Zvz5xz2pU7YbKmqdypaXlT9962h5sHD3H2+7t20=",
       "System.Text.Json.dll": "sha256-HQeN+ZfHAERO+uW0fP0J9J3WV1hQ3vUIOWbqGSYBPp8=",
       "System.Runtime.CompilerServices.Unsafe.dll": "sha256-kL\/omZDwqByAi+lPdMeDmr3XjHcn4RVb+LmZ4mut1Yc=",
       "mscorlib.dll": "sha256-BaZPMj95+YNe3G4ckTGD6szZFwZeA2MOHn91zTGKDeU=",
@@ -61,7 +61,7 @@
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-czNf3btAeBW\/vvID5LAfgcsNZ+GM3ssVuPaMflcg0rs="
     },
     "pdb": {
-      "NSSFPensionSystem.pdb": "sha256-dKDTVzdga5icnDfd8OkW59LJYryG2Wtj6+sevG5bgs8="
+      "NSSFPensionSystem.pdb": "sha256-IY8PxzMBRV\/qlibPAHSdafA\/6mTMqLAygD6E72vUa3g="
     },
     "runtime": {
       "dotnet.3.2.0.js": "sha256-mPoqx7XczFHBWk3gRNn0hc9ekG1OvkKY4XiKRY5Mj5U=",
