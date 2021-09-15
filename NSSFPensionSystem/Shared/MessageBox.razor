@@ -1,21 +1,23 @@
-﻿<div id="@Id" class="modal fade @modalClass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
+﻿
+
+<div id="@Id" class="modal fade @modalClass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-header" style="padding: 8px !important; align-content:center !important">
                 <span class="modal-title-msg">
-                    @if (Type == "info")
+                    @if (Type == MessageBoxTypes.Info)
                     {
                         @("សារជូនដំណឹង");
                     }
-                    else if (Type == "confirm")
+                    else if (Type == MessageBoxTypes.Confirm)
                     {
                         @("សារបញ្ជាក់");
                     }
-                    else if (Type == "error")
+                    else if (Type == MessageBoxTypes.Error)
                     {
                         @("សារកំហុស");
                     }
-                    else if (Type == "warning")
+                    else if (Type == MessageBoxTypes.Warning)
                     {
                         @("សារជូនដំណឹង");
                     }
@@ -25,19 +27,19 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3">
-                        @if (Type == "info")
+                        @if (Type == MessageBoxTypes.Info)
                         {
                             <img src="images/information.png" style="height: 48px; width: 48px;" />
                         }
-                        else if (Type == "confirm" || Type == "question")
+                        else if (Type == MessageBoxTypes.Confirm)
                         {
                             <img src="images/confirm.png" style="height: 48px; width: 48px;" />
                         }
-                        else if (Type == "error")
+                        else if (Type == MessageBoxTypes.Error)
                         {
                             <img src="images/error.png" style="height: 48px; width: 48px;" />
                         }
-                        else if (Type == "warning")
+                        else if (Type == MessageBoxTypes.Warning)
                         {
                             <img src="images/warning.png" style="height: 48px; width: 48px;" />
                         }
@@ -50,11 +52,11 @@
 
             </div>
             <div class="modal-footer" style="padding: 4px 8px !important;">
-                @if (Type == "confirm" || Type == "question")
+                @if (Type == MessageBoxTypes.Confirm)
                 {
-                    <button class="btn btn-danger btn-sm" data-dismiss="modal" @onclick="()=> OnConfirmation(false)">បដិសេធ</button>
+                    <button class="btn btn-danger btn-sm" data-dismiss="modal" @onclick="()=> Confirmation(false)">បដិសេធ</button>
                 }
-                <button type="button" class="btn btn-info btn-sm" @onclick="()=> OnConfirmation(true)">យល់ព្រម</button>
+                <button type="button" class="btn btn-info btn-sm" @onclick="()=> Confirmation(true)">យល់ព្រម</button>
             </div>
         </div>
     </div>
@@ -69,29 +71,29 @@
 
 
 @code {
+  
     [Parameter]
     public string Id { get; set; } = "id";
 
     [Parameter]
-    public string Type { get; set; } = "info";
+    public MessageBoxTypes Type { get; set; } = MessageBoxTypes.Info;
 
     //[Parameter]
     //public RenderFragment Message { get; set; }
 
 
-    //[Parameter]
-    //public EventCallback<bool> ConfirmationChanged { get; set; }
+    [Parameter]
+    public EventCallback<bool> OnConfirmation{ get; set; }
 
     private string modalDisplay = "none;";
     private string modalClass = "";
     private bool showBackdrop = false;
 
     private string Message = "";
-    private bool Confirmation = false;
 
-    public void Open(string type, string message)
+    public async void Open(MessageBoxTypes type, string message)
     {
-        Confirmation = false;
+        await Confirmation(false);
         Type = type;
         Message = message;
         StateHasChanged();
@@ -108,18 +110,10 @@
         showBackdrop = false;
     }
 
-    private void OnConfirmation(bool value)
+    
+    public async Task Confirmation(bool value)
     {
-        Confirmation = value;
         Close();
-        StateHasChanged();
+        await OnConfirmation.InvokeAsync(value);
     }
-
-    public bool Result {get { return Confirmation; } }
-
-    //public async Task OnConfirmationChanged(bool value)
-    //{
-    //    Close();
-    //    await ConfirmationChanged.InvokeAsync(value);
-    //}
 }

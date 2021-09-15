@@ -8,6 +8,7 @@ using NSSFPensionSystem.Services;
 using NSSFPensionSystem.Models;
 using NSSFPensionSystem.Shared;
 using AutoMapper;
+using NSSFPensionSystem.Setting;
 
 namespace NSSFPensionSystem.Controllers
 {
@@ -91,6 +92,11 @@ namespace NSSFPensionSystem.Controllers
             }
         }
 
+        public void OnMessageBoxConfirmation(bool val)
+        {
+            MessageBoxResult = val;
+        }
+
 
         [JSInvokable]
         public void OnBenIDChanged(object e)
@@ -166,8 +172,8 @@ namespace NSSFPensionSystem.Controllers
         public void OnRemoveClaimDocument(int index)
         {
             CurrentDocumentSelectedIndex = index;
-            MessageBox.Open("confirm", "Are you sure?");
-            if (MessageBox.Result)
+            MessageBox.Open(MessageBoxTypes.Confirm, "Are you sure?");
+            if (MessageBoxResult)
             {
                 ClaimDocuments.RemoveAt(CurrentDocumentSelectedIndex);
                 StateHasChanged();
