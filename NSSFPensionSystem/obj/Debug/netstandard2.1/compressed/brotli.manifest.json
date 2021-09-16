@@ -1,7 +1,7 @@
 {
   "FilesToCompress": [
     {
-      "InputSource": "obj\\Debug\\netstandard2.1\\integrity\\WNvSFdAzZ5_mLBQNd8QFMbVO_3BuuKZDMsN_HAmZZsI=.hash",
+      "InputSource": "obj\\Debug\\netstandard2.1\\integrity\\q_JQBumeoaPbeKKTIA3T8mEl7pGYb4DvJZG1zKxqilQ=.hash",
       "Source": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\obj\\Debug\\netstandard2.1\\blazor\\unlinked\\NSSFPensionSystem.dll",
       "Target": "obj\\Debug\\netstandard2.1\\compressed\\_framework\/_bin\/NSSFPensionSystem.dll.br"
     },
@@ -266,7 +266,7 @@
       "Target": "obj\\Debug\\netstandard2.1\\compressed\\_framework\/_bin\/Microsoft.JSInterop.WebAssembly.dll.br"
     },
     {
-      "InputSource": "obj\\Debug\\netstandard2.1\\integrity\\zVCNsDP9X5hs-7ytGQ1IfJ6tYzQkBYaZXvGsEb8nD44=.hash",
+      "InputSource": "obj\\Debug\\netstandard2.1\\integrity\\shY9aVysETG1xPZv5n4gnXxBSKZi9wwCakct5TQsjrU=.hash",
       "Source": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\obj\\Debug\\netstandard2.1\\blazor\\unlinked\\NSSFPensionSystem.pdb",
       "Target": "obj\\Debug\\netstandard2.1\\compressed\\_framework\/_bin\/NSSFPensionSystem.pdb.br"
     },
@@ -291,7 +291,7 @@
       "Target": "obj\\Debug\\netstandard2.1\\compressed\\_framework\/blazor.webassembly.js.br"
     },
     {
-      "InputSource": "obj\\Debug\\netstandard2.1\\integrity\\5PDrBP0AUY6zIJouG9obDLDrxr-oH37jmbVQF4z-l3o=.hash",
+      "InputSource": "obj\\Debug\\netstandard2.1\\integrity\\mqcyF6qzuL3V5oeuaGeyAkcnGzqmaQkwCzXY-6ynaUc=.hash",
       "Source": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\obj\\Debug\\netstandard2.1\\blazor\\blazor.boot.json",
       "Target": "obj\\Debug\\netstandard2.1\\compressed\\_framework\/blazor.boot.json.br"
     }

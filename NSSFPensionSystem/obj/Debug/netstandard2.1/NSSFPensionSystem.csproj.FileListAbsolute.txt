@@ -376,6 +376,7 @@
 /Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/NSSFPensionSystem.csproj.CopyComplete
 /Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/NSSFPensionSystem.dll
 /Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/NSSFPensionSystem.pdb
+<<<<<<< HEAD
 /Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/integrity/TUWmBjhU5L6J4v_86z2n0ooYAFCLLqciV0gUlUw7EhE=.hash
 /Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/integrity/QebHDtrxVqcZdb28OGim0uS_MNAKO9TkedsidhGVKbA=.hash
 /Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/integrity/nVHaw-4Iyu4G7oGin4KXm-YjGrEusDPRDuf4Qth06F8=.hash
@@ -760,3 +761,28 @@ E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\NSSF
 E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\WNvSFdAzZ5_mLBQNd8QFMbVO_3BuuKZDMsN_HAmZZsI=.hash
 E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\zVCNsDP9X5hs-7ytGQ1IfJ6tYzQkBYaZXvGsEb8nD44=.hash
 E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\5PDrBP0AUY6zIJouG9obDLDrxr-oH37jmbVQF4z-l3o=.hash
+=======
+/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/bin/Debug/netstandard2.1/mono_crash.11a67480d0.0.json
+/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/integrity/6OzxkjxPT70pGDbk7PK4MHB9nU4jHlC5hT41uN8WgIM=.hash
+/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/integrity/jE6I2GWCKnptH3Lz-PDGaIwWlVrCLzq91JCdTV2qp9Y=.hash
+/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/obj/Debug/netstandard2.1/integrity/7VTkI-8onSmfW1eUtx6YKxVBsCBps3rmB86FKh77mI4=.hash
+>>>>>>> 3b07b555b9b0a19736028e78426e4f080dcd0d3a
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\bin\Debug\netstandard2.1\mono_crash.11a67480d0.0.json
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\U9q_v0HaP7UARtpvywhH8XHVUX3e2ucH6FDMQnkyArU=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\zZHIWtqAU15VE-j4BJ_dmulFKvDyBIbvMwp1DxXBJr8=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\wcfByDaeiyV5VzkV7ABNt7yvEkbJTydKqigEN0-4DKs=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\AUKztpoORKHht7OaWwHf5Iz0tqX7s44nSauxemGFZNM=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\MK_G3W1Kv3h-Qv0FYpHOv2LJmuE5QSOiNfqVDxQ_mug=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\N_aMvT1wwaMdeHWH55l9gBBA0mYYE-c7UW4VpNxkIwE=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\39sJ-0PgurbwIKLFTUPq64KDQRCFCkvkON629gvB7WE=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\SK43sjKPM7ru2Uxnh_3mYMRfVEXEOzs0Znit4MVnD8k=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\RliVESztnOHApHHWOVbOpOxdCov9YEJdRfuX6KgxWXs=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\_8-_RBq6oH2UO_8q48u-xoElrca3_yN-HrTPj5EiK2I=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\tnTV1t3D0BA0KdDtRCw3U164Uzs08m4cai0BPj3tUZI=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\KKPVpPcFvNAizW1F8_wCzKXY4pjJs1bZJXL6YCzLYks=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\nWtf_xcpW8-spGnv9GNN6AOmWnTlz_I5RtjgH3q2EdA=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\ExKG1ycm9gNVhyPcvyfyRSElju2tbxODoBSnkDNojbI=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\BhkyCeiHzHmWpvUzgerAgUDmGITUHmU3V34jUMsjjhA=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\q_JQBumeoaPbeKKTIA3T8mEl7pGYb4DvJZG1zKxqilQ=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\shY9aVysETG1xPZv5n4gnXxBSKZi9wwCakct5TQsjrU=.hash
+E:\Development\NSSFPensionSystem\NSSFPensionSystem\obj\Debug\netstandard2.1\integrity\mqcyF6qzuL3V5oeuaGeyAkcnGzqmaQkwCzXY-6ynaUc=.hash

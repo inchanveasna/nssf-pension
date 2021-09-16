@@ -6,21 +6,17 @@
             <div class="modal-header" style="padding: 8px !important; align-content:center !important">
                 <span class="modal-title-msg">
                     @if (Type == MessageBoxTypes.Info)
-                    {
-                        @("សារជូនដំណឹង");
-                    }
-                    else if (Type == MessageBoxTypes.Confirm)
-                    {
-                        @("សារបញ្ជាក់");
-                    }
-                    else if (Type == MessageBoxTypes.Error)
-                    {
-                        @("សារកំហុស");
-                    }
-                    else if (Type == MessageBoxTypes.Warning)
-                    {
-                        @("សារជូនដំណឹង");
-                    }
+                    {@("សារជូនដំណឹង");
+    }
+    else if (Type == MessageBoxTypes.Confirm)
+    { @("សារបញ្ជាក់");
+}
+else if (Type == MessageBoxTypes.Error)
+{ @("សារកំហុស");
+}
+else if (Type == MessageBoxTypes.Warning)
+{ @("សារជូនដំណឹង");
+}
                 </span>
                 @*<button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="Close">x</button>*@
             </div>
@@ -29,20 +25,16 @@
                     <div class="col-md-3">
                         @if (Type == MessageBoxTypes.Info)
                         {
-                            <img src="images/information.png" style="height: 48px; width: 48px;" />
-                        }
+            <img src="images/information.png" style="height: 48px; width: 48px;" /> }
                         else if (Type == MessageBoxTypes.Confirm)
                         {
-                            <img src="images/confirm.png" style="height: 48px; width: 48px;" />
-                        }
+            <img src="images/confirm.png" style="height: 48px; width: 48px;" /> }
                         else if (Type == MessageBoxTypes.Error)
                         {
-                            <img src="images/error.png" style="height: 48px; width: 48px;" />
-                        }
+            <img src="images/error.png" style="height: 48px; width: 48px;" /> }
                         else if (Type == MessageBoxTypes.Warning)
                         {
-                            <img src="images/warning.png" style="height: 48px; width: 48px;" />
-                        }
+            <img src="images/warning.png" style="height: 48px; width: 48px;" />}
                     </div>
                     <div class="col-md-9">
                         @Message
@@ -54,9 +46,8 @@
             <div class="modal-footer" style="padding: 4px 8px !important;">
                 @if (Type == MessageBoxTypes.Confirm)
                 {
-                    <button class="btn btn-danger btn-sm" data-dismiss="modal" @onclick="()=> setConfirmation(false)">បដិសេធ</button>
-                }
-                <button type="button" class="btn btn-info btn-sm" @onclick="()=> setConfirmation(true)">យល់ព្រម</button>
+    <button class="btn btn-danger btn-sm" data-dismiss="modal" @onclick="()=> Confirmation(false)">បដិសេធ</button>}
+                <button type="button" class="btn btn-info btn-sm" @onclick="()=> Confirmation(true)">យល់ព្រម</button>
             </div>
         </div>
     </div>
@@ -65,66 +56,58 @@
 
 @if (showBackdrop)
 {
-    <div class="modal-backdrop fade show"></div>
-}
+<div class="modal-backdrop fade show"></div>}
 
 
 
-@code {
+@code { [Parameter]
+            public string Id { get; set; } = "id";
 
-    [Parameter]
-    public string Id { get; set; } = "id";
+            [Parameter]
+            public MessageBoxTypes Type { get; set; } = MessageBoxTypes.Info;
 
-    [Parameter]
-    public MessageBoxTypes Type { get; set; } = MessageBoxTypes.Info;
-
-    //[Parameter]
-    //public RenderFragment Message { get; set; }
+            //[Parameter]
+            //public RenderFragment Message { get; set; }
 
 
-    [Parameter]
-    public EventCallback<bool> OnConfirmation{ get; set; }
+            [Parameter]
+            public EventCallback<(bool, string)> OnConfirmation { get; set; }
 
-    private string modalDisplay = "none;";
-    private string modalClass = "";
-    private bool showBackdrop = false;
+            private string modalDisplay = "none;";
+            private string modalClass = "";
+            private bool showBackdrop = false;
 
-    private string Message = "";
-    public bool Result = false;
+            private string Message = "";
+            private string ActionType = "";
 
-    public void Open(MessageBoxTypes type, string message)
-    {
-        //await Confirmation(false);
+            public async Task Open(MessageBoxTypes type, string message)
+            {
+                await Confirmation(false);
+                Type = type;
+                Message = message;
+                StateHasChanged();
 
-        Type = type;
-        Message = message;
-        StateHasChanged();
+                modalDisplay = "block;";
+                modalClass = "show";
+                showBackdrop = true;
+            }
 
-        modalDisplay = "block;";
-        modalClass = "show";
-        showBackdrop = true;
-    }
+            public async Task Open(MessageBoxTypes type, string actionType, string message)
+            {
+                ActionType = actionType;
+                await Open(type, message);
+            }
 
-    private void setConfirmation(bool val)
-    {
-        Result = val;
-        StateHasChanged();
-        Close();
-    }
-
-    public void Close()
-    {
-        modalDisplay = "none";
-        modalClass = "";
-        showBackdrop = false;
-    }
+            public void Close()
+            {
+                modalDisplay = "none";
+                modalClass = "";
+                showBackdrop = false;
+            }
 
 
-
-
-    public async Task Confirmation(bool value)
-    {
-        Close();
-        await OnConfirmation.InvokeAsync(value);
-    }
-}
+            public async Task Confirmation(bool value)
+            {
+                Close();
+                await OnConfirmation.InvokeAsync((value, ActionType));
+            } }

@@ -12,9 +12,9 @@ using NSSFPensionSystem.Setting;
 
 namespace NSSFPensionSystem.Controllers
 {
-    public class ClaimBase: ComponentBase
+    public class ClaimBase : ComponentBase
     {
-     
+
         #region INJECT
         [Inject]
         private IJSRuntime Runtime { get; set; }
@@ -27,6 +27,7 @@ namespace NSSFPensionSystem.Controllers
 
         #region PROPERTIES
         private DotNetObjectReference<ClaimBase> objRef;
+        private int SelectedIndex = -1;
         public List<NationalityModel> Nationalities = new List<NationalityModel>();
         public List<DocumentModel> Documents = new List<DocumentModel>();
         public List<ProvinceModel> Provinces = new List<ProvinceModel>();
@@ -36,24 +37,21 @@ namespace NSSFPensionSystem.Controllers
         public List<RelationshipModel> Relationships = new List<RelationshipModel>();
 
         public ClaimDocumentModel CurrentDocment = new ClaimDocumentModel() { DocID = 1 };
-        public int CurrentDocumentSelectedIndex = -1;
         public ClaimFamilyMemberModel CurrentMember = new ClaimFamilyMemberModel();
-        public int CurrentMemberSelectedIndex = -1;
         public ClaimFamilyMemberDocumentModel CurrentMemberDoc = new ClaimFamilyMemberDocumentModel();
-        public int CurrentMemberDocSelectedIndex = -1;
         public List<ClaimFamilyMemberDocumentModel> CurrentMemberDocs = new List<ClaimFamilyMemberDocumentModel>();
+
 
         public List<ClaimDocumentModel> ClaimDocuments = new List<ClaimDocumentModel>();
         public List<ClaimFamilyMemberModel> Members = new List<ClaimFamilyMemberModel>();
 
-        public List<String> TableHeaderDocument = new List<string>() { "ល.រ", "ប្រភេទឯកសារ", "លេខលិខិត", "ថ្ងៃខែឆ្នាំចុះលិខិត", "ចេញលិខិតដោយ", "ចេញលិខិតនៅ", "សកម្មភាព"};
-        public List<String> TableHeaderMember = new List<string>() { "ល.រ", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ត្រូវជា", "សញ្ជាតិ", "លេខទូរស័ព្ទ", "សកម្មភាព"};
+        public List<String> TableHeaderDocument = new List<string>() { "ល.រ", "ប្រភេទឯកសារ", "លេខលិខិត", "ថ្ងៃខែឆ្នាំចុះលិខិត", "ចេញលិខិតដោយ", "ចេញលិខិតនៅ", "សកម្មភាព" };
+        public List<String> TableHeaderMember = new List<string>() { "ល.រ", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ត្រូវជា", "សញ្ជាតិ", "លេខទូរស័ព្ទ", "សកម្មភាព" };
 
         public Modal ModalClaimDocument { get; set; }
         public Modal ModalMember { get; set; }
         public Modal ModalMemberDoc { get; set; }
         public MessageBox MessageBox { get; set; }
-        public bool MessageBoxResult { get; set; } = false;
         #endregion
 
 
@@ -63,11 +61,11 @@ namespace NSSFPensionSystem.Controllers
             this.Nationalities = await ConstantValue.GetNationalities();
             this.Documents = await ConstantValue.GetDocuments();
             this.Genders = await ConstantValue.GetGender();
-            if(this.Genders != null && this.Genders.Count > 0)
+            if (this.Genders != null && this.Genders.Count > 0)
             {
                 await this.OnSexChanged(this.Genders.FirstOrDefault().GenID);
             }
-            
+
             this.Provinces = await ConstantValue.GetProvices();
             if (this.Provinces != null && this.Provinces.Count > 0)
             {
@@ -92,20 +90,27 @@ namespace NSSFPensionSystem.Controllers
             }
         }
 
-        public void OnMessageBoxConfirmation(bool val)
+        public void OnMessageBoxConfirmation(bool result, string actionType)
         {
-            if(val == true)
+            if (result)
             {
-
+                if (actionType == "Test")
+                {
+                    ClaimDocuments.RemoveAt(SelectedIndex);
+                }
+                else if (actionType == "Test1")
+                    CurrentMemberDocs.RemoveAt(SelectedIndex);
             }
-            MessageBoxResult = val;
+
+            SelectedIndex = -1;
+            StateHasChanged();
         }
 
 
         [JSInvokable]
         public void OnBenIDChanged(object e)
         {
-            
+
         }
 
 
@@ -114,14 +119,14 @@ namespace NSSFPensionSystem.Controllers
         {
             this.Districts = new List<DistrictModel>();
             StateHasChanged();
-            this.Districts = await  ConstantValue.GetDistricts(Convert.ToInt32(val.ToString()));
+            this.Districts = await ConstantValue.GetDistricts(Convert.ToInt32(val.ToString()));
 
             this.StateHasChanged();
             if (this.Districts != null && this.Districts.Count > 0)
             {
                 await OnDistrictChange(this.Districts.FirstOrDefault().DisID);
             }
-            
+
         }
 
         [JSInvokable]
@@ -134,25 +139,34 @@ namespace NSSFPensionSystem.Controllers
         }
 
 
-        public void OnAddClaimDocument(EventArgs e)
+        public async void OnAddClaimDocument(EventArgs e)
         {
-            if(this.CurrentDocumentSelectedIndex == -1)
+            if (CurrentDocment == null)
             {
-                if (CurrentDocment != null && ClaimDocuments.Where(w => w.DocID == CurrentDocment.DocID).Count() < 1)
-                {
-                    CurrentDocment.DocName = Documents.Where(w => w.DocID == CurrentDocment.DocID).FirstOrDefault().DocName;
-                    ClaimDocuments.Add(CurrentDocment);
-                }
+                await MessageBox.Open(MessageBoxTypes.Warning, "សូមបញ្ចូលព័ត៌មានឯកសារឲ្យបានត្រឹមត្រូវ!");
+                return;
             }
-            else
+            else if (ClaimDocuments.Where(w => w.DocID == CurrentDocment.DocID).Count() > 0)
             {
-                ClaimDocuments.RemoveAt(CurrentDocumentSelectedIndex);
-                CurrentDocment.DocName = Documents.Where(w => w.DocID == CurrentDocment.DocID).FirstOrDefault().DocName;
-                ClaimDocuments.Insert(CurrentDocumentSelectedIndex, CurrentDocment);
+                await MessageBox.Open(MessageBoxTypes.Warning, "ប្រភេទឯកសារនេះធ្លាប់បានបញ្ចូលរួចហើយ!");
+                return;
             }
-            
-            CurrentDocment = new ClaimDocumentModel() { DocID = 1};
-            CurrentDocumentSelectedIndex = -1;
+
+
+            CurrentDocment.DocName = Documents.Where(w => w.DocID == CurrentDocment.DocID).FirstOrDefault().DocName;
+
+            if (SelectedIndex == -1) //ADD
+            {
+                ClaimDocuments.Add(CurrentDocment);
+            }
+            else //UPDATE
+            {
+                ClaimDocuments.RemoveAt(SelectedIndex);
+                ClaimDocuments.Insert(SelectedIndex, CurrentDocment);
+            }
+
+            CurrentDocment = new ClaimDocumentModel() { DocID = 1 };
+            SelectedIndex = -1;
             StateHasChanged();
             ModalClaimDocument.Close();
         }
@@ -173,22 +187,16 @@ namespace NSSFPensionSystem.Controllers
         }
 
 
-        public void OnRemoveClaimDocument(int index)
+        public async Task OnRemoveClaimDocument(int index)
         {
-            CurrentDocumentSelectedIndex = index;
-            MessageBox.Open(MessageBoxTypes.Confirm, "Are you sure?");
-            MessageBoxResult = MessageBox.Result;
-            if (MessageBoxResult)
-            {
-                ClaimDocuments.RemoveAt(CurrentDocumentSelectedIndex);
-                StateHasChanged();
-            }
+            SelectedIndex = index;
+            await MessageBox.Open(MessageBoxTypes.Confirm, "Test", "Are you sure?");
         }
 
-        public void OnRemoveMemberDoc(int index)
+        public async void OnRemoveMemberDoc(int index)
         {
-            CurrentMemberDocs.RemoveAt(index);
-            StateHasChanged();
+            SelectedIndex = index;
+            await MessageBox.Open(MessageBoxTypes.Confirm, "Test1", "Are you sure?");
         }
 
         public void OnRemoveMember(int index)
@@ -199,28 +207,28 @@ namespace NSSFPensionSystem.Controllers
 
         public void OnConfirmRemoveClaimDocument(bool confirmed)
         {
-            if(confirmed)
+            if (confirmed)
             {
-                ClaimDocuments.RemoveAt(CurrentDocumentSelectedIndex);
+                ClaimDocuments.RemoveAt(SelectedIndex);
                 StateHasChanged();
             }
-            CurrentDocumentSelectedIndex = -1;
+            SelectedIndex = -1;
         }
 
 
         public void OnEditClaimDocument(int index)
         {
-            CurrentDocumentSelectedIndex = index;
+            SelectedIndex = index;
             ClaimDocumentModel selected = ClaimDocuments[index];
             CurrentDocment = Newtonsoft.Json.JsonConvert.DeserializeObject<ClaimDocumentModel>(Newtonsoft.Json.JsonConvert.SerializeObject(selected));
-            
+
             StateHasChanged();
             ModalClaimDocument.Open();
         }
 
         public void OnEditMemberDocument(int index)
         {
-            CurrentMemberDocSelectedIndex = index;
+            SelectedIndex = index;
             ClaimFamilyMemberDocumentModel selected = CurrentMemberDocs[index];
             CurrentMemberDoc = Newtonsoft.Json.JsonConvert.DeserializeObject<ClaimFamilyMemberDocumentModel>(Newtonsoft.Json.JsonConvert.SerializeObject(selected));
 
@@ -231,7 +239,7 @@ namespace NSSFPensionSystem.Controllers
 
         public void OnEditMember(int index)
         {
-            CurrentMemberSelectedIndex = index;
+            SelectedIndex = index;
             ClaimFamilyMemberModel selected = Members[index];
             CurrentMember = Newtonsoft.Json.JsonConvert.DeserializeObject<ClaimFamilyMemberModel>(Newtonsoft.Json.JsonConvert.SerializeObject(selected));
             CurrentMemberDocs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ClaimFamilyMemberDocumentModel>>(Newtonsoft.Json.JsonConvert.SerializeObject(selected.Documents));
@@ -259,20 +267,20 @@ namespace NSSFPensionSystem.Controllers
             CurrentMember.Nationality = Nationalities.Where(w => w.NatID == CurrentMember.NationalId).FirstOrDefault().NatNameKh;
             CurrentMember.Relationship = Relationships.Where(w => w.RelId == CurrentMember.RelId).FirstOrDefault().RelDesc;
 
-            if (CurrentMemberSelectedIndex == -1)
+            if (SelectedIndex == -1)
             {
                 Members.Add(CurrentMember);
             }
             else
             {
-                Members.RemoveAt(CurrentMemberSelectedIndex);
-                Members.Insert(CurrentMemberSelectedIndex, CurrentMember);
+                Members.RemoveAt(SelectedIndex);
+                Members.Insert(SelectedIndex, CurrentMember);
             }
 
             StateHasChanged();
             CurrentMemberDocs = new List<ClaimFamilyMemberDocumentModel>();
             CurrentMember = new ClaimFamilyMemberModel();
-            CurrentMemberSelectedIndex = -1;
+            SelectedIndex = -1;
             StateHasChanged();
             ModalMember.Close();
         }
