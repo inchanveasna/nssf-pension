@@ -113,7 +113,7 @@ using NSSFPensionSystem.Setting;
 #nullable restore
 #line 73 "/Users/chanveasnain/Desktop/NSSFPensionSystem/nssf-pension/NSSFPensionSystem/Shared/MessageBox.razor"
        
-  
+
     [Parameter]
     public string Id { get; set; } = "id";
 
@@ -125,15 +125,16 @@ using NSSFPensionSystem.Setting;
 
 
     [Parameter]
-    public EventCallback<bool> OnConfirmation{ get; set; }
+    public EventCallback<(bool, string)> OnConfirmation{ get; set; }
 
     private string modalDisplay = "none;";
     private string modalClass = "";
     private bool showBackdrop = false;
 
     private string Message = "";
+    private string ActionType = "";
 
-    public async void Open(MessageBoxTypes type, string message)
+    public async Task Open(MessageBoxTypes type, string message)
     {
         await Confirmation(false);
         Type = type;
@@ -145,6 +146,12 @@ using NSSFPensionSystem.Setting;
         showBackdrop = true;
     }
 
+    public async Task Open(MessageBoxTypes type, string actionType, string message)
+    {
+        ActionType = actionType;
+        await Open(type, message);
+    }
+
     public void Close()
     {
         modalDisplay = "none";
@@ -152,11 +159,11 @@ using NSSFPensionSystem.Setting;
         showBackdrop = false;
     }
 
-    
+
     public async Task Confirmation(bool value)
     {
         Close();
-        await OnConfirmation.InvokeAsync(value);
+        await OnConfirmation.InvokeAsync((value, ActionType));
     }
 
 #line default
