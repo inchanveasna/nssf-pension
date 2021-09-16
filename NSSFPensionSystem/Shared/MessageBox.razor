@@ -54,9 +54,9 @@
             <div class="modal-footer" style="padding: 4px 8px !important;">
                 @if (Type == MessageBoxTypes.Confirm)
                 {
-                    <button class="btn btn-danger btn-sm" data-dismiss="modal" @onclick="()=> Confirmation(false)">បដិសេធ</button>
+                    <button class="btn btn-danger btn-sm" data-dismiss="modal" @onclick="()=> setConfirmation(false)">បដិសេធ</button>
                 }
-                <button type="button" class="btn btn-info btn-sm" @onclick="()=> Confirmation(true)">យល់ព្រម</button>
+                <button type="button" class="btn btn-info btn-sm" @onclick="()=> setConfirmation(true)">យល់ព្រម</button>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@
 
 
 @code {
-  
+
     [Parameter]
     public string Id { get; set; } = "id";
 
@@ -90,10 +90,12 @@
     private bool showBackdrop = false;
 
     private string Message = "";
+    public bool Result = false;
 
-    public async void Open(MessageBoxTypes type, string message)
+    public void Open(MessageBoxTypes type, string message)
     {
-        await Confirmation(false);
+        //await Confirmation(false);
+
         Type = type;
         Message = message;
         StateHasChanged();
@@ -103,6 +105,13 @@
         showBackdrop = true;
     }
 
+    private void setConfirmation(bool val)
+    {
+        Result = val;
+        StateHasChanged();
+        Close();
+    }
+
     public void Close()
     {
         modalDisplay = "none";
@@ -110,7 +119,9 @@
         showBackdrop = false;
     }
 
-    
+
+
+
     public async Task Confirmation(bool value)
     {
         Close();

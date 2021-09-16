@@ -94,6 +94,10 @@ namespace NSSFPensionSystem.Controllers
 
         public void OnMessageBoxConfirmation(bool val)
         {
+            if(val == true)
+            {
+
+            }
             MessageBoxResult = val;
         }
 
@@ -173,6 +177,7 @@ namespace NSSFPensionSystem.Controllers
         {
             CurrentDocumentSelectedIndex = index;
             MessageBox.Open(MessageBoxTypes.Confirm, "Are you sure?");
+            MessageBoxResult = MessageBox.Result;
             if (MessageBoxResult)
             {
                 ClaimDocuments.RemoveAt(CurrentDocumentSelectedIndex);
