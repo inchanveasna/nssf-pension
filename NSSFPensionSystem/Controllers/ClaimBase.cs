@@ -90,22 +90,22 @@ namespace NSSFPensionSystem.Controllers
             }
         }
 
-        public void OnMessageBoxConfirmation(bool result, string actionType)
+        public void OnMessageBoxConfirmation(bool result, ConfirmFor confirmFor)
         {
             if (result)
             {
-                if (actionType == "Test")
+                if (confirmFor == ConfirmFor.CLAIM_DOCUMENT)
                 {
                     ClaimDocuments.RemoveAt(SelectedIndex);
                 }
-                else if (actionType == "Test1")
+                else if (confirmFor == ConfirmFor.CLAIM_MEMBER_DOCUMENT)
+                {
                     CurrentMemberDocs.RemoveAt(SelectedIndex);
+                }
             }
-
             SelectedIndex = -1;
             StateHasChanged();
         }
-
 
         [JSInvokable]
         public void OnBenIDChanged(object e)
@@ -141,26 +141,30 @@ namespace NSSFPensionSystem.Controllers
 
         public async void OnAddClaimDocument(EventArgs e)
         {
+            int countCheck = ClaimDocuments.Where(w => w.DocID == CurrentDocment.DocID).Count();
             if (CurrentDocment == null)
             {
-                await MessageBox.Open(MessageBoxTypes.Warning, "សូមបញ្ចូលព័ត៌មានឯកសារឲ្យបានត្រឹមត្រូវ!");
+                await MessageBox.Show(MessageBoxTypes.WARNING, "សូមបញ្ចូលព័ត៌មានឯកសារឲ្យបានត្រឹមត្រូវ!");
                 return;
             }
-            else if (ClaimDocuments.Where(w => w.DocID == CurrentDocment.DocID).Count() > 0)
-            {
-                await MessageBox.Open(MessageBoxTypes.Warning, "ប្រភេទឯកសារនេះធ្លាប់បានបញ្ចូលរួចហើយ!");
-                return;
-            }
-
 
             CurrentDocment.DocName = Documents.Where(w => w.DocID == CurrentDocment.DocID).FirstOrDefault().DocName;
-
             if (SelectedIndex == -1) //ADD
             {
+                if(countCheck > 0)
+                {
+                    await MessageBox.Show(MessageBoxTypes.WARNING, "ប្រភេទឯកសារនេះធ្លាប់បានបញ្ចូលរួចហើយ!");
+                    return;
+                }
                 ClaimDocuments.Add(CurrentDocment);
             }
             else //UPDATE
             {
+                if (countCheck > 1)
+                {
+                    await MessageBox.Show(MessageBoxTypes.WARNING, "ប្រភេទឯកសារនេះធ្លាប់បានបញ្ចូលរួចហើយ!");
+                    return;
+                }
                 ClaimDocuments.RemoveAt(SelectedIndex);
                 ClaimDocuments.Insert(SelectedIndex, CurrentDocment);
             }
@@ -170,33 +174,55 @@ namespace NSSFPensionSystem.Controllers
             StateHasChanged();
             ModalClaimDocument.Close();
         }
-
-
-        public void OnAddMemberDocument(EventArgs e)
+        public async Task OnRemoveClaimDocument(int index)
         {
-            if (CurrentMemberDoc != null && CurrentMemberDocs.Where(w => w.DocID == CurrentMemberDoc.DocID).Count() < 1)
+            SelectedIndex = index;
+            await MessageBox.Show(MessageBoxTypes.CONFIRM, ConfirmFor.CLAIM_DOCUMENT, "តើអ្នកពិតជាចង់ដកចេញមែនទេ?");
+        }
+
+        public async void OnAddMemberDocument(EventArgs e)
+        {
+            int countCheck = CurrentMemberDocs.Where(w => w.DocID == CurrentMemberDoc.DocID).Count();
+            if (CurrentMemberDoc == null)
             {
-                CurrentMemberDoc.DocName = Documents.Where(w => w.DocID == CurrentMemberDoc.DocID).FirstOrDefault().DocName;
-                CurrentMemberDocs.Add(CurrentMemberDoc);
-                StateHasChanged();
+                await MessageBox.Show(MessageBoxTypes.WARNING, "សូមបញ្ចូលព័ត៌មានឯកសារឲ្យបានត្រឹមត្រូវ!");
+                return;
             }
 
+            CurrentMemberDoc.DocName = Documents.Where(w => w.DocID == CurrentMemberDoc.DocID).FirstOrDefault().DocName;
+            if (SelectedIndex == -1)
+            {
+                if (countCheck > 0)
+                {
+                    await MessageBox.Show(MessageBoxTypes.WARNING, "ប្រភេទឯកសារនេះធ្លាប់បានបញ្ចូលរួចហើយ!");
+                    return;
+                }
+                CurrentMemberDocs.Add(CurrentMemberDoc);
+            }
+            else
+            {
+                if (countCheck > 1)
+                {
+                    await MessageBox.Show(MessageBoxTypes.WARNING, "ប្រភេទឯកសារនេះធ្លាប់បានបញ្ចូលរួចហើយ!");
+                    return;
+                }
+                CurrentMemberDocs.RemoveAt(SelectedIndex);
+                CurrentMemberDocs.Insert(SelectedIndex, CurrentMemberDoc);
+            }
+            
             CurrentMemberDoc = new ClaimFamilyMemberDocumentModel() { DocID = 1 };
+            SelectedIndex = -1;
             StateHasChanged();
             ModalMemberDoc.Close();
         }
 
 
-        public async Task OnRemoveClaimDocument(int index)
-        {
-            SelectedIndex = index;
-            await MessageBox.Open(MessageBoxTypes.Confirm, "Test", "Are you sure?");
-        }
+        
 
         public async void OnRemoveMemberDoc(int index)
         {
             SelectedIndex = index;
-            await MessageBox.Open(MessageBoxTypes.Confirm, "Test1", "Are you sure?");
+            await MessageBox.Show(MessageBoxTypes.CONFIRM, ConfirmFor.CLAIM_MEMBER_DOCUMENT, "តើអ្នកពិតជាចង់ដកចេញមែនទេ?");
         }
 
         public void OnRemoveMember(int index)
@@ -204,17 +230,6 @@ namespace NSSFPensionSystem.Controllers
             Members.RemoveAt(index);
             StateHasChanged();
         }
-
-        public void OnConfirmRemoveClaimDocument(bool confirmed)
-        {
-            if (confirmed)
-            {
-                ClaimDocuments.RemoveAt(SelectedIndex);
-                StateHasChanged();
-            }
-            SelectedIndex = -1;
-        }
-
 
         public void OnEditClaimDocument(int index)
         {

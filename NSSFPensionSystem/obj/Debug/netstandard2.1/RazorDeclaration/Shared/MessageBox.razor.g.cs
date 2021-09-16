@@ -111,58 +111,59 @@ using NSSFPensionSystem.Setting;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 63 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\Shared\MessageBox.razor"
-        [Parameter]
-            public string Id { get; set; } = "id";
+#line 64 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\Shared\MessageBox.razor"
+  
+    [Parameter]
+    public string Id { get; set; } = "id";
 
-            [Parameter]
-            public MessageBoxTypes Type { get; set; } = MessageBoxTypes.Info;
+    [Parameter]
+    public MessageBoxTypes Type { get; set; } = MessageBoxTypes.INFO;
 
-            //[Parameter]
-            //public RenderFragment Message { get; set; }
-
-
-            [Parameter]
-            public EventCallback<(bool, string)> OnConfirmation { get; set; }
-
-            private string modalDisplay = "none;";
-            private string modalClass = "";
-            private bool showBackdrop = false;
-
-            private string Message = "";
-            private string ActionType = "";
-
-            public async Task Open(MessageBoxTypes type, string message)
-            {
-                await Confirmation(false);
-                Type = type;
-                Message = message;
-                StateHasChanged();
-
-                modalDisplay = "block;";
-                modalClass = "show";
-                showBackdrop = true;
-            }
-
-            public async Task Open(MessageBoxTypes type, string actionType, string message)
-            {
-                ActionType = actionType;
-                await Open(type, message);
-            }
-
-            public void Close()
-            {
-                modalDisplay = "none";
-                modalClass = "";
-                showBackdrop = false;
-            }
+    //[Parameter]
+    //public RenderFragment Message { get; set; }
 
 
-            public async Task Confirmation(bool value)
-            {
-                Close();
-                await OnConfirmation.InvokeAsync((value, ActionType));
-            } 
+    [Parameter]
+    public EventCallback<(bool, ConfirmFor)> OnConfirmation { get; set; }
+
+    private string modalDisplay = "none;";
+    private string modalClass = "";
+    private bool showBackdrop = false;
+
+    private string Message = "";
+    private ConfirmFor ConfirmFor;
+
+    public async Task Show(MessageBoxTypes type, string message)
+    {
+        Type = type;
+        Message = message;
+        StateHasChanged();
+
+        modalDisplay = "block;";
+        modalClass = "show";
+        showBackdrop = true;
+    }
+
+    public async Task Show(MessageBoxTypes type, ConfirmFor confirmFor, string message)
+    {
+        ConfirmFor = confirmFor;
+        await Show(type, message);
+    }
+
+    public void Close()
+    {
+        modalDisplay = "none";
+        modalClass = "";
+        showBackdrop = false;
+    }
+
+
+    public async Task Confirmation(bool value)
+    {
+        Close();
+        await OnConfirmation.InvokeAsync((value, ConfirmFor));
+    }
+    
 
 #line default
 #line hidden
