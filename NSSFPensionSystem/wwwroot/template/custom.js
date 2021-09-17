@@ -13,8 +13,8 @@ function AppInit() {
 
 
             $('.masked-benid').inputmask('9999999');
-            $('.masked-phone').inputmask('999-999-9999');
-           /* $('.masked-date').inputmask('99-99-9999');*/
+            $('.masked-phone').inputmask({ mask: "999 999-9999" });
+            $('.masked-date').inputmask('99-99-9999');
 
             $('.select2').select2({
                 //placeholder: "Make a Selection",
@@ -108,9 +108,11 @@ function ClaimJS(dotNetHelper) {
 
     $('.datepicker').flatpickr({
         dateFormat: "d-m-Y",
-
-        /*allowInput: true,*/
+        allowInput: true,
     });
+
+    $('#memphone').inputmask({ mask: "999 999-9999" });
+
 }
 
 

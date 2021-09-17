@@ -1,14 +1,14 @@
 ﻿<div id="@Id" class="modal fade @modalClass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
     <div class="modal-dialog @(CenterScreen ? "modal-dialog-centered" : "") modal-@Size">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="padding: 10px 16px !important; align-content:center !important">
                 <h5 class="modal-title">@Title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="Close">x</button>
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="Close">x</button>*@
             </div>
             <div class="modal-body">
                 @Body
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="padding: 4px 8px !important;">
                 @Footer
             </div>
         </div>
