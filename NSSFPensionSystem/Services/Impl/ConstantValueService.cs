@@ -45,18 +45,18 @@ namespace NSSFPensionSystem.Services.Impl
             };
             return Task.FromResult(genders);
         }
-        //public Task<List<PensionType>> GetPensionTypes()
-        //{
-        //    return apiService.Get<List<PensionType>>(ApiEndpoint.PensionTypes);
-        //}
+        public Task<List<PensionTypeModel>> GetPensionTypes()
+        {
+            return Api.Get<List<PensionTypeModel>>(APIEndpoint.PensionTypes);
+        }
         //public Task<List<FamilyStatus>> GetFamilyStatuses()
         //{
         //    return apiService.Get<List<FamilyStatus>>(ApiEndpoint.FamilyStatus);
         //}
-        //public Task<List<Bank>> GetBanks()
-        //{
-        //    return apiService.Get<List<Bank>>(ApiEndpoint.Banks);
-        //}
+        public Task<List<BankModel>> GetBanks()
+        {
+            return Api.Get<List<BankModel>>(APIEndpoint.Banks);
+        }
         public Task<List<NationalityModel>> GetNationalities()
         {
             return Api.Get<List<NationalityModel>>(APIEndpoint.Nationalities);
@@ -70,10 +70,10 @@ namespace NSSFPensionSystem.Services.Impl
         //{
         //    return apiService.Get<List<HealthStatus>>(ApiEndpoint.HealthStatus);
         //}
-        //public Task<List<ClaimStatusModel>> GetClaimStatus()
-        //{
-        //    return apiService.Get<List<ClaimStatusModel>>(ApiEndpoint.ClaimStatus);
-        //}
+        public Task<List<ClaimStatusModel>> GetClaimStatus()
+        {
+            return Api.Get<List<ClaimStatusModel>>(APIEndpoint.ClaimStatus);
+        }
         public Task<List<DocumentModel>> GetDocuments()
         {
             return Api.Get<List<DocumentModel>>(APIEndpoint.Documents);

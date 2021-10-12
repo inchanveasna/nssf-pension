@@ -82,7 +82,7 @@
     private string Message = "";
     private ConfirmFor ConfirmFor;
 
-    public async Task Show(MessageBoxTypes type, string message)
+    public void Show(MessageBoxTypes type, string message)
     {
         Type = type;
         Message = message;
@@ -93,10 +93,10 @@
         showBackdrop = true;
     }
 
-    public async Task Show(MessageBoxTypes type, ConfirmFor confirmFor, string message)
+    public void Show(MessageBoxTypes type, ConfirmFor confirmFor, string message)
     {
         ConfirmFor = confirmFor;
-        await Show(type, message);
+        Show(type, message);
     }
 
     public void Close()
@@ -110,6 +110,9 @@
     public async Task Confirmation(bool value)
     {
         Close();
-        await OnConfirmation.InvokeAsync((value, ConfirmFor));
+        if(Type == MessageBoxTypes.CONFIRM)
+        {
+            await OnConfirmation.InvokeAsync((value, ConfirmFor));
+        }
     }
     }

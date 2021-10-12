@@ -1,5 +1,6 @@
 ﻿
 function AppInit() {
+    
         $(document).ready(function () {
             $(document).delegate(".submenu-active", "click", function () {
                 $(".submenu-active").each(function (index, value) {
@@ -8,13 +9,14 @@ function AppInit() {
                 $(this).addClass("active");
             });
 
+            
             App.init();
 
 
-
             $('.masked-benid').inputmask('9999999');
-            $('.masked-phone').inputmask({ mask: "999 999-9999" });
+            $('.masked-phone').inputmask({ mask: "999-999-9999" });
             $('.masked-date').inputmask('99-99-9999');
+            $('.masked-code').inputmask('99999/99');
 
             $('.select2').select2({
                 //placeholder: "Make a Selection",
@@ -58,9 +60,19 @@ function AppInit() {
 function ClaimJS(dotNetHelper) {
 
     $('#benid').inputmask('9999999', {
-        oncomplete: function () {
+        //oncomplete: function () {
+        //    var val = $(this).val();
+        //    dotNetHelper.invokeMethodAsync('OnBenIdCompleted', val);
+        //},
+    });
+
+    $("#benid").on('paste input', function (event) {
+        if ($(this).inputmask("isComplete")) {
             var val = $(this).val();
-            dotNetHelper.invokeMethodAsync('OnBenIDChanged', val);
+            dotNetHelper.invokeMethodAsync('OnBenIdCompleted', val);
+        }
+        else {
+            dotNetHelper.invokeMethodAsync('OnBenIdInCompleted', "");
         }
     });
 
@@ -108,13 +120,47 @@ function ClaimJS(dotNetHelper) {
 
     $('.datepicker').flatpickr({
         dateFormat: "d-m-Y",
-        allowInput: true,
+        /*allowInput: true,*/
+        // onClose: function (selectedDates, dateStr, instance) {
+        //     var dateStrs = dateStr.split('-');
+        //     if (dateStrs.length == 3) {
+        //         instance.setDate(instance.input.value, false);
+        //     }
+        //}
     });
 
-    $('#memphone').inputmask({ mask: "999 999-9999" });
 
 }
 
 
 
+function GetMaskPhoneText(id) {
+    var result = $('#' + id).val().replace(/-/g, "").replace(/_/g, "");
+    return result
+}
 
+
+function GetMaskDateText(id) {
+    var result = $('#' + id).val().split('-');
+    if (result.length == 3) {
+        return new Date(result[2] + "/" + result[1] + "/" + result[0])
+    }
+    return null;
+}
+
+
+function CheckAllClaim() {
+    $(document).delegate("#todoAll", "click", function () {
+        $(".todochkbox").each(function (index, value) {
+            if ($("#todoAll").is(":checked")) {
+              /*  $("#todoAll").prop('checked', false);*/
+                $(this).prop('checked', false);
+            }
+            else {
+                /*$("#todoAll").prop('checked', true);*/
+                $(this).prop('checked', true);
+            }
+        });
+        //$(this).addClass("active");
+    });
+}

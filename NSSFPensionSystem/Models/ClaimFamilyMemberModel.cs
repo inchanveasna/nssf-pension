@@ -32,17 +32,10 @@ namespace NSSFPensionSystem.Models
         [JsonProperty("dob")]
         public DateTime? Dob { get; set; }
 
-        [JsonProperty("dob_string")]
+
         public string DobString
         {
             get { return Dob == null ? "" : Dob.Value.ToString("dd-MM-yyyy"); }
-            set 
-            {
-                if (DobString == null || DobString == "") Dob = null;
-                string[] val = value.Split('-');
-                if (val.Count() == 3) Dob = new DateTime(Convert.ToInt32(val[2]), Convert.ToInt32(val[1]), Convert.ToInt32(val[0]));
-                else Dob = null;
-            }
         }
 
         [JsonProperty("national_id")]
@@ -92,9 +85,9 @@ namespace NSSFPensionSystem.Models
 
         [JsonProperty("com_id")]
         public int ComId { get; set; } = -1;
-        
+
         [JsonProperty("mem_docs")]
-        public List<ClaimFamilyMemberDocumentModel> Documents { get; set; }
+        public List<ClaimFamilyMemberDocumentModel> Documents { get; set; } = new List<ClaimFamilyMemberDocumentModel>();
 
         [JsonProperty("nationality")]
         public string Nationality { get; set; } = "";

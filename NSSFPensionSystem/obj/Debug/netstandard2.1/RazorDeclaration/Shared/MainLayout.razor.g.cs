@@ -13,92 +13,141 @@ namespace NSSFPensionSystem.Shared
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 1 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 2 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using System.Net.Http.Json;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 4 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 5 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 6 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 7 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 8 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 9 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 10 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
-using NSSFPensionSystem.Controllers;
+#line 11 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+using NSSFPensionSystem.Shared.Components;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 11 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
-using NSSFPensionSystem.Models;
+#line 12 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+using NSSFPensionSystem.Services;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 12 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 13 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem.Services.Impl;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 13 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+#line 14 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+using NSSFPensionSystem.Models;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 15 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+using NSSFPensionSystem.Controllers;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 16 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
 using NSSFPensionSystem.Setting;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 17 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\_Imports.razor"
+using Blazored.LocalStorage;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\Shared\MainLayout.razor"
+using Microsoft.AspNetCore.Authorization;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 132 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\Shared\MainLayout.razor"
+using Microsoft.AspNetCore.Components.Authorization;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 133 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\Shared\MainLayout.razor"
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 134 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\Shared\MainLayout.razor"
+using System.Security.Claims;
 
 #line default
 #line hidden
@@ -111,17 +160,106 @@ using NSSFPensionSystem.Setting;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 196 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\Shared\MainLayout.razor"
-       
-    protected async override Task OnAfterRenderAsync(bool firstRender)
+#line 143 "C:\Users\INCHANVEASNA\Desktop\NSSFPensionSystem\NSSFPensionSystem\Shared\MainLayout.razor"
+      
+
+    private List<BreadcrumbModel> breadcrumbLinks = new List<BreadcrumbModel>();
+    private List<MenuModel> menus = new List<MenuModel>();
+    //private string currentUrl;
+
+
+
+    protected override async Task OnInitializedAsync()
     {
         await runtime.InvokeAsync<object>("AppInit");
+        menus = await userService.GetMenus(2044);
+
+
+
     }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await runtime.InvokeAsync<object>("AppInit");
+
+        }
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+
+
+        if (user.Identity.IsAuthenticated)
+        {
+            UserModel userLogin = new UserModel()
+            {
+                Name = user.Claims.Where(w => w.Type == "name").FirstOrDefault()?.Value,
+                EmpId = Convert.ToInt32(user.Claims.Where(w => w.Type == "emp_id").FirstOrDefault()?.Value),
+                Username = user.Claims.Where(w => w.Type == "preferred_username").FirstOrDefault()?.Value,
+                Picture = user.Claims.Where(w => w.Type == "picture").FirstOrDefault()?.Value,
+                AccessToken = user.Claims.Where(w => w.Type == "access_token").FirstOrDefault()?.Value
+            };
+
+            await localStorage.SetItemAsync<UserModel>("user", userLogin);
+        }
+    }
+
+
+    
+
+
+    protected override void OnParametersSet()
+    {
+
+        //currentUrl = NavigationManager.Uri;
+        //var myUrl = currentUrl.Replace(NavigationManager.BaseUri, "");
+        //breadcrumbLinks.Clear();
+        //breadcrumbLinks.Add(new BreadcrumbModel
+        //{
+        //    Address = NavigationManager.BaseUri,
+        //    IsActive = NavigationManager.Uri == NavigationManager.BaseUri,
+        //    OrderIndex = 1,
+        //    Title = "ទំព័រដើម"
+        //});
+        //var path = myUrl.Split('/');
+        //var count = 1;
+
+        //foreach (var link in path)
+        //{
+        //    if (link == "") continue;
+        //    count++;
+        //    var lastLink = breadcrumbLinks.Last();
+        //    breadcrumbLinks.Add(new BreadcrumbModel
+        //    {
+        //        Address = $"{lastLink.Address}{link}",
+        //        IsActive = link == path.Last(),
+        //        OrderIndex = count,
+        //        Title = menus.FirstOrDefault().subMenu.Where(w => w.menu_link == link).Select(s => s.menu_name).FirstOrDefault()
+        //    });
+        //}
+
+        base.OnParametersSet();
+    }
+
+
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        NavigationManager.NavigateTo("authentication/logout");
+    }
+
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private ILocalStorageService localStorage { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private SignOutSessionStateManager SignOutManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private UserService userService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime runtime { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     }
 }
 #pragma warning restore 1591

@@ -6,15 +6,17 @@ using Newtonsoft.Json;
 
 namespace NSSFPensionSystem.Models
 {
-    public class ResponseModel
+    public class ResponseModel : PaginationModel
     {
         [JsonProperty("error")]
         public bool Error { get; set; }
 
         [JsonProperty("msg")]
-        public string Message { get; set; }
+        public string Msg { get; set; } = "";
 
         [JsonProperty("data")]
         public object Data { get; set; }
+
+        
     }
 }

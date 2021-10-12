@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj": {}
+    "C:\\Users\\INCHANVEASNA\\Desktop\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj": {}
   },
   "projects": {
-    "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj": {
+    "C:\\Users\\INCHANVEASNA\\Desktop\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj",
+        "projectUniqueName": "C:\\Users\\INCHANVEASNA\\Desktop\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj",
         "projectName": "NSSFPensionSystem",
-        "projectPath": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj",
+        "projectPath": "C:\\Users\\INCHANVEASNA\\Desktop\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj",
         "packagesPath": "C:\\Users\\INCHANVEASNA\\.nuget\\packages\\",
-        "outputPath": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\obj\\",
+        "outputPath": "C:\\Users\\INCHANVEASNA\\Desktop\\NSSFPensionSystem\\NSSFPensionSystem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\INCHANVEASNA\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,11 +40,19 @@
         "netstandard2.1": {
           "targetAlias": "netstandard2.1",
           "dependencies": {
-            "AutoMapper": {
+            "AKSoftware.WebApi": {
               "target": "Package",
-              "version": "[10.1.1, )"
+              "version": "[3.0.1, )"
+            },
+            "Blazored.LocalStorage": {
+              "target": "Package",
+              "version": "[4.1.5, )"
             },
             "Microsoft.AspNetCore.Components.WebAssembly": {
+              "target": "Package",
+              "version": "[3.2.1, )"
+            },
+            "Microsoft.AspNetCore.Components.WebAssembly.Authentication": {
               "target": "Package",
               "version": "[3.2.1, )"
             },

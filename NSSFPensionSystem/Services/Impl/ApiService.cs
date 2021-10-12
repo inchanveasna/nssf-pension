@@ -18,19 +18,25 @@ namespace NSSFPensionSystem.Services.Impl
         
         private HttpClient httpClient { get; set; }
 
+        
+
         public ApiService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
 
+
+
         public async Task<T> Get<T>(string url)
         {
             //Task task = httpClient.GetAsync(url);
             //var awaiter = task.GetAwaiter();
-            HttpResponseMessage response = await httpClient.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            string json = response.Content.ReadAsStringAsync().Result;
-            ResponseModel responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseModel>(json);
+            ResponseModel responseData = await httpClient.GetFromJsonAsync<ResponseModel>(url);
+
+            //HttpResponseMessage response = await httpClient.GetAsync(url);
+            //response.EnsureSuccessStatusCode();
+            //string json = response.Content.ReadAsStringAsync().Result;
+            //ResponseModel responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseModel>(json);
            
             if (responseData.Error || responseData.Data == null)
             {               
@@ -53,7 +59,7 @@ namespace NSSFPensionSystem.Services.Impl
 
             if (responseData.Error || responseData.Data == null)
             {
-                message = responseData.Message;
+                message = responseData.Msg;
                 return Tuple.Create((T)default, message);
             }            
             return Tuple.Create(Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseData.Data.ToString()), message);
@@ -91,45 +97,27 @@ namespace NSSFPensionSystem.Services.Impl
 
         public async Task<Tuple<T, string>> PostWithReturn<T>(string url, object data = null)
         {
-            string message = "";
-            ////httpClient.DefaultRequestHeaders.Accept.Clear();
-            ////httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            ////HttpResponseMessage response = await httpClient.PostAsJsonAsync(url, data);
-            ////response.EnsureSuccessStatusCode();
-            ////string json = await response.Content.ReadAsStringAsync();
-            ////ResponseModel responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseModel>(json);
-
-            ////if (responseData.error) throw new Exception(responseData.msg);
-            ////else if (responseData.data == null) throw new Exception("No data!");
-
-            ////return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseData.data.ToString());
-
-
-            // create request object
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-
-            // set request body
-            //var postBody = new { Title = "Blazor POST Request Example" };
-            request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(data, Newtonsoft.Json.Formatting.Indented), Encoding.UTF8, "application/json");
-
-            // add authorization header
-            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
-
-            // add custom http header
-            //request.Headers.Add("My-Custom-Header", "foobar");
-
-            // send request
-            using var response = await httpClient.SendAsync(request);
-
-            // convert response data to Article object
-            ResponseModel responseData = await response.Content.ReadFromJsonAsync<ResponseModel>();
-
-            if (responseData.Error || responseData.Data == null)
+            try
             {
-                message = responseData.Message;
-                return Tuple.Create((T)default, message);
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(data, Newtonsoft.Json.Formatting.Indented), Encoding.UTF8, "application/json");
+                var response = await httpClient.SendAsync(request);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+
+                ResponseModel responseData = await response.Content.ReadFromJsonAsync<ResponseModel>();
+                if (responseData.Error || responseData.Data == null)
+                {
+                    return Tuple.Create((T)default, responseData.Msg);
+                }
+                return Tuple.Create(Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseData.Data.ToString()), responseData.Msg);
             }
-            return Tuple.Create(Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseData.Data.ToString()), message);
+            catch(Exception ex)
+            {
+                return Tuple.Create((T)default, ex.Message);
+            }
         }
 
         public async Task Put(string url, object data = null)
@@ -171,7 +159,7 @@ namespace NSSFPensionSystem.Services.Impl
             // convert response data to Article object
             ResponseModel responseData = await response.Content.ReadFromJsonAsync<ResponseModel>();
 
-            if (responseData.Error) throw new Exception(responseData.Message);
+            if (responseData.Error) throw new Exception(responseData.Msg);
             else if (responseData.Data == null) throw new Exception("No data!");
 
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseData.Data.ToString());

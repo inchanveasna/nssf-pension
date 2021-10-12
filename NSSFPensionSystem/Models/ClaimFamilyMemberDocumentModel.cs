@@ -23,17 +23,10 @@ namespace NSSFPensionSystem.Models
         [JsonProperty("doc_date")]
         public Nullable<DateTime> DocDate { get; set; } = null;
 
-        [JsonProperty("dob_date_string")]
+
         public string DocDateString
         {
             get { return DocDate == null ? "" : DocDate.Value.ToString("dd-MM-yyyy"); }
-            set
-            {
-                if (DocDateString == null || DocDateString == "") DocDate = null;
-                string[] val = value.Split('-');
-                if (val.Length == 3) DocDate = new DateTime(Convert.ToInt32(val[2]), Convert.ToInt32(val[1]), Convert.ToInt32(val[0]));
-                else DocDate = null;
-            }
         }
 
         [JsonProperty("doc_by")]

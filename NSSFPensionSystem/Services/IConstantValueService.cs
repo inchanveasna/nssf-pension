@@ -13,15 +13,15 @@ namespace NSSFPensionSystem.Services
         Task<List<CommuneModel>> GetCommunes(int disID);
         Task<List<GenderModel>> GetGender();
         //Task<List<BranchModel>> GetBranches();
-        //Task<List<PensionType>> GetPensionTypes();
+        Task<List<PensionTypeModel>> GetPensionTypes();
         //Task<List<FamilyStatus>> GetFamilyStatuses();
-        //Task<List<Bank>> GetBanks();
+        Task<List<BankModel>> GetBanks();
         Task<List<NationalityModel>> GetNationalities();
         Task<List<RelationshipModel>> GetRelationShips(string sexId);
         //Task<List<HealthStatus>> GetHealthStatuses();
         ////Task<Tuple<FilterClaim, string>> GetFilterClaims(string ben_id);
         Task<List<DocumentModel>> GetDocuments();
-        //Task<List<ClaimStatusModel>> GetClaimStatus();
+        Task<List<ClaimStatusModel>> GetClaimStatus();
         //Task<List<OccupationModel>> GetOccupationStatus();
         //Task<List<SurvivorTypeModel>> GetSurvivorType();
         //Task<List<Survivor_ReasonModel>> GetSurvivorReason(int mem_type_id);

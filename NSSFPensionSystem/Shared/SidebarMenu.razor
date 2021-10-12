@@ -6,47 +6,46 @@
     <nav id="sidebar">
         <div class="shadow-bottom"></div>
         <ul class="list-unstyled menu-categories" id="accordionExample">
-           
+
             @foreach (var menu in menus)
             {
 
-        @if (menu.subMenu.Count == 0)
-        {
-            <li class="menu">
-                <NavLink href="@menu.menu_link" aria-expanded="false" class="dropdown-toggle">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-target"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-                        <span>@menu.menu_name</span>
-                    </div>
-                </NavLink>
-            </li> 
-        }
+                @if (menu.subMenu.Count == 0)
+                {
+                    <li class="menu">
+                        <NavLink href="@menu.menu_link" aria-expanded="false" class="dropdown-toggle">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-target"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                                <span>@menu.menu_name</span>
+                            </div>
+                        </NavLink>
+                    </li>
 
+                }
+                else
+                {
+                    <li class="menu">
+                        <NavLink href="@("#menu" + menu.menu_id)" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                                <span>@menu.menu_name</span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </div>
+                        </NavLink>
+                        <ul class="collapse submenu list-unstyled" id="@("menu" + menu.menu_id)" data-parent="#accordionExample">
+                            @foreach (var subMenu in menu.subMenu)
+                            {
+                                <li class="submenu-active">
+                                    <NavLink href="@subMenu.menu_link"> @subMenu.menu_name </NavLink>
+                                </li>
+                            }
+                        </ul>
+                    </li>
 
-                        else
-                        {
-                            <li class="menu">
-                                <NavLink href="@("#menu" + menu.menu_id)" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                                        <span>@menu.menu_name</span>
-                                    </div>
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                                    </div>
-                                </NavLink>
-                                <ul class="collapse submenu list-unstyled" id="@("menu" + menu.menu_id)" data-parent="#accordionExample">
-                                    @foreach (var subMenu in menu.subMenu)
-                                    {
-                                        <li class="submenu-active">
-                                            <NavLink href="@subMenu.menu_link"> @subMenu.menu_name </NavLink>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-
-                        }
-    }
+                }
+            }
 
 
         </ul>
@@ -60,12 +59,10 @@
 
 
 @code
-{ private List<MenuModel> menus = new List<MenuModel>();
+{ 
+    [Parameter]
+    public List<MenuModel> menus { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        menus = await userService.GetMenus(2044);
-    }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {

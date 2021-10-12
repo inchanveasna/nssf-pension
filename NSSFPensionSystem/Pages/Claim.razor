@@ -1,558 +1,675 @@
 ﻿@page "/claim"
+@page "/claim/{guid}"
 @inherits ClaimBase
 
 
 
-
-<div class="col">
-    <div class="row">
-        <div class="col col-lg-8">
-
-            @*PENSIONER*@
-            <div class="layout-top-spacing">
-                <div class="widget-content widget-content-area">
-                    <div class="widget-title">
-                        <h4>ព័ត៌មានសោធនិក</h4>
-                    </div>
-
-                    <div class="form-row mb-2">
-                        <div class="form-group col-md-6">
-                            <Label IsRequire="true" Text=@("លេខអត្ត. ប.ស.ស") for="benid" />
-                            <input type="text" class="form-control" id="benid">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="benname">គោត្តនាម-នាម</label>
-                            <input type="text" disabled class="form-control" id="benname" />
-                        </div>
-                    </div>
-                    <div class="form-row mb-2">
-                        <div class="form-group col-md-6">
-                            <label for="bennamelatin">គោត្តនាម-នាម (ឡាតាំង)</label>
-                            <input type="text" disabled class="form-control" id="bennamelatin">
-                        </div>
-
-                        <div class="form-group col-md-2">
-                            <label for="bensex">ភេទ</label>
-                            <select id="bensex" class="form-control" disabled>
-                                @foreach (GenderModel gen in Genders)
-                                {
-                    <option value="@gen.GenID">@gen.GenName</option>
-}
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="bendob">ថ្ងៃខែឆ្នាំកំណើត</label>
-                            <input type="text" class="form-control" id="bendob" disabled>
-                        </div>
-                    </div>
-
-                    <div class="form-row mb-2">
-                        <div class="form-group col-md-6">
-                            <label for="bennat">សញ្ញាតិ</label>
-                            <select id="bennat" class="form-control" disabled>
-                                @foreach (var nat in Nationalities)
-                                {
-                    <option value="@nat.NatID">@nat.NatNameKh</option>
-}
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <Label for="benidcard" Text="អត្ត.ប័ណ្ណ/លិខិតឆ្លងដែន" />
-                            <input type="text" class="form-control" id="benidcard">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="benent">អត្ត.សហគ្រាស</label>
-                            <input type="text" class="form-control" id="benentid" disabled>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="benent">ឈ្មោះសហគ្រាស</label>
-                            <input type="text" class="form-control" id="benentname" disabled>
-                        </div>
-                    </div>
-
-
-
-                    @*</div>*@
-
-                </div>
-            </div>
-
-
-            @*DOCUMENT OF PENSIONER*@
-            <div class="layout-top-spacing">
-                <div class="widget-content widget-content-area">
-                    <div class="widget-title">
-                        <h4>ឯកសារសោធនិក</h4>
-                    </div>
-                    <div class="text-right mb-1">
-                        @*<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#exampleModal">*@
-                        <button type="button" class="btn btn-outline-info" @onclick="() => ModalClaimDocument.Open()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill mr-1" viewBox="0 0 16 16">
-                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                            </svg>
-                            បន្ថែម
-                        </button>
-                    </div>
-
-
-                    <!-- Modal -->
-                    <Modal @ref="ModalClaimDocument">
-                        <Title>
-                            <h5 class="modal-title" id="exampleModalLabel">ឯកសារសោធនិក</h5>
-                        </Title>
-                        <Body>
-                            <div class="form-row mb-2">
-                                <div class="form-group col-md-4">
-                                    <Label IsRequire="true" Text="ប្រភេទលិខិត" for="doctype" />
-                                    <select id="doctype" class="form-control" @bind="CurrentDocment.DocID">
-                                        @foreach (DocumentModel doc in Documents)
-                                        {
-                        <option value="@doc.DocID">@doc.DocName</option>
-}
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="doccode">លេខលិខិត</label>
-                                    <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំចុះលិខិត" for="docdate" />
-                                    <input type="text" class="form-control masked-date datepicker" id="docdate" @bind="CurrentDocment.DocDateString">
-                                </div>
+<div class="container-fluid bottom-spacing">
+    <div class="col">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="layout-top-spacing">
+                    <div class="widget-content-area widget-shadow">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <Label Text="លេខទាមទារ" for="claimcode" />
+                                <input type="text" disabled class="form-control" id="claimcode" @bind="Claim.ClaCode">
                             </div>
-
-                            <div class="form-row mb-2">
-                                <div class="form-group col-md-4">
-                                    <label for="docby">ចេញលិខិតដោយ</label>
-                                    <input type="text" class="form-control" id="docby" @bind="CurrentDocment.DocBy" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="docby">ចេញលិខិតនៅ</label>
-                                    <input type="text" class="form-control" id="docat" @bind="CurrentDocment.DocAt" />
-                                </div>
+                            <div class="form-group col-md-4">
+                                <label for="claimdate">កាលបរិច្ឆេទ</label>
+                                <input type="text" disabled class="form-control" id="claimdate" @bind="Claim.ClaDate" @bind:format="dd-MM-yyyy" />
                             </div>
-                        </Body>
-                        <Footer>
-                            <button class="btn btn-danger" @onclick="() => ModalClaimDocument.Close()">បោះបង់</button>
-                            <button type="button" class="btn btn-info" @onclick="OnAddClaimDocument">
-                                @(ClaimDocumentSelectedIndex == -1 ? "បន្ថែម" : "កែប្រែ")
-                            </button>
-                        </Footer>
-                    </Modal>
-
-
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    @foreach (string name in TableHeaderDocument)
+                            <div class="form-group col-md-4">
+                                <Label for="claimtype" Text="ប្រភេទទាមទារ" IsRequire="true" />
+                                <select id="claimtype" class="form-control" @bind="Claim.PsTypeId">
+                                    @foreach (PensionTypeModel type in PensionTypes)
                                     {
-                        <th class="text-center">@name</th>
-}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (ClaimDocumentList.Count == 0)
-                                {
-                            <tr><td colspan="7" class="text-center">មិនទាន់មានឯកសារ</td></tr> }
-                                        else
-                                        {
-                            @foreach (ClaimDocumentModel doc in ClaimDocumentList)
-                            {
-                            <tr>
-                                <td class="text-center">@(ClaimDocumentList.IndexOf(doc) + 1)</td>
-                                <td>@doc.DocName</td>
-                                <td>@doc.DocCode</td>
-                                <td>@doc.DocDateString</td>
-                                <td>@doc.DocBy</td>
-                                <td>@doc.DocAt</td>
-                                <td class="text-center">
-                                    <span id="edit-doc" @onclick="()=> OnEditClaimDocument(ClaimDocumentList.IndexOf(doc))">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                        </svg>
-                                    </span>
-
-                                    <span id="remove-doc" @onclick="()=> OnRemoveClaimDocument(ClaimDocumentList.IndexOf(doc))">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                                        </svg>
-                                    </span>
-                                </td>
-                            </tr>}}
-                            </tbody>
-                        </table>
+                        <option value="@type.TypeId">@type.TypeNameKh</option>}
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
-            @*FAMILY OF PENSIONER*@
-            <div class="layout-top-spacing">
-                <div class="widget-content widget-content-area">
-                    <div class="widget-title">
-                        <h4 class="">អ្នកពាក់ព័ន្ធសោធនិក</h4>
+                @*PENSIONER*@
+                <div class="layout-top-spacing">
+                    <div class="widget-content-area">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                <h4>ព័ត៌មានសោធនិក</h4>
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-6">
+                                <Label IsRequire="true" Text=@("លេខអត្ត. ប.ស.ស") for="benid" />
+                                <input type="text" class="form-control" id="benid" @bind="Claim.BenId">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="benname">គោត្តនាម-នាម</label>
+                                <input type="text" disabled class="form-control" id="benname" @bind="Claim.Pensioner.FullnameKh" />
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-6">
+                                <label for="bennamelatin">គោត្តនាម-នាម (ឡាតាំង)</label>
+                                <input type="text" disabled class="form-control" id="bennamelatin" @bind="Claim.Pensioner.FullnameEn">
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <label for="bensex">ភេទ</label>
+                                <select id="bensex" class="form-control" disabled @bind="Claim.Pensioner.BenSexId">
+                                    @foreach (GenderModel gen in Genders)
+                                    {
+                        <option value="@gen.GenID">@gen.GenName</option>
+}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="bendob">ថ្ងៃខែឆ្នាំកំណើត</label>
+                                <input type="text" class="form-control" id="bendob" disabled @bind="Claim.Pensioner.BenDob" @bind:format="dd-MM-yyyy">
+                            </div>
+                        </div>
+
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-6">
+                                <label for="bennat">សញ្ញាតិ</label>
+                                <select id="bennat" class="form-control" disabled @bind="Claim.Pensioner.BenNationalityId">
+                                    @foreach (var nat in Nationalities)
+                                    {
+                        <option value="@nat.NatID">@nat.NatNameKh</option>
+}
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <Label for="benidcard" Text="អត្ត.ប័ណ្ណ/លិខិតឆ្លងដែន" />
+                                <input type="text" class="form-control" id="benidcard" @bind="Claim.Pensioner.BenIdcard">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="benent">អត្ត.សហគ្រាស</label>
+                                <input type="text" class="form-control" id="benentid" disabled @bind="Claim.Pensioner.EntId">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="benent">ឈ្មោះសហគ្រាស</label>
+                                <input type="text" class="form-control" id="benentname" disabled @bind="Claim.Pensioner.EntNameKhmer">
+                            </div>
+                        </div>
+
+
+
+                        @*</div>*@
+
                     </div>
-                    <div class="text-right mb-1">
-                        <button type="button" class="btn btn-outline-info" @onclick="() => ModalMember.Open()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill mr-1" viewBox="0 0 16 16">
-                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                            </svg>
-                            បន្ថែម
-                        </button>
-                    </div>
+                </div>
 
 
-                    @*FAMILY MODAL*@
-                    <Modal @ref="ModalMember" Id="ModalMember" Size="xl" CenterScreen="false">
-                        <Title>
-                            <h5 class="modal-title">អ្នកពាក់ព័ន្ធសោធនិក</h5>
-                        </Title>
-                        <Body>
-                            <ul class="nav nav-tabs  mb-3 mt-3" id="simpletab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">ប្រវត្តិរូប</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="document-tab" data-toggle="tab" href="#document" role="tab" aria-controls="document" aria-selected="false">ឯកសារ</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="simpletabContent">
-                                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <div class="form-row mb-2">
-                                        <div class="form-group col-md-2">
-                                            <Label IsRequire="true" for="memfnamekh" Text="គោត្តនាម" />
-                                            <input type="text" class="form-control" id="memfnamekh" @bind="CurrentMember.FirstNameKh" />
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <Label IsRequire="true" for="memlnamekh" Text="នាម" />
-                                            <input type="text" class="form-control" id="memlnamekh" @bind="CurrentMember.LastNameKh" />
-                                        </div>
-                                        <div class="form-group col-md-2">
-                                            <Label IsRequire="true" for="memfnameen" Text="គោត្តនាម (ឡាតាំង)" />
-                                            <input type="text" class="form-control" id="memfnameen" @bind="CurrentMember.FirstNameLatin" />
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <Label IsRequire="true" for="memlnameen" Text="នាម (ឡាតាំង)" />
-                                            <input type="text" class="form-control" id="memlnameen" @bind="CurrentMember.LastNameLatin" />
-                                        </div>
-                                    </div>
-                                    <div class="form-row mb-2">
-                                        <div class="form-group col-md-2">
-                                            <Label IsRequire="true" for="memsex" Text="ភេទ" />
-                                            <select id="memsex" class="form-control" @bind="CurrentMember.GenId">
-                                                @foreach (GenderModel gen in Genders)
-                                                {
-                                <option value="@gen.GenID">@gen.GenName</option>
-}
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំកំណើត" for="memdob" />
-                                            <input type="text" class="form-control datepicker masked-date" id="memdob" @bind="CurrentMember.DobString" />
-                                        </div>
-                                        <div class="form-group col-md-2">
-                                            <Label IsRequire="true" for="memnat" Text="សញ្ជាតិ" />
-                                            <select id="memnat" class="form-control select2" @bind="CurrentMember.NationalId">
-                                                @foreach (NationalityModel nat in Nationalities)
-                                                {
-                                <option value="@nat.NatID">@nat.NatNameKh</option>
-}
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <Label IsRequire="true" for="memidcard" Text="អត្ត.ប័ណ្ណ/លិខិតឆ្លងដែន" />
-                                            <input type="text" class="form-control" id="memidcard" @bind="CurrentMember.IdNumber">
-                                        </div>
-                                    </div>
-                                    <div class="form-row mb-2">
-                                        <div class="form-group col-md-2">
-                                            <Label IsRequire="true" for="memrel" Text="ត្រូវជា" />
-                                            <select id="memrel" class="form-control" @bind="CurrentMember.RelId">
-                                                @foreach (RelationshipModel rel in Relationships)
-                                                {
-                                <option value="@rel.RelId">@rel.RelDesc</option>
-}
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <Label Text=@("លេខទូរស័ព្ទ" + CurrentMember.Phone) for="memphone" />
-                                            <input type="text" class="form-control" id="memphone" @bind="CurrentMember.Phone" />
-                                        </div>
-                                        <div class="n-chk col-md-2">
-                                            <label class="new-control new-checkbox checkbox-info">
-                                                <input type="checkbox" class="new-control-input" @bind="CurrentMember.IsRepresenter">
-                                                <span class="new-control-indicator"></span>អ្នកតំណាង
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
-                                    <div class="table-responsive">
-                                        <div class="text-right mb-1">
-                                            <button type="button" class="btn btn-outline-info" @onclick="()=> ModalMemberDoc.Open()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill mr-1" viewBox="0 0 16 16">
-                                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                                                </svg>
-                                                បន្ថែម
-                                            </button>
-                                        </div>
+                @*DOCUMENT OF PENSIONER*@
+                <div class="layout-top-spacing">
+                    <div class="widget-content-area">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <h4>ឯកសារសោធនិក</h4>
+                            </div>
+                            <button type="button" class="btn btn-outline-info" @onclick="() => ModalClaimDocument.Open()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill mr-1" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                                </svg>
+                                បន្ថែម
+                            </button>
+                        </div>
+                        <div class="text-right mb-1">
 
-                                        <table class="table table-bordered table-striped mb-4">
-                                            <thead>
-                                                <tr>
-                                                    @foreach (string name in TableHeaderDocument)
-                                                    {
-                                    <th class="text-center">@name</th>
-}
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (CurrentMemberDocList.Count == 0)
-                                                {
-                                            <tr><td colspan="@TableHeaderDocument.Count" class="text-center">មិនទាន់មានឯកសារ</td></tr> }
-                                                            else
-                                                            {
-                                            @foreach (ClaimFamilyMemberDocumentModel doc in CurrentMemberDocList)
+                        </div>
+
+
+                        <!-- Modal -->
+                        <Modal @ref="ModalClaimDocument">
+                            <Title>
+                                <h5 class="modal-title" id="exampleModalLabel">ឯកសារសោធនិក</h5>
+                            </Title>
+                            <Body>
+                                <div class="form-row mb-2">
+                                    <div class="form-group col-md-4">
+                                        <Label IsRequire="true" Text="ប្រភេទលិខិត" for="doctype" />
+                                        <select id="doctype" class="form-control" @bind="CurrentDocment.DocID">
+                                            @foreach (DocumentModel doc in Documents)
                                             {
-                                            <tr>
-                                                <td class="text-center">@(CurrentMemberDocList.IndexOf(doc) + 1)</td>
-                                                <td>@doc.DocName</td>
-                                                <td>@doc.DocCode</td>
-                                                <td>@doc.DocDateString</td>
-                                                <td>@doc.DocBy</td>
-                                                <td>@doc.DocAt</td>
-                                                <td class="text-center">
-                                                    <span id="edit-mem-doc" @onclick="()=> OnEditMemberDocument(CurrentMemberDocList.IndexOf(doc))">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
-                                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                                        </svg>
-                                                    </span>
-
-                                                    <span id="remove-mem-doc" @onclick="()=>OnRemoveMemberDoc(CurrentMemberDocList.IndexOf(doc))">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
-                                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                                                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                                                        </svg>
-                                                    </span>
-                                                </td>
-                                            </tr>}}
-                                            </tbody>
-                                        </table>
+                            <option value="@doc.DocID">@doc.DocName</option>}
+                                        </select>
                                     </div>
-                                </div>
-                            </div>
-                        </Body>
-                        <Footer>
-                            <button class="btn btn-danger" @onclick="()=> ModalMember.Close()">បោះបង់</button>
-                            <button type="button" class="btn btn-info" @onclick="OnAddMember">
-                                @(MemberSelectedIndex == -1 ? "បន្ថែម" : "កែប្រែ")
-                            </button>
-                        </Footer>
-                    </Modal>
-
-
-                    <!-- Modal -->
-                    <Modal @ref="ModalMemberDoc">
-                        <Title>
-                            <h5 class="modal-title">ឯកសារអ្នកពាក់ព័ន្ធ</h5>
-                        </Title>
-                        <Body>
-                            <div class="form-row mb-2">
-                                <div class="form-group col-md-4">
-                                    <Label IsRequire="true" Text="ប្រភេទលិខិត" for="memdoctype" />
-                                    <select id="memdoctype" class="form-control" @bind="CurrentMemberDoc.DocID">
-                                        @foreach (DocumentModel doc in Documents)
-                                        {
-                        <option value="@doc.DocID">@doc.DocName</option>
-}
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="memdoccode">លេខលិខិត</label>
-                                    <input type="text" class="form-control" id="memdoccode" @bind="CurrentMemberDoc.DocCode" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំចុះលិខិត" for="memdocdate" />
-                                    <input type="text" class="form-control masked-date datepicker" id="memdocdate" @bind="CurrentMemberDoc.DocDateString">
-                                </div>
-                            </div>
-
-                            <div class="form-row mb-2">
-                                <div class="form-group col-md-4">
-                                    <label for="memdocby">ចេញលិខិតដោយ</label>
-                                    <input type="text" class="form-control" id="memdocby" @bind="CurrentMemberDoc.DocBy" />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="memdocat">ចេញលិខិតនៅ</label>
-                                    <input type="text" class="form-control" id="memdocat" @bind="CurrentMemberDoc.DocAt" />
-                                </div>
-                            </div>
-                        </Body>
-                        <Footer>
-                            <button class="btn btn-danger" @onclick="() => ModalMemberDoc.Close()">បោះបង់</button>
-                            <button type="button" class="btn btn-info" @onclick="OnAddMemberDocument">
-                                @(MemberDocumentSelectedIndex == -1 ? "បន្ថែម" : "កែប្រែ")
-                            </button>
-                        </Footer>
-                    </Modal>
-
-
-
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped mb-4">
-                            <thead>
-                                <tr>
-                                    @foreach (string name in TableHeaderMember)
-                                    {
-                        <th class="text-center">@name</th>
-}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (MemberList.Count == 0)
-                                {
-                    <tr><td colspan="@TableHeaderMember.Count" class="text-center">មិនទាន់មានអ្នកពាក់ព័ន្ធ</td></tr>
- }
-                else
-                {
-    @foreach (ClaimFamilyMemberModel mem in MemberList)
-    {
-                            <tr>
-                                <td class="text-center" style="min-width: 50px">@(MemberList.IndexOf(mem) + 1)</td>
-                                <td style="min-width: 175px">
-                                    <div class="form-row align-middle">
-                                        @if (mem.Documents.Count > 0)
-                                        {
-                                    <span class="bs-tooltip" title=@(string.Join("\n", mem.Documents.Select(s=> s.DocName))))>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
-                                            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
-                                        </svg>
-                                    </span>}
-                                        <div class="col">
-                                            <p class="cell-text">@(mem.FirstNameKh + " " + mem.LastNameKh)</p>
-                                            <p class="cell-subtext">@(mem.FirstNameLatin + " " + mem.LastNameLatin)</p>
+                                    <div class="form-group col-md-4">
+                                        <label for="doccode">លេខលិខិត</label>
+                                        <input type="text" class="form-control" id="doccode" @bind="CurrentDocment.DocCode" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំចុះលិខិត" for="docdate" />
+                                        <div class="input-group">
+                                            <input type="text" class="form-control datepicker" id="docdate" @bind="CurrentDocment.DocDate" @bind:format="dd-MM-yyyy">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                </td>
-                                <td>@(mem.GenId == "1" ? "ប្រុស" : "ស្រី")</td>
-                                <td>@mem.DobString</td>
-                                <td class="text-center">@mem.Relationship</td>
-                                <td class="text-center">
-                                    <div class="col">
-                                        <p class="cell-text">@mem.Nationality</p>
-                                        <p class="cell-subtext">@mem.IdNumber</p>
+                                <div class="form-row mb-2">
+                                    <div class="form-group col-md-4">
+                                        <label for="docby">ចេញលិខិតដោយ</label>
+                                        <input type="text" class="form-control" id="docby" @bind="CurrentDocment.DocBy" />
                                     </div>
-                                </td>
-                                <td>@mem.Phone</td>
-                                <td class="text-center">
-                                    <span id="edit-mem" @onclick="()=> OnEditMember(MemberList.IndexOf(mem))">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                        </svg>
-                                    </span>
+                                    <div class="form-group col-md-4">
+                                        <label for="docby">ចេញលិខិតនៅ</label>
+                                        <input type="text" class="form-control" id="docat" @bind="CurrentDocment.DocAt" />
+                                    </div>
+                                </div>
+                            </Body>
+                            <Footer>
+                                <button class="btn btn-dark" @onclick="() => ModalClaimDocument.Close()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    បោះបង់
+                                </button>
+                                <button type="button" class="btn btn-info" @onclick="OnAddClaimDocument">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    @(ClaimDocumentSelectedIndex == -1 ? "បន្ថែម" : "កែប្រែ")
+                                </button>
+                            </Footer>
+                        </Modal>
 
-                                    <span id="remove-mem">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                                        </svg>
-                                    </span>
-                                </td>
-                            </tr>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        @foreach (string name in TableHeaderDocument)
+                                        {
+                            <th class="text-center">@name</th>}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Claim.Documents.Count == 0)
+                                    {
+                        <tr><td colspan=@TableHeaderDocument.Count class="text-center">មិនទាន់មានឯកសារ</td></tr>
+ }
+                    else
+                    {
+        @foreach (ClaimDocumentModel doc in Claim.Documents)
+        {
+<tr>
+    <td class="text-center">@(Claim.Documents.IndexOf(doc) + 1)</td>
+    <td>@(Documents.Where(w => w.DocID == doc.DocID).FirstOrDefault().DocName)</td>
+    <td>@doc.DocCode</td>
+    <td>@doc.DocDateString</td>
+    <td>@doc.DocBy</td>
+    <td>@doc.DocAt</td>
+    <td class="text-center">
+        <span id="edit-doc" @onclick="()=> OnEditClaimDocument(Claim.Documents.IndexOf(doc))">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+        </span>
+
+        <span id="remove-doc" @onclick="()=> OnRemoveClaimDocument(Claim.Documents.IndexOf(doc))">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+        </span>
+    </td>
+</tr>
 }}
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </div>
 
 
-                    <MessageBox @ref="MessageBox" OnConfirmation="@((e) => OnMessageBoxConfirmation(e.Item1, e.Item2))" />
+                @*FAMILY OF PENSIONER*@
+                <div class="layout-top-spacing">
+                    <div class="widget-content widget-content-area">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <h4 class="">
+                                    អ្នកពាក់ព័ន្ធសោធនិក
+                                </h4>
+                            </div>
+                            <button type="button" class="btn btn-outline-info" @onclick="() => OnNewMemberModal()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill mr-1" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                                </svg>
+                                បន្ថែម
+                            </button>
+                        </div>
+
+
+
+                        @*FAMILY MODAL*@
+                        <Modal @ref="ModalMember" Id="ModalMember" Size="xl" CenterScreen="false">
+                            <Title>
+                                <h5 class="modal-title">អ្នកពាក់ព័ន្ធសោធនិក</h5>
+                            </Title>
+                            <Body>
+                                <ul class="nav nav-tabs  mb-3 mt-3" id="simpletab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">ប្រវត្តិរូប</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="document-tab" data-toggle="tab" href="#document" role="tab" aria-controls="document" aria-selected="false">ឯកសារ</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="simpletabContent">
+                                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="form-row mb-2">
+                                            <div class="form-group col-md-2">
+                                                <Label IsRequire="true" for="memfnamekh" Text="គោត្តនាម" />
+                                                <input type="text" class="form-control" id="memfnamekh" @bind="CurrentMember.FirstNameKh" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <Label IsRequire="true" for="memlnamekh" Text="នាម" />
+                                                <input type="text" class="form-control" id="memlnamekh" @bind="CurrentMember.LastNameKh" />
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <Label IsRequire="true" for="memfnameen" Text="គោត្តនាម (ឡាតាំង)" />
+                                                <input type="text" class="form-control" id="memfnameen" @bind="CurrentMember.FirstNameLatin" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <Label IsRequire="true" for="memlnameen" Text="នាម (ឡាតាំង)" />
+                                                <input type="text" class="form-control" id="memlnameen" @bind="CurrentMember.LastNameLatin" />
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="form-group col-md-2">
+                                                <Label IsRequire="true" for="memsex" Text="ភេទ" />
+                                                <select id="memsex" class="form-control" @bind="CurrentMember.GenId">
+                                                    @foreach (GenderModel gen in Genders)
+                                                    {
+                                    <option value="@gen.GenID">@gen.GenName</option>
+}
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <Label IsRequire="true" Text=@("ថ្ងៃខែឆ្នាំកំណើត") for="memdob" />
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control datepicker" id="memdob" @bind="CurrentMember.Dob" @bind:format="dd-MM-yyyy">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <Label IsRequire="true" for="memnat" Text="សញ្ជាតិ" />
+                                                <select id="memnat" class="form-control select2" @bind="CurrentMember.NationalId">
+                                                    @foreach (NationalityModel nat in Nationalities)
+                                                    {
+                                    <option value="@nat.NatID">@nat.NatNameKh</option>
+}
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <Label IsRequire="true" for="memidcard" Text="អត្ត.ប័ណ្ណ/លិខិតឆ្លងដែន" />
+                                                <input type="text" class="form-control" id="memidcard" @bind="CurrentMember.IdNumber">
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-2">
+                                            <div class="form-group col-md-2">
+                                                <Label IsRequire="true" for="memrel" Text="ត្រូវជា" />
+                                                <select id="memrel" class="form-control" @bind="CurrentMember.RelId">
+                                                    @foreach (RelationshipModel rel in Relationships)
+                                                    {
+                                    <option value="@rel.RelId">@rel.RelDesc</option>
+}
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <Label Text=@("លេខទូរស័ព្ទ") for="memphone" />
+                                                <input type="text" class="form-control masked-phone" id="memphone" @bind="CurrentMember.Phone" />
+                                            </div>
+                                            <div class="n-chk col-md-2">
+                                                <label class="new-control new-checkbox checkbox-info">
+                                                    <input type="checkbox" class="new-control-input" @bind="CurrentMember.IsRepresenter">
+                                                    <span class="new-control-indicator"></span>@("អ្នកតំណាង" + CurrentMember.IsRepresenter)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
+                                        <div class="table-responsive">
+                                            <div class="text-right mb-1">
+                                                <button type="button" class="btn btn-outline-info" @onclick="()=> OnNewMemberDocumentModal()">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-plus-circle-fill mr-1" viewBox="0 0 16 16">
+                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                                                    </svg>
+                                                    បន្ថែម
+                                                </button>
+                                            </div>
+
+                                            <table class="table table-bordered mb-4">
+                                                <thead>
+                                                    <tr>
+                                                        @foreach (string name in TableHeaderDocument)
+                                                        {
+                                        <th class="text-center">@name</th>
+}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (CurrentMember.Documents.Count == 0)
+                                                    {
+                                    <tr><td colspan="@TableHeaderDocument.Count" class="text-center">មិនទាន់មានឯកសារ</td></tr> }
+                                                    else
+                                                    {
+                                    @foreach (ClaimFamilyMemberDocumentModel doc in CurrentMember.Documents)
+                                    {
+                <tr>
+                    <td class="text-center">@(CurrentMember.Documents.IndexOf(doc) + 1)</td>
+                    <td>@doc.DocName</td>
+                    <td>@doc.DocCode</td>
+                    <td>@doc.DocDateString</td>
+                    <td>@doc.DocBy</td>
+                    <td>@doc.DocAt</td>
+                    <td class="text-center">
+                        <span id="edit-mem-doc" @onclick="()=> OnEditMemberDocument(CurrentMember.Documents.IndexOf(doc))">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                        </span>
+
+                        <span id="remove-mem-doc" @onclick="()=>OnRemoveMemberDoc(CurrentMember.Documents.IndexOf(doc))">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </span>
+                    </td>
+                </tr>}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Body>
+                            <Footer>
+                                <button class="btn btn-dark" @onclick="()=> ModalMember.Close()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    បោះបង់
+                                </button>
+                                <button type="button" class="btn btn-info" @onclick="OnAddMember">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    @(MemberSelectedIndex == -1 ? "បន្ថែម" : "កែប្រែ")
+                                </button>
+                            </Footer>
+                        </Modal>
+
+
+                        <!-- Modal -->
+                        <Modal @ref="ModalMemberDoc">
+                            <Title>
+                                <h5 class="modal-title">ឯកសារអ្នកពាក់ព័ន្ធ</h5>
+                            </Title>
+                            <Body>
+                                <div class="form-row mb-2">
+                                    <div class="form-group col-md-4">
+                                        <Label IsRequire="true" Text="ប្រភេទលិខិត" for="memdoctype" />
+                                        <select id="memdoctype" class="form-control" @bind="CurrentMemberDoc.DocID">
+                                            @foreach (DocumentModel doc in Documents)
+                                            {
+                            <option value="@doc.DocID">@doc.DocName</option>
+}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="memdoccode">លេខលិខិត</label>
+                                        <input type="text" class="form-control" id="memdoccode" @bind="CurrentMemberDoc.DocCode" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំចុះលិខិត" for="memdocdate" />
+                                        <div class="input-group">
+                                            <input type="text" class="form-control datepicker" id="memdocdate" @bind="CurrentMemberDoc.DocDate" @bind:format="dd-MM-yyyy">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row mb-2">
+                                    <div class="form-group col-md-4">
+                                        <label for="memdocby">ចេញលិខិតដោយ</label>
+                                        <input type="text" class="form-control" id="memdocby" @bind="CurrentMemberDoc.DocBy" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="memdocat">ចេញលិខិតនៅ</label>
+                                        <input type="text" class="form-control" id="memdocat" @bind="CurrentMemberDoc.DocAt" />
+                                    </div>
+                                </div>
+                            </Body>
+                            <Footer>
+                                <button class="btn btn-dark" @onclick="() => ModalMemberDoc.Close()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                    បោះបង់
+                                </button>
+                                <button type="button" class="btn btn-info" @onclick="OnAddMemberDocument">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    @(MemberDocumentSelectedIndex == -1 ? "បន្ថែម" : "កែប្រែ")
+                                </button>
+                            </Footer>
+                        </Modal>
+
+
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        @foreach (string name in TableHeaderMember)
+                                        {
+                            <th class="text-center">@name</th>}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Claim.Members.Count == 0)
+                                    {
+                                <tr><td colspan="@TableHeaderMember.Count" class="text-center">មិនទាន់មានអ្នកពាក់ព័ន្ធ</td></tr>
+ }
+                            else
+                            {
+                                @foreach (ClaimFamilyMemberModel mem in Claim.Members)
+                                {
+                                <tr>
+                                    <td class="text-center" style="min-width: 50px">@(Claim.Members.IndexOf(mem) + 1)</td>
+                                    <td style="min-width: 175px">
+                                        <div class="form-row align-middle">
+                                            @if (mem.Documents.Count > 0)
+                                            {
+
+                                        <span class="bs-tooltip" title=@(string.Join("\n", mem.Documents.Select(s => s.DocName)))>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+                                                                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                                                                </svg> 
+                                            </span>
+                                            }
+
+                                            <div class="col">
+                                                <p class="cell-text">@(mem.FirstNameKh + " " + mem.LastNameKh)</p>
+                                                <p class="cell-subtext">@(mem.FirstNameLatin + " " + mem.LastNameLatin)</p>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td>@(mem.GenId == "1" ? "ប្រុស" : "ស្រី")</td>
+                                    <td>@mem.DobString</td>
+                                    <td class="text-center">@mem.Relationship</td>
+                                    <td class="text-center">
+                                        <div class="col">
+                                            <p class="cell-text">@mem.Nationality</p>
+                                            <p class="cell-subtext">@mem.IdNumber</p>
+                                        </div>
+                                    </td>
+                                    <td>@mem.Phone</td>
+                                    <td class="text-center">
+                                        <span id="edit-mem" @onclick="()=> OnEditMember(Claim.Members.IndexOf(mem))">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                        </span>
+
+                                        <span id="remove-mem">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x t-icon t-hover-icon">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>
+                                        </span>
+                                    </td>
+                                </tr>
+}}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <MessageBox @ref="MessageBox" OnConfirmation="@((e) => OnMessageBoxConfirmation(e.Item1, e.Item2))" />
+                    </div>
                 </div>
             </div>
-
-        </div>
-
-
-
-
-        @*ADDRESS AND CONTACT OF PENSIONER*@
-        <div class="col-lg-4 layout-top-spacing">
-            <div class="widget-content widget-content-area">
-                <div class="widget-title">
-                    <h4>អាសយដ្ឋាន</h4>
+            <div class="col col-lg-4">
+                @*BANK OF PENSIONER*@
+                <div class="layout-top-spacing">
+                    <div class="widget-content-area">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                <h4>គណនីធនាគារ</h4>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12">
+                                <Label for="benbank" Text="ធនាគារ" IsRequire="true" />
+                                <select id="benbank" class="form-control" @bind="Claim.BankId">
+                                    @foreach (BankModel bank in Banks)
+                                    {
+                        <option value="@bank.BankId">@bank.BankNameKh</option>}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <Label for="bankaccount" IsRequire="true" Text="លេខគណនី" />
+                                <input type="text" class="form-control" id="bankaccount" @bind="Claim.BankAccount">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-row mb-2">
-                    <div class="form-group col-md-12">
-                        <Label IsRequire="true" Text="រាជធានី/ខេត្ត" for="province" />
-                        <select id="province" class="form-control select2">
-                            @foreach (var pro in Provinces)
-                            {
-                <option value="@pro.ProID">@pro.ProType@pro.ProNameKhmer</option>
+                @*ADDRESS AND CONTACT OF PENSIONER*@
+                <div class="layout-top-spacing">
+                    <div class="widget-content widget-content-area">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                <h4>អាសយដ្ឋាន</h4>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12">
+                                <Label IsRequire="true" Text="រាជធានី/ខេត្ត" for="province" />
+                                <select id="province" class="form-control" @bind="Claim.ProId">
+                                    @foreach (var pro in Provinces)
+                                    {
+                        <option value="@pro.ProID">@pro.ProType@pro.ProNameKhmer</option>
 }
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row mb-2">
-                    <div class="form-group col-md-12">
-                        <Label IsRequire="true" Text="ខណ្ឌ/ក្រុង/ស្រុក" for="district" />
-                        <select id="district" class="form-control select2">
-                            @foreach (var dis in Districts)
-                            {
-                <option value="@dis.DisID">@(dis.DisType + (dis.DisID > -1 ? dis.DisNameKhmer : ""))</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12">
+                                <Label IsRequire="true" Text="ខណ្ឌ/ក្រុង/ស្រុក" for="district" />
+                                <select id="district" class="form-control" @bind="Claim.DisId">
+                                    @foreach (var dis in Districts)
+                                    {
+                        <option value="@dis.DisID">@(dis.DisType + (dis.DisID > -1 ? dis.DisNameKhmer : ""))</option>
 }
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row mb-2">
-                    <div class="form-group col-md-12">
-                        <Label IsRequire="true" Text="ឃុំ/សង្កាត់" for="commune" />
-                        <select id="commune" class="form-control select2">
-                            @foreach (var com in Communes)
-                            {
-                <option value="@com.ComId">@(com.ComType + (com.ComId > -1 ? com.ComNameKhmer : ""))</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-12">
+                                <Label IsRequire="true" Text="ឃុំ/សង្កាត់" for="commune" />
+                                <select id="commune" class="form-control" @bind="Claim.ComId">
+                                    @foreach (var com in Communes)
+                                    {
+                        <option value="@com.ComId">@(com.ComType + (com.ComId > -1 ? com.ComNameKhmer : ""))</option>
 }
-                        </select>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col-md-4">
+                                <label for="village">ភូមិ</label>
+                                <input type="text" class="form-control" id="village" @bind="Claim.Village">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="street">ផ្លូវ</label>
+                                <input type="text" class="form-control" id="street" @bind="Claim.Street">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="home">ផ្ទះលេខ</label>
+                                <input type="text" class="form-control" id="home" @bind="Claim.Home" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <Label IsRequire="true" Text="លេខទូរស័ព្ទទី១" for="phone1" />
+                                <input type="text" class="form-control masked-phone" id="phone1" @bind="Claim.Phone1">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <Label Text="លេខទូរស័ព្ទទី២" for="phone2" />
+                                <input type="text" class="form-control masked-phone" id="phone2" @bind="Claim.Phone2">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row mb-2">
-                    <div class="form-group col-md-4">
-                        <label for="village">ភូមិ</label>
-                        <input type="text" class="form-control" id="village">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="street">ផ្លូវ</label>
-                        <input type="text" class="form-control" id="street">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="home">ផ្ទះលេខ</label>
-                        <input type="text" class="form-control" id="home" />
-                    </div>
-                </div>
-                <div class="form-row mb-2">
-                    <div class="form-group col-md-6">
-                        <Label IsRequire="true" Text="លេខទូរស័ព្ទទី១" for="phone1" />
-                        <input type="text" class="form-control masked-phone" id="phone1">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <Label Text="លេខទូរស័ព្ទទី២" for="phone2" />
-                        <input type="text" class="form-control masked-phone" id="phone2">
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
+
+
+
+
+
 </div>
+
+@*@if (this.AllowEdit)
+{*@
+    <div class="fix-footer">
+        <div class="fix-footer-container">
+            <button id="multiple-reset" class="btn btn-dark mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                បន្ថែមថ្មី
+            </button>
+            <button id="multiple-reset" disabled="@IsBusy" class="btn btn-info" @onclick="OnSave">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                @(string.IsNullOrEmpty(this.GUID) ? " រក្សាទុក" : " Update" )
+            </button>
+        </div>
+    </div>
+    //}
+

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using NSSFPensionSystem.Setting;
 using NSSFPensionSystem.Services;
 using NSSFPensionSystem.Services.Impl;
+using Blazored.LocalStorage;
 
 namespace NSSFPensionSystem
 {
@@ -19,6 +20,8 @@ namespace NSSFPensionSystem
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
+            builder.Services.AddBlazoredLocalStorage();
+            //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddScoped(sp => new HttpClient
             {
@@ -26,9 +29,24 @@ namespace NSSFPensionSystem
                 Timeout = new TimeSpan(0, 0, 500)
             });
 
+            builder.Services.AddOidcAuthentication(options =>
+            {
+                builder.Configuration.Bind("oidc", options.ProviderOptions);
+            });
+
             builder.Services.AddScoped<ApiService>();
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<IConstantValueService, ConstantValueService>();
+            builder.Services.AddScoped<IClaimService, ClaimService>();
+
+
+
+            //builder.Services.AddOidcAuthentication(options =>
+            //{
+            //    // Configure your authentication provider options here.
+            //    // For more information, see https://aka.ms/blazor-standalone-auth
+            //    builder.Configuration.Bind("Local", options.ProviderOptions);
+            //});
 
             await builder.Build().RunAsync();
         }

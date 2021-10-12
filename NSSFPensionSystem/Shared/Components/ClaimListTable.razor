@@ -1,0 +1,143 @@
+﻿
+<div class="table-responsive mb-4">
+    <table class="table table-hover">
+        <thead>
+            <tr role="row">
+                <th class="checkbox-column">
+                    <div class="custom-control custom-checkbox checkbox-primary">
+                        <input type="checkbox" class="custom-control-input todochkbox" id="todoAll">
+                        <label class="custom-control-label" for="todoAll"></label>
+                    </div>
+                </th>
+                @foreach (string header in TableHeader)
+                {
+                    <th class="sorting" tabindex="0" aria-controls="multi-column-ordering">@header</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (ClaimList.Where(w => w.StatusId == StatusId || StatusId == 0).Count() == 0)
+            {
+                <tr>
+                    <td colspan=@TableHeader.Count class="text-center">មិនមានទិន្នន័យត្រូវបង្ហាញ</td>
+                </tr>
+            }
+            @for(int i = 0; i < ClaimList.Where(w=> w.StatusId == StatusId || StatusId == 0).Count(); i++)
+            {
+                ClaimModel c = ClaimList.Where(w => w.StatusId == StatusId || StatusId == 0).ToList()[i];
+        <tr>
+            <td class="checkbox-column" style="max-width: 50px">
+                <div class="custom-control custom-checkbox checkbox-info">
+                    <input type="checkbox" class="custom-control-input todochkbox" id="@("id" + c.ClaId)">
+                    <label class="custom-control-label" for="@("id" + c.ClaId)"></label>
+                </div>
+            </td>
+            <td class="text-center" style="max-width: 50px">@(i + 1)</td>
+            <td>
+                <button class="btn btn-outline-info btn-sm mb-4" @onclick="()=> OnEditClick(ClaimList.IndexOf(c))">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+            </td>
+            <td>
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                    <p class="cell-text">@c.ClaCode</p>
+                    <p class="cell-subtext">
+                        @(c.ClaDate.HasValue ? c.ClaDate.Value.ToString("dd-MM-yyyy") : "")
+                    </p>
+                </div>
+
+            </td>
+            <td class="text-center">@(c.Pensioner.BenNote + "-" + c.Pensioner.BenId + "-" + c.Pensioner.BenChar)</td>
+            <td>
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                    <p class="cell-text">@c.Pensioner.FullnameKh</p>
+                    <p class="cell-subtext">@c.Pensioner.FullnameEn</p>
+                </div>
+
+            </td>
+            <td class="text-center" style="max-width: 50px">@(c.Pensioner.BenSexId== "1" ? "ប្រុស" : "ស្រី")</td>
+            <td class="text-center">@(c.Pensioner.BenDob.HasValue ? c.Pensioner.BenDob.Value.ToString("dd-MM-yyyy") : "")</td>
+
+            <td class="text-center">@(PensionTypes.Where(w=> w.TypeId == c.PsTypeId).Select(s=> s.TypeNameKh).FirstOrDefault())</td>
+            <td class="text-center">
+                <p style="padding: 4px; color: @GetColorForClaimStatus(c.StatusId); border: dashed 1px @GetColorForClaimStatus(c.StatusId); border-radius:4px">
+                    @(ClaimStatuses.Where(w=> w.StaId == c.StatusId).Select(s=> s.StaName).FirstOrDefault())
+                </p>
+            </td>
+        </tr>
+            }
+
+
+        </tbody>
+        @*<tfoot>
+                <tr>
+                    <td class="checkbox-column">
+                        <div class="custom-control custom-checkbox checkbox-primary">
+                            <input type="checkbox" class="custom-control-input todochkbox" id="todo-1">
+                            <label class="custom-control-label" for="todo-1"></label>
+                        </div>
+                    </td>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                    <th></th>
+                </tr>
+            </tfoot>*@
+    </table>
+</div>
+
+
+
+            @code {
+
+                [Parameter]
+                public List<PensionTypeModel> PensionTypes { get; set; }
+
+                [Parameter]
+                public List<ClaimStatusModel> ClaimStatuses { get; set; }
+
+
+                [Parameter]
+                public List<String> TableHeader { get; set; }
+
+                [Parameter]
+                public List<ClaimModel> ClaimList { get; set; }
+
+                [Parameter]
+                public int StatusId { get; set; }
+
+
+                [Parameter]
+                public EventCallback<int> OnEdit { get; set; }
+
+                public void OnEditClick(int index)
+                {
+                    OnEdit.InvokeAsync(index);
+                }
+
+                public string GetColorForClaimStatus(int id)
+                {
+                    string result = "var(--info)";
+
+                    switch (id)
+                    {
+                        case 1: result = "var(--info)"; break;
+                        case 2: result = "var(--warning)"; break;
+                        case 3:
+                        case 5:
+                        case 7:
+                        case 9:
+                            result = "var(--success)"; break;
+                        case 4:
+                        case 6:
+                        case 8:
+                        case 10:
+                            result = "var(--danger)"; break;
+                    }
+
+                    return result;
+                }
+            }
