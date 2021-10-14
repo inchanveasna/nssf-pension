@@ -27,7 +27,7 @@ namespace NSSFPensionSystem.Controllers
 
         #region PROPERTIES
         private DotNetObjectReference<ClaimListBase> objRef;
-        public List<String> TableHeader = new List<string>() { "ល.រ", "សកម្មភាព", "លេខទាមទារ", "អត្ត. ប.ស.ស.", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ប្រភេទសោធន", "ស្ថានភាព"};
+        public List<String> TableHeader = new List<string>() { "ល.រ", "លេខទាមទារ", "អត្ត. ប.ស.ស.", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ប្រភេទសោធន", "ស្ថានភាព", "សកម្មភាព" };
         public List<ClaimModel> ClaimList = new List<ClaimModel>();
         public List<PensionTypeModel> PensionTypes = new List<PensionTypeModel>();
         public List<ClaimStatusModel> ClaimStatuses = new List<ClaimStatusModel>();
@@ -44,7 +44,8 @@ namespace NSSFPensionSystem.Controllers
             this.PensionTypes = await ConstantValue.GetPensionTypes();
             this.ClaimStatuses = await ConstantValue.GetClaimStatus();
 
-            ClaimStatuses.Insert(0, new ClaimStatusModel() { StaId = 0, StaName = "ទាំងអស់", StaDescription = "ទាំងអស់" });
+            PensionTypes.Insert(0, new PensionTypeModel() { TypeId = 0, TypeNameKh = "--ប្រភេទសោធន--" });
+            ClaimStatuses.Insert(0, new ClaimStatusModel() { StaId = 0, StaName = "", StaDescription = "--ស្ថានភាព--" });
         }
 
 

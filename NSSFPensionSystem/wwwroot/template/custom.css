@@ -83,7 +83,6 @@
     }
 
 
-
 .fix-footer {
     position: fixed;
     bottom: 0;
@@ -348,6 +347,29 @@ thead {
 
 
 
+.btn-danger {
+    background-color: var(--danger);
+    border-color: var(--danger);
+    box-shadow: 0 10px 20px -10px var(--danger);
+}
 
+.btn-success {
+    background-color: var(--success);
+    border-color: var(--success);
+    box-shadow: 0 10px 20px -10px var(--success);
+}
+
+
+.btn-warning {
+    background-color: var(--warning);
+    border-color: var(--warning);
+    box-shadow: 0 10px 20px -10px var(--warning);
+}
+
+.btn-info {
+    background-color: var(--info);
+    border-color: var(--info);
+    box-shadow: 0 10px 20px -10px var(--info);
+}
 
 

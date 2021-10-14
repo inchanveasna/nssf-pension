@@ -1802,11 +1802,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\INCHANVEASNA\\Desktop\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj",
+      "projectUniqueName": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj",
       "projectName": "NSSFPensionSystem",
-      "projectPath": "C:\\Users\\INCHANVEASNA\\Desktop\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj",
+      "projectPath": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\NSSFPensionSystem.csproj",
       "packagesPath": "C:\\Users\\INCHANVEASNA\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\INCHANVEASNA\\Desktop\\NSSFPensionSystem\\NSSFPensionSystem\\obj\\",
+      "outputPath": "E:\\Development\\NSSFPensionSystem\\NSSFPensionSystem\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\INCHANVEASNA\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1885,7 +1885,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
