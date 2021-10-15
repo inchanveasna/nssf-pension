@@ -32,12 +32,19 @@ namespace NSSFPensionSystem.Controllers
         public List<PensionTypeModel> PensionTypes = new List<PensionTypeModel>();
         public List<ClaimStatusModel> ClaimStatuses = new List<ClaimStatusModel>();
         public PaginationModel Paginate = new PaginationModel();
+
+
+        protected string SearchClaimCode { get; set; } = "";
+        protected string SearchBenId { get; set; } = "";
+        protected string SearchBenName { get; set; } = "";
+        protected int SearchPensionType { get; set; } = 0;
+        protected int SearchStatus { get; set; } = 0;
         #endregion
 
 
         protected override async Task OnInitializedAsync()
         {
-            var result = await ClaimService.GetClaimList(Paginate);
+            var result = await ClaimService.GetClaimList(Paginate, SearchClaimCode, SearchBenId, SearchBenName, SearchPensionType, SearchStatus);
             this.ClaimList = result.Item1;
             this.Paginate = result.Item2;
             
@@ -55,7 +62,7 @@ namespace NSSFPensionSystem.Controllers
             if (firstRender)
             {
                 objRef = DotNetObjectReference.Create(this);
-                await Runtime.InvokeAsync<object>("CheckAllClaim", objRef);
+                await Runtime.InvokeAsync<object>("ClaimJS", objRef);
                 StateHasChanged();
             }
         }
@@ -65,18 +72,35 @@ namespace NSSFPensionSystem.Controllers
             this.NavigationManager.NavigateTo("claim");
         }
 
+        protected void OnSearchClick(EventArgs e)
+        {
+            this.FetchData();
+        }
+
         public void OnEdit(int index)
         {
             string guid = this.ClaimList[index].GUID;
             this.NavigationManager.NavigateTo("claim/" + guid);
         }
 
-        public async void OnPageChanged(PaginationModel paginate)
+        public void OnApproval(int statusID)
         {
-            var result = await ClaimService.GetClaimList(this.Paginate);
+
+        }
+
+        private async void FetchData()
+        {
+            this.SearchClaimCode = await Runtime.InvokeAsync<string>("GetMaskCode", "claimcode");
+
+            var result = await ClaimService.GetClaimList(Paginate, SearchClaimCode, SearchBenId, SearchBenName, SearchPensionType, SearchStatus);
             this.ClaimList = result.Item1;
             this.Paginate = result.Item2;
             StateHasChanged();
+        }
+
+        public async void OnPageChanged(PaginationModel paginate)
+        {
+            this.FetchData();
         }
         
     }

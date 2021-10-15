@@ -10,6 +10,7 @@ using System.Text;
 using System.Net.Http.Json;
 using Newtonsoft.Json;
 using AKSoftware.WebApi.Client;
+using System.Net;
 
 namespace NSSFPensionSystem.Services.Impl
 {
@@ -56,9 +57,14 @@ namespace NSSFPensionSystem.Services.Impl
         }
 
 
-        public async Task<Tuple<List<ClaimModel>, PaginationModel>> GetClaimList(PaginationModel page)
+        public async Task<Tuple<List<ClaimModel>, PaginationModel>> GetClaimList(PaginationModel page, string code, string benId, string benName, int psTypeId, int statusId)
         {
-            var res = await Client.GetAsync<ResponseModel>(string.Format(APIEndpoint.BaseUrl + "claim/claimlist?size={0}&page={1}", page.Size, page.Page));
+            string apiURL = string.Format(APIEndpoint.BaseUrl + "claim/claimlist?size={0}&page={1}&pstype={2}&status={3}", page.Size, page.Page, psTypeId, statusId);
+            apiURL += code.Trim() == "" ? "" : "&code=" + WebUtility.UrlEncode(code);
+            apiURL += benId.Trim() == "" ? "" : "&benid=" + WebUtility.UrlEncode(benId);
+            apiURL += benName.Trim() == "" ? "" : "&benname=" + WebUtility.UrlEncode(benName);
+
+            var res = await Client.GetAsync<ResponseModel>(apiURL);
             if (!res.IsSucceded) throw new Exception(res.Result.Msg);
             else if (res.Result.Error) throw new Exception(res.Result.Msg);
             else if (res.Result.Data == null) throw new Exception(res.Result.Msg);
@@ -88,6 +94,15 @@ namespace NSSFPensionSystem.Services.Impl
             //    return JsonConvert.DeserializeObject<List<ClaimModel>>(responseData.Data.ToString());
             //}
         }
+
+
+        public async Task<bool> SetClaimApproval(int statusId)
+        {
+            
+
+            return true;
+        }
+
 
 
         public async Task<ClaimModel> GetClaim(string id)

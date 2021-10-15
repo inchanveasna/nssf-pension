@@ -9,7 +9,7 @@
   "linkerEnabled": false,
   "resources": {
     "assembly": {
-      "NSSFPensionSystem.dll": "sha256-cU54RkJWCdY9nxAk+u9su0HVAEWt60l+4X\/PanRU3Ic=",
+      "NSSFPensionSystem.dll": "sha256-zYd7QjUwuqJqRhhbzReAc6eVlv3APZdtTSsQUyro0i4=",
       "System.Text.Json.dll": "sha256-HQeN+ZfHAERO+uW0fP0J9J3WV1hQ3vUIOWbqGSYBPp8=",
       "System.Runtime.CompilerServices.Unsafe.dll": "sha256-kL\/omZDwqByAi+lPdMeDmr3XjHcn4RVb+LmZ4mut1Yc=",
       "mscorlib.dll": "sha256-BaZPMj95+YNe3G4ckTGD6szZFwZeA2MOHn91zTGKDeU=",
@@ -52,12 +52,12 @@
       "Microsoft.Extensions.Logging.Abstractions.dll": "sha256-nXCKZ3lsqnepGJm08nR9d17aKVnlGpqQHHexvRCuj6M=",
       "Microsoft.JSInterop.dll": "sha256-htT9hyXFg6CAnViWMo4MM0tqQn7KspCErLDZKrDGhpM=",
       "Blazored.LocalStorage.dll": "sha256-IsYgzKGKLeea1Zt3UPueaHQgT4oL500eIizZFuQY9qQ=",
+      "Microsoft.AspNetCore.Components.Authorization.dll": "sha256-5lY1KL\/pA7kS\/OYycrkrhkXJKFHJHVbdmUTyPYaqDiM=",
+      "Microsoft.AspNetCore.Components.dll": "sha256-xCWT+yJdttcPshhrsg20ryKTmo4J9CwnPKadM4l2tTs=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-wB4WfCZAJe40lF9s6DPasdoVrCZUrqivPm\/iFfGG\/FM=",
       "Microsoft.AspNetCore.Components.Forms.dll": "sha256-qohgx6UXUVGuwzRXAW0wxKFTSND5cctWfzl8+2\/NiWA=",
       "System.ComponentModel.Annotations.dll": "sha256-tmnkCmP9OzLUkpQ3LP7PRosi7gt5pyfEZCM6aqAokFI=",
       "System.ComponentModel.DataAnnotations.dll": "sha256-LIfCYwg+PHltTK4z3EnbSkA7m2cn8JS4jHVthdKrDF8=",
-      "Microsoft.AspNetCore.Components.dll": "sha256-xCWT+yJdttcPshhrsg20ryKTmo4J9CwnPKadM4l2tTs=",
-      "Microsoft.AspNetCore.Components.Authorization.dll": "sha256-5lY1KL\/pA7kS\/OYycrkrhkXJKFHJHVbdmUTyPYaqDiM=",
       "Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll": "sha256-AbWZIV0k4GOA+qT6O3719kiJxV5XbyEXKBWjy7wE8w4=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-FJ+rEgcx6ljTxwbRXZSUGfrDKpVvOxHCSfNxbnXNn3M=",
       "Microsoft.Extensions.DependencyInjection.dll": "sha256-uffETcY3l8U2ggeV5T7MA+TqbPIIXyT1XOWxKAaC7A4=",
@@ -71,7 +71,7 @@
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-czNf3btAeBW\/vvID5LAfgcsNZ+GM3ssVuPaMflcg0rs="
     },
     "pdb": {
-      "NSSFPensionSystem.pdb": "sha256-lAid4kc2sbXRMS31jC\/RbMz4CMlohFz7NkL4GUzieu8="
+      "NSSFPensionSystem.pdb": "sha256-tjsPPqkrKswdVYSyx5xulKAZrgWbkzgq1euw0OjRraQ="
     },
     "runtime": {
       "dotnet.3.2.0.js": "sha256-mPoqx7XczFHBWk3gRNn0hc9ekG1OvkKY4XiKRY5Mj5U=",

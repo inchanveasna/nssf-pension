@@ -53,11 +53,25 @@ function AppInit() {
 
         //    //});
         //}
+
     }
 
 
 
 function ClaimJS(dotNetHelper) {
+
+
+
+
+    //var oTable = $('#tableClaimList').dataTable();
+
+
+
+
+
+
+		 
+
 
     $('#benid').inputmask('9999999', {
         //oncomplete: function () {
@@ -139,6 +153,18 @@ function GetMaskPhoneText(id) {
     return result
 }
 
+function GetMaskCode(id) {
+    var txt = $('#' + id).inputmask('99999/99');
+
+    if (txt.inputmask("isComplete")) {
+        return $('#' + id).val();
+    }
+    else {
+       return $('#' + id).val().replace(/-/g, "").replace(/_/g, "");
+    }
+    
+}
+
 
 function GetMaskDateText(id) {
     var result = $('#' + id).val().split('-');
@@ -146,21 +172,4 @@ function GetMaskDateText(id) {
         return new Date(result[2] + "/" + result[1] + "/" + result[0])
     }
     return null;
-}
-
-
-function CheckAllClaim() {
-    $(document).delegate("#todoAll", "click", function () {
-        $(".todochkbox").each(function (index, value) {
-            if ($("#todoAll").is(":checked")) {
-              /*  $("#todoAll").prop('checked', false);*/
-                $(this).prop('checked', false);
-            }
-            else {
-                /*$("#todoAll").prop('checked', true);*/
-                $(this).prop('checked', true);
-            }
-        });
-        //$(this).addClass("active");
-    });
 }
