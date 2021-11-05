@@ -34,26 +34,11 @@ namespace NSSFPensionSystem.Services.Impl
 
         public async Task<ClaimModel> Save(ClaimModel data)
         {
-            //var request = new HttpRequestMessage(HttpMethod.Post, APIEndpoint.ClaimSave);
-            //request.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(data, Newtonsoft.Json.Formatting.Indented), Encoding.UTF8, "application/json");
             var response = await Client.PostAsync<ResponseModel>(APIEndpoint.BaseUrl + APIEndpoint.ClaimSave, data);
             if (!response.IsSucceded) throw new Exception(response.Result.Msg);
             else if (response.Result.Error) throw new Exception(response.Result.Msg);
             else if (response.Result.Data == null) throw new Exception(response.Result.Msg);
             else return JsonConvert.DeserializeObject<ClaimModel>(response.Result.Data.ToString());
-            //if (!response.IsSuccessStatusCode)
-            //{
-            //    throw new Exception(response.ReasonPhrase);
-            //}
-
-            //ResponseModel responseData = await response.Content.ReadFromJsonAsync<ResponseModel>();
-
-            //if (responseData.Error) throw new Exception(responseData.Msg);
-            //else if(responseData.Data == null) throw new Exception("NULL");
-            //else
-            //{
-            //    return JsonConvert.DeserializeObject<ClaimModel>(responseData.Data.ToString());
-            //}
         }
 
 
@@ -74,33 +59,14 @@ namespace NSSFPensionSystem.Services.Impl
                 var data = JsonConvert.DeserializeObject<List<ClaimModel>>(res.Result.Data.ToString());
                 return Tuple.Create<List<ClaimModel>, PaginationModel>(data, p);
             } 
-                
-                
-               
-
-
-            //HttpResponseMessage response = await HttpClient.GetAsync(string.Format("claim/claimlist?size={0}&page={1}", page.Size, page.Page));
-            //if(!response.IsSuccessStatusCode)
-            //{
-            //    throw new Exception("Error API URL!");
-            //}
-
-            //string json = await response.Content.ReadAsStringAsync();
-            //ResponseModel responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseModel>(json);
-            //if (responseData.Error) throw new Exception(responseData.Msg);
-            //else if (responseData.Data == null) throw new Exception("NULL");
-            //else
-            //{
-            //    return JsonConvert.DeserializeObject<List<ClaimModel>>(responseData.Data.ToString());
-            //}
         }
 
 
-        public async Task<bool> SetClaimApproval(int statusId)
+        public async Task<bool> SetClaimApproval(ClaimTraceModel data)
         {
-            
-
-            return true;
+            var response = await Client.PostAsync<ResponseModel>(APIEndpoint.BaseUrl + "claim/approval", data);
+            if (!response.IsSucceded) throw new Exception(response.Result.Msg);
+            return !response.Result.Error;
         }
 
 
@@ -121,6 +87,18 @@ namespace NSSFPensionSystem.Services.Impl
             {
                 ClaimModel c = JsonConvert.DeserializeObject<ClaimModel>(responseData.Data.ToString());
                 return c;
+            }
+        }
+
+        public async Task<List<ClaimTraceModel>> GetClaimTrace(string guid)
+        {
+            var res = await Client.GetAsync<ResponseModel>(APIEndpoint.BaseUrl + "claim/trace/" + guid);
+            if (!res.IsSucceded) throw new Exception(res.Result.Msg);
+            else if (res.Result.Error) throw new Exception(res.Result.Msg);
+            else if (res.Result.Data == null) throw new Exception(res.Result.Msg);
+            else
+            {
+                return JsonConvert.DeserializeObject<List<ClaimTraceModel>>(res.Result.Data.ToString());
             }
         }
     }

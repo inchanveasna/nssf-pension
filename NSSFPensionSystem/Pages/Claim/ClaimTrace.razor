@@ -1,0 +1,26 @@
+﻿@inherits ClaimTraceBase
+@page "/claims/{Id:guid}/trace"
+
+
+
+    <div class="container-fluid bottom-spacing">
+        <div class="layout-top-spacing ">
+            <div class="widget-content-area widget-shadow">
+                <div class="timeline-line">
+                    @foreach (ClaimTraceModel trace in Traces.OrderByDescending(o => o.InputDatetime))
+                    {
+                        <div class="item-timeline">
+                            <p class="t-time">@trace.InputDatetime.ToString("dd-MM-yyyy HH:mm")</p>
+                            <div class="t-dot @GetClassByClaimStatus(trace.StatusId)">
+                            </div>
+                            <div class="t-text">
+                                <p>@trace.StatusDesc</p>
+                                <p class="t-meta-time"><b>@trace.EmployeeName</b> @trace.Note</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+            </div>
+        </div>

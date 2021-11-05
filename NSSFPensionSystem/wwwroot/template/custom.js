@@ -1,6 +1,9 @@
 ﻿
 function AppInit() {
-    
+    $('[data-toggle="popover"]').popover({
+        trigger: 'hover'
+    })
+
         $(document).ready(function () {
             $(document).delegate(".submenu-active", "click", function () {
                 $(".submenu-active").each(function (index, value) {
@@ -162,7 +165,6 @@ function GetMaskCode(id) {
     else {
        return $('#' + id).val().replace(/-/g, "").replace(/_/g, "");
     }
-    
 }
 
 

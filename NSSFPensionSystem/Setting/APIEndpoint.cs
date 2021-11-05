@@ -7,7 +7,7 @@ namespace NSSFPensionSystem.Setting
 {
     public static class APIEndpoint
     {
-        public static string BaseUrl { get { return "https://localhost/api/"; } }
+        public static string BaseUrl { get { return "https://192.168.18.5:443/api/"; } }
         //public static string BaseUrl { get { return "http://localhost:9999/api/"; } }
         //public static string BaseUrl { get { return "http://192.168.18.5/pension/api/"; } }
         //public static string BaseUrl { get { return "http://192.168.201.239/pension/api/api/"; } }

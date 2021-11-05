@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using NSSFPensionSystem.Services;
 using NSSFPensionSystem.Models;
-using NSSFPensionSystem.Shared;
+using NSSFPensionSystem.Shared.Components;
 using NSSFPensionSystem.Setting;
 using Newtonsoft.Json;
 
@@ -16,7 +16,7 @@ namespace NSSFPensionSystem.Controllers
     {
 
         [Parameter]
-        public string GUID { get; set; } = "";
+        public Guid Id { get; set; }
 
 
 
@@ -115,31 +115,50 @@ namespace NSSFPensionSystem.Controllers
         }
 
 
+        //public override async Task SetParametersAsync(ParameterView parameters)
+        //{
+            //try
+            //{
+            //    if (parameters.TryGetValue<Guid>(nameof(Id), out var result))
+            //    {
+            //        if (result != null && result.ToString().Length == 36 && result.ToString() != "00000000-0000-0000-0000-000000000000")
+            //        {
+            //            this.Claim = await ClaimService.GetClaim(result.ToString());
+            //            await this.OnProvinceChanged(this.Claim.ProId);
+            //            await this.OnDistrictChange(this.Claim.DisId);
+
+            //            if (Claim.StatusId == 1)
+            //            {
+            //                AllowEdit = true;
+            //            }
+            //        }
+            //    }
+            //    await base.SetParametersAsync(parameters);
+            //}
+            //catch(Exception ex) { MessageBox.Show(MessageBoxTypes.ERROR, ex.Message); }
+            //finally { StateHasChanged(); }
+        //}
+
+
         protected async override Task OnParametersSetAsync()
         {
             try
             {
-                if (!string.IsNullOrEmpty(this.GUID))
-                {
-                    this.Claim = await ClaimService.GetClaim(this.GUID);
-                    //this.ClaimDocumentList = JsonConvert.DeserializeObject<List<ClaimDocumentModel>>(JsonConvert.SerializeObject(this.Claim.Documents));
-                    //this.MemberList = JsonConvert.DeserializeObject<List<ClaimFamilyMemberModel>>(JsonConvert.SerializeObject(this.Claim.Members));
-                    await this.OnProvinceChanged(this.Claim.ProId);
-                    await this.OnDistrictChange(this.Claim.DisId);
-
-                    if (Claim.StatusId == 1)
+                    if (Id != null && Id.ToString().Length == 36 && Id.ToString() != "00000000-0000-0000-0000-000000000000")
                     {
-                        AllowEdit = true;
+                        this.Claim = await ClaimService.GetClaim(Id.ToString());
+                        await this.OnProvinceChanged(this.Claim.ProId);
+                        await this.OnDistrictChange(this.Claim.DisId);
+
+                        if (Claim.StatusId == 1)
+                        {
+                            AllowEdit = true;
+                        }
                     }
-                }
             }
-            catch(Exception ex) 
-            { 
-                MessageBox.Show(MessageBoxTypes.ERROR, ex.Message);
-                NavigationManager.NavigateTo("claimlist");
-            }
+            catch (Exception ex) { MessageBox.Show(MessageBoxTypes.ERROR, ex.Message); }
             finally { StateHasChanged(); }
-            
+
 
             await base.OnParametersSetAsync();
         }

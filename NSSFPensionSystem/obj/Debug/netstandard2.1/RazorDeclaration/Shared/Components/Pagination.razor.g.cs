@@ -139,7 +139,7 @@ using Blazored.LocalStorage;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 31 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\Shared\Components\Pagination.razor"
+#line 25 "E:\Development\NSSFPensionSystem\NSSFPensionSystem\Shared\Components\Pagination.razor"
        
 
     [Parameter]

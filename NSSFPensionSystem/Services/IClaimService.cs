@@ -16,6 +16,8 @@ namespace NSSFPensionSystem.Services
 
         Task<Tuple<List<ClaimModel>, PaginationModel>> GetClaimList(PaginationModel page, string code, string benId, string benName, int psTypeId, int statusId);
 
-        Task<bool> SetClaimApproval(int statusId);
+        Task<bool> SetClaimApproval(ClaimTraceModel trace);
+
+        Task<List<ClaimTraceModel>> GetClaimTrace(string guid);
     }
 }

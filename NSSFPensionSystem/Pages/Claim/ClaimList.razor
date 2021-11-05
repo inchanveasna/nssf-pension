@@ -1,0 +1,90 @@
+﻿@page "/claims"
+@inherits ClaimListBase
+
+
+<div class="container-fluid bottom-spacing">
+    <div class="layout-top-spacing ">
+        <div class="widget-content-area widget-shadow">
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <a id="btn-add-new" class="btn btn-info" @onclick="OnAddNew">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            បន្ថែមថ្មី
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="form-row justify-content-end">
+                        <div class="form-group col-md-2">
+                            <input type="text" class="form-control masked-code" placeholder="លេខទាមទារ" id="claimcode" @bind="SearchClaimCode" />
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <input type="text" class="form-control masked-benid" placeholder="លេខអត្ត." id="benid" @bind="SearchBenId" />
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <select id="pensiontype" class="form-control" @bind="SearchPensionType">
+                                @foreach (PensionTypeModel p in PensionTypes)
+                                {
+                                    <option value="@p.TypeId">@p.TypeNameKh</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select id="claimstatus" class="form-control" @bind="SearchStatus">
+                                @foreach (ClaimStatusModel st in ClaimStatuses)
+                                {
+                                    <option value="@st.StaId">@st.StaDescription</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-info" @onclick="OnSearchClick">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                ស្វែងរក
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <ClaimListTable ClaimList="@ClaimList" TableHeader="@TableHeader" ClaimStatuses="@ClaimStatuses" PensionTypes="@PensionTypes" OnEdit="(val) => OnEdit(val)" OnApproval="@((e) => OnApproval(e.Item1, e.Item2))" />
+            <Pagination Paginate="Paginate" OnChangedPage="OnPageChanged" />
+
+
+            <Modal @ref="ApprovalNoteModal" Size="md">
+                <Title>
+                    <h5 class="modal-title" id="exampleModalLabel">មូលហេតុ</h5>
+                </Title>
+                <Body>
+                    <div class="form-group">
+                        <label>មូលហេតុបដិសេធ</label>
+                        <textarea class="form-control" rows="4" placeholder="បញ្ចូលមូលហេតុបដិសេធ" @bind="ClaimTrace.Note"></textarea>
+                    </div>
+                </Body>
+                <Footer>
+                    <button class="btn btn-dark" @onclick="() => ApprovalNoteModal.Close()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        បោះបង់
+                    </button>
+                    <button type="button" class="btn btn-danger" @onclick="OnApprovalRejected">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        បដិសេធ
+                    </button>
+                </Footer>
+            </Modal>
+
+
+            <MessageBox @ref="MessageBox" OnConfirmation="@((e) => OnMessageBoxConfirmation(e.Item1, e.Item2))" />
+        </div>
+    </div>
+     </div>

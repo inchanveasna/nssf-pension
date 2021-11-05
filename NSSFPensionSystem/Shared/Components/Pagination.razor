@@ -1,12 +1,6 @@
 ﻿<div class="d-flex justify-content-between">
     <div class="paginating-container pagination-solid">
         <label>បង្ហាញ</label>
-        @*<select class="form-control" @onchange="((val)=> OnPageSizeChange(val))" value="Paginate.Size">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>*@
         <input type="text" class="form-control mx-1" value="@Paginate.Size" @onchange="((val)=> OnPageSizeChange(val))" style="width: 80px" />
         <label>សរុប: @(Paginate.Total.HasValue ? Paginate.Total.Value.ToString("N0") : "0" )</label>
     </div>
