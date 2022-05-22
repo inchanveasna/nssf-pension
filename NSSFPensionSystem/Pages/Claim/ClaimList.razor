@@ -2,89 +2,178 @@
 @inherits ClaimListBase
 
 
-<div class="container-fluid bottom-spacing">
-    <div class="layout-top-spacing ">
-        <div class="widget-content-area widget-shadow">
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <a id="btn-add-new" class="btn btn-info" @onclick="OnAddNew">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                            បន្ថែមថ្មី
-                        </a>
+
+<FormHeader Icon="fa-solid fa-file-signature" Title="ទម្រង់អ្នកទាមទារសោធន" />
+
+<div class="content mx-3 mb-5 pb-4">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <div class="row py-2">
+                    <div class="col-md-3">
+                        <button type="button" id="btn-add-new" class="btn btn-info" @onclick="OnAddNew">
+                            <i class="fas fa-circle-plus"></i> បន្ថែមថ្មី
+                        </button>
                     </div>
-                </div>
-
-                <div class="col-md-9">
-                    <div class="form-row justify-content-end">
-                        <div class="form-group col-md-2">
-                            <input type="text" class="form-control masked-code" placeholder="លេខទាមទារ" id="claimcode" @bind="SearchClaimCode" />
-                        </div>
-
-                        <div class="form-group col-md-2">
-                            <input type="text" class="form-control masked-benid" placeholder="លេខអត្ត." id="benid" @bind="SearchBenId" />
-                        </div>
-
-                        <div class="form-group col-md-3">
-                            <select id="pensiontype" class="form-control" @bind="SearchPensionType">
-                                @foreach (PensionTypeModel p in PensionTypes)
-                                {
-                                    <option value="@p.TypeId">@p.TypeNameKh</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <select id="claimstatus" class="form-control" @bind="SearchStatus">
-                                @foreach (ClaimStatusModel st in ClaimStatuses)
-                                {
-                                    <option value="@st.StaId">@st.StaDescription</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <button class="btn btn-info" @onclick="OnSearchClick">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                ស្វែងរក
+                    <div class="col-md-9">
+                        <div class="form-row justify-content-end">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control masked-code" placeholder="លេខទាមទារ" id="claimcode" @bind="SearchClaimCode" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control masked-benid" placeholder="លេខអត្ត." id="benid" @bind="SearchBenId" />
+                            </div>
+                            <div class="col-md-3">
+                                <select id="pensiontype" class="form-control" @bind="SearchPensionType">
+                                    @foreach (PensionTypeModel p in PensionTypes)
+                                    {
+                                        <option value="@p.TypeId">@p.TypeNameKh</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select id="claimstatus" class="form-control" @bind="SearchStatus">
+                                    @foreach (ClaimStatusModel st in ClaimStatuses)
+                                    {
+                                        <option value="@st.StaId">@st.StaDescription</option>
+                                    }
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-info" @onclick="OnSearchClick">
+                                <i class="fa-solid fa-magnifying-glass"></i> ស្វែងរក
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered table-striped table-hover" role="grid" id="tableClaimList">
+                    <thead>
+                        <tr>
+                            @foreach (string header in TableHeader)
+                            {
+                                <th class="text-center">@header</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < ClaimList.Where(w => w.StatusId == SearchStatus || SearchStatus == 0).Count(); i++)
+                        {
+                            ClaimModel c = ClaimList.Where(w => w.StatusId == SearchStatus || SearchStatus == 0).ToList()[i];
+                            <tr>
+                                <td class="text-center">@(i + 1)</td>
+                                <td class="text-center"><button class="btn btn-sm btn-info">@c.ClaCode</button></td>
+                                <td class="text-center">@(PensionTypes.Where(w=> w.TypeId == c.PsTypeId).Select(s=> s.TypeNameKh).FirstOrDefault())</td>
+                                <td class="text-center">@(c.Pensioner.BenNote + "-" + c.Pensioner.BenId + "-" + c.Pensioner.BenChar)</td>
+                                <td class="text-center">@c.Pensioner.FullnameKh</td>
+                                <td class="text-center">@(c.Pensioner.SexId== "1" ? "ប្រុស" : "ស្រី")</td>
+                                <td class="text-center">@(c.Pensioner.Dob.HasValue ? c.Pensioner.Dob.Value.ToString("dd-MM-yyyy") : "")</td>
+                                <td>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="badge bg-success">@(ClaimStatuses.Where(w=> w.StaId == c.StatusId).Select(s=> s.StaName).FirstOrDefault())</span>
+                                        <a href="javascript:void(0)"><small><i class="fa-solid fa-eye"></i></small></a>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        @if (c.StatusId == 1 || c.StatusId == 4)
+                                        {
+                                            <button class="btn btn-outline-info btn-sm bs-tooltip" title="កែប្រែ" @onclick="()=> OnEdit(ClaimList.IndexOf(c))">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-outline-info btn-sm bs-tooltip" title="កែប្រែ" @onclick="()=> OnEdit(ClaimList.IndexOf(c))">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                        }
 
-            
 
-            <ClaimListTable ClaimList="@ClaimList" TableHeader="@TableHeader" ClaimStatuses="@ClaimStatuses" PensionTypes="@PensionTypes" OnEdit="(val) => OnEdit(val)" OnApproval="@((e) => OnApproval(e.Item1, e.Item2))" />
-            <Pagination Paginate="Paginate" OnChangedPage="OnPageChanged" />
-
-
-            <Modal @ref="ApprovalNoteModal" Size="md">
-                <Title>
-                    <h5 class="modal-title" id="exampleModalLabel">មូលហេតុ</h5>
-                </Title>
-                <Body>
-                    <div class="form-group">
-                        <label>មូលហេតុបដិសេធ</label>
-                        <textarea class="form-control" rows="4" placeholder="បញ្ចូលមូលហេតុបដិសេធ" @bind="ClaimTrace.Note"></textarea>
-                    </div>
-                </Body>
-                <Footer>
-                    <button class="btn btn-dark" @onclick="() => ApprovalNoteModal.Close()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        បោះបង់
-                    </button>
-                    <button type="button" class="btn btn-danger" @onclick="OnApprovalRejected">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        បដិសេធ
-                    </button>
-                </Footer>
-            </Modal>
-
-
-            <MessageBox @ref="MessageBox" OnConfirmation="@((e) => OnMessageBoxConfirmation(e.Item1, e.Item2))" />
+                                        @if (c.StatusId == 1)
+                                        {
+                                            <button class="btn btn-outline-info btn-sm bs-tooltip" @onclick="()=>OnApproval(ClaimList.IndexOf(c), 2)" title="@(ClaimStatuses.Where(w=> w.StaId == 2).FirstOrDefault().StaDescription)">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                        }
+                                        else if (c.StatusId == 2)
+                                        {
+                                            <button class="btn btn-outline-danger btn-sm bs-tooltip" @onclick="()=>OnApproval(ClaimList.IndexOf(c), 4)" title="@(ClaimStatuses.Where(w=> w.StaId == 4).FirstOrDefault().StaDescription)">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </button>
+                                            <button class="btn btn-outline-warning btn-sm bs-tooltip" @onclick="()=>OnApproval(ClaimList.IndexOf(c), 3)" title="@(ClaimStatuses.Where(w=> w.StaId == 3).FirstOrDefault().StaDescription)">
+                                                <i class="fa-solid fa-check"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    @if (@ClaimList.Count >= 10)
+                    {
+                        <tfoot>
+                            <tr>
+                                @foreach (string header in TableHeader)
+                                {
+                                    <th class="text-center">@header</th>
+                                }
+                            </tr>
+                        </tfoot>
+                    }
+                </table>
+            </div>
+            <div class="card-footer">
+                <Pagination Paginate="Paginate" OnChangedPage="OnPageChanged" />
+            </div>
         </div>
+
+
+
+
+
+
+
+        <Modal @ref="ApprovalNoteModal" Size="md">
+            <Title>
+                <h5 class="modal-title" id="exampleModalLabel">មូលហេតុ</h5>
+            </Title>
+            <Body>
+                <div class="form-group">
+                    <label>មូលហេតុបដិសេធ</label>
+                    <textarea class="form-control" rows="4" placeholder="បញ្ចូលមូលហេតុបដិសេធ" @bind="ClaimTrace.Note"></textarea>
+                </div>
+            </Body>
+            <Footer>
+                <button class="btn btn-dark" @onclick="() => ApprovalNoteModal.Close()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    បោះបង់
+                </button>
+                <button type="button" class="btn btn-danger" @onclick="OnApprovalRejected">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    បដិសេធ
+                </button>
+            </Footer>
+        </Modal>
+
+        <Modal @ref="TraceModal" Size="md">
+            <Title>
+                <h5 class="modal-title" id="exampleModalLabel">ប្រវត្តិឯកសារទាមទារ</h5>
+            </Title>
+            <Body>
+                <ClaimTrace Data="@Traces" />
+            </Body>
+            <Footer>
+                <button class="btn btn-dark" @onclick="() => TraceModal.Close()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    យល់ព្រម
+                </button>
+            </Footer>
+        </Modal>
+
+
+        <Message @ref="MessageBox" />
+
     </div>
-     </div>
+</div>
+<Loading @ref="Loading" />

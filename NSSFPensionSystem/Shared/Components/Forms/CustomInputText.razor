@@ -1,0 +1,88 @@
+﻿@inherits Microsoft.AspNetCore.Components.Forms.InputText
+@using System.ComponentModel.DataAnnotations;
+@using System.Reflection;
+
+
+<div class="form-group col-md-@ColMd">
+    <label for="@id.ToString()" class="@(IsRequired)">@LabelText</label>
+    <input id="@id.ToString()"
+           type="@Type"
+           class="form-control @CssClass"
+           @attributes="@AdditionalAttributes"
+           placeholder="@PlaceHolder"
+           @bind="@CurrentValue"
+           disabled="@Disable"
+           readonly="@ReadlOnly"
+           @onfocus="@(()=> ShowError=true)" />
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <small class="form-text text-muted">@Description</small>
+    }
+    @if (ShowError)
+    {
+        @foreach (var msg in EditContext.GetValidationMessages(FieldIdentifier))
+        {
+            <div class="validation-message">@msg</div>
+        }
+    }
+</div>
+
+
+
+@code {
+    Guid id = Guid.NewGuid();
+    [Parameter] public bool ShowError { get; set; } = false;
+    [Parameter] public string LabelText { get; set; } = "";
+    [Parameter] public string PlaceHolder { get; set; } = "";
+    [Parameter] public string Type { get; set; } = "text";
+    [Parameter] public string Description { get; set; } = "";
+    [Parameter] public bool Disable { get; set; } = false;
+    [Parameter] public bool ReadlOnly { get; set; } = false;
+    [Parameter] public bool IsRequired { get; set; } = false;
+    [Parameter] public bool ShowRequired { get; set; } = false;
+    [Parameter] public int ColMd { get; set; } = 6;
+
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        try
+        {
+
+
+            var displayAttribute = this.FieldIdentifier.Model.GetType()
+                .GetProperty(this.FieldIdentifier.FieldName)
+                .GetCustomAttributes<DisplayAttribute>();
+
+            if (displayAttribute != null)
+            {
+                var displayName = displayAttribute.FirstOrDefault().Name;
+                if (!String.IsNullOrEmpty(displayName) && string.IsNullOrEmpty(LabelText))
+                {
+                    LabelText = displayName;
+                }
+
+                var placeholder = displayAttribute.FirstOrDefault().Prompt;
+                if (!String.IsNullOrEmpty(placeholder) && string.IsNullOrEmpty(PlaceHolder))
+                {
+                    PlaceHolder = placeholder;
+                }
+
+                var desc = displayAttribute.FirstOrDefault().Description;
+                if (!String.IsNullOrEmpty(desc) && string.IsNullOrEmpty(Description))
+                {
+                    Description = desc;
+                }
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        return base.OnParametersSetAsync();
+    }
+}

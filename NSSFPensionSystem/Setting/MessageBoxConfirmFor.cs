@@ -10,5 +10,7 @@ namespace NSSFPensionSystem.Setting
         CLAIM_DOCUMENT,
         CLAIM_MEMBER,
         CLAIM_MEMBER_DOCUMENT,
+
+        REMOVE_ALLOWANCE
     }
 }

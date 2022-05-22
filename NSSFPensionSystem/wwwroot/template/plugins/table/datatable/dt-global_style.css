@@ -43,20 +43,47 @@ table.dataTable {
 .table > thead > tr > th {
     color: #1b55e2;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 15px;
     border: none;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
 .table > tbody > tr > td {
     border: none;
-    color: #888ea8;
-    font-size: 13px;
+    color: #202124;
+    font-size: 15px;
     letter-spacing: 1px;
 }
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: transparent!important;
-}
+
+    .table > tbody > tr > td .sub {
+        border: none;
+        /*color: var(--black-alpha-60);*/
+        color: #5f6368;
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+
+    .table > tbody > tr > td .link {
+        font-weight: bold;
+        color: var(--info) !important;
+        font-size: 18px !important;
+    }
+
+        .table > tbody > tr > td .link:hover {
+            text-decoration: underline;
+        }
+
+    .table > tbody > tr > td svg.t-icon {
+        padding: 2px !important;
+    }
+
+    .table > tbody > tr > td svg.t-icon.red {
+        color: red;
+    }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: transparent !important;
+        }
 .table > tfoot > tr > th {
     border: none;
 }

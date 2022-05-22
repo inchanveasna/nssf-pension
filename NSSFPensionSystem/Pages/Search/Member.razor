@@ -1,0 +1,150 @@
+﻿@page "/search"
+@page "/search/member"
+
+<FormHeader Icon="fa-solid fa-file-signature" Title="ទម្រង់ស្វែងរកសមាជិក" />
+
+<div class="content mx-3 mb-5 pb-4">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <div class="row py-2">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-9">
+                        <div class="form-row justify-content-end">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control masked-benid" placeholder="លេខអត្ត." id="benid" @bind="SearchBenId" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" placeholder="ឈ្មោះសមាជិក" id="benname" @bind="SearchBenName" />
+                            </div>
+                            @*<div class="col-md-3">
+                                    <select id="pensiontype" class="form-control" @bind="SearchPensionType">
+                                        @foreach (PensionTypeModel p in PensionTypes)
+                                        {
+                                            <option value="@p.TypeId">@p.TypeNameKh</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="claimstatus" class="form-control" @bind="SearchStatus">
+                                        @foreach (ClaimStatusModel st in ClaimStatuses)
+                                        {
+                                            <option value="@st.StaId">@st.StaDescription</option>
+                                        }
+                                    </select>
+                                </div>*@
+                            <button type="button" class="btn btn-info" @onclick="OnSearch">
+                                <i class="fa-solid fa-magnifying-glass"></i> ស្វែងរក
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered table-striped table-hover" id="member-list">
+                    <thead>
+                        <tr>
+                            @foreach (string header in TableHeaders)
+                            {
+                                <th class="text-center">@header</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*@for (int i = 0; i < ClaimList.Where(w => w.StatusId == SearchStatus || SearchStatus == 0).Count(); i++)
+                        {
+                            ClaimModel c = ClaimList.Where(w => w.StatusId == SearchStatus || SearchStatus == 0).ToList()[i];
+                            <tr>
+                                <td class="text-center">@(i + 1)</td>
+                                <td class="text-center"><button class="btn btn-sm btn-info">@c.ClaCode</button></td>
+                                <td class="text-center">@(PensionTypes.Where(w=> w.TypeId == c.PsTypeId).Select(s=> s.TypeNameKh).FirstOrDefault())</td>
+                                <td class="text-center">@(c.Pensioner.BenNote + "-" + c.Pensioner.BenId + "-" + c.Pensioner.BenChar)</td>
+                                <td class="text-center">@c.Pensioner.FullnameKh</td>
+                                <td class="text-center">@(c.Pensioner.SexId== "1" ? "ប្រុស" : "ស្រី")</td>
+                                <td class="text-center">@(c.Pensioner.Dob.HasValue ? c.Pensioner.Dob.Value.ToString("dd-MM-yyyy") : "")</td>
+                                <td>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="badge bg-success">@(ClaimStatuses.Where(w=> w.StaId == c.StatusId).Select(s=> s.StaName).FirstOrDefault())</span>
+                                        <a href="javascript:void(0)"><small><i class="fa-solid fa-eye"></i></small></a>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        @if (c.StatusId == 1 || c.StatusId == 4)
+                                        {
+                                            <button class="btn btn-outline-info btn-sm bs-tooltip" title="កែប្រែ" @onclick="()=> OnEdit(ClaimList.IndexOf(c))">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-outline-info btn-sm bs-tooltip" title="កែប្រែ" @onclick="()=> OnEdit(ClaimList.IndexOf(c))">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                        }
+
+
+                                        @if (c.StatusId == 1)
+                                        {
+                                            <button class="btn btn-outline-info btn-sm bs-tooltip" @onclick="()=>OnApproval(ClaimList.IndexOf(c), 2)" title="@(ClaimStatuses.Where(w=> w.StaId == 2).FirstOrDefault().StaDescription)">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                        }
+                                        else if (c.StatusId == 2)
+                                        {
+                                            <button class="btn btn-outline-danger btn-sm bs-tooltip" @onclick="()=>OnApproval(ClaimList.IndexOf(c), 4)" title="@(ClaimStatuses.Where(w=> w.StaId == 4).FirstOrDefault().StaDescription)">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </button>
+                                            <button class="btn btn-outline-warning btn-sm bs-tooltip" @onclick="()=>OnApproval(ClaimList.IndexOf(c), 3)" title="@(ClaimStatuses.Where(w=> w.StaId == 3).FirstOrDefault().StaDescription)">
+                                                <i class="fa-solid fa-check"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }*@
+                    </tbody>
+                    @*@if (@ClaimList.Count >= 10)
+                    {
+                        <tfoot>
+                            <tr>
+                                @foreach (string header in TableHeaders)
+                                {
+                                    <th class="text-center">@header</th>
+                                }
+                            </tr>
+                        </tfoot>
+                    }*@
+                </table>
+
+            </div>
+            <div class="card-footer">
+                <Pagination Paginate="Pagination" OnChangedPage="OnPageChanged" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    protected string SearchBenId { get; set; } = "";
+    protected string SearchBenName { get; set; } = "";
+    protected string SearchSexId { get; set; } = "";
+    protected int SearchEntId { get; set; } = 0;
+
+    protected List<String> TableHeaders = new List<string>() { "ល.រ", "លេខអត្ត.", "គោត្តនាម និងនាម", "គោត្តនាម និងនាម (ឡាតាំង)", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "សញ្ជាតិ", "សកម្មភាព" };
+    protected PaginationModel Pagination = new PaginationModel();
+
+    protected void OnSearch()
+    {
+
+    }
+
+    public void OnPageChanged(PaginationModel paginate)
+    {
+        
+    }
+}

@@ -32,12 +32,11 @@ namespace NSSFPensionSystem.Services.Impl
             //Task task = httpClient.GetAsync(url);
             //var awaiter = task.GetAwaiter();
             ResponseModel responseData = await httpClient.GetFromJsonAsync<ResponseModel>(url);
-
             //HttpResponseMessage response = await httpClient.GetAsync(url);
             //response.EnsureSuccessStatusCode();
             //string json = response.Content.ReadAsStringAsync().Result;
             //ResponseModel responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseModel>(json);
-           
+
             if (responseData.Error || responseData.Data == null)
             {               
                 return (T)default;

@@ -8,6 +8,8 @@ namespace NSSFPensionSystem.Services
 {
     public interface IUserService
     {
-        Task<List<MenuModel>> GetMenus(int emp_id);
+      
+
+        Task<EmployeeModel> Get(int empId);
     }
 }

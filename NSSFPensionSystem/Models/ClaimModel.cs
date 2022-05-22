@@ -3,22 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace NSSFPensionSystem.Models
 {
     public class ClaimModel
     {
+        
         [JsonProperty("cla_id")]
         public int ClaId { get; set; }
 
         [JsonProperty("ps_type_id")]
         public int PsTypeId { get; set; } = 1;
 
+        [JsonProperty("elderly_regulation")]
+        public bool ElderlyRegulation { get; set; } = false;
+
+        [Display(Name = "លេខកូដ")]
+        [DataType(DataType.Text)]
         [JsonProperty("cla_code")]
         public string ClaCode { get; set; }
 
+        [Display(Name = "កាលបរិច្ឆេទ")]
+        [DataType(DataType.Text)]
         [JsonProperty("cla_date")]
         public Nullable<DateTime> ClaDate { get; set; }
+
+        [JsonProperty("effective_date")]
+        public Nullable<DateTime> EffectiveDate { get; set; }
 
         [JsonProperty("guid")]
         public string GUID { get; set; }
@@ -29,7 +41,13 @@ namespace NSSFPensionSystem.Models
         [JsonProperty("ent_id")]
         public Nullable<int> EntId { get; set; } = 0;
 
-        [JsonProperty("national_id")]
+        [JsonProperty("num_con_month")]
+        public int NumConMonth { get; set; } = 0;
+
+        [JsonProperty("total_assume_wage")]
+        public int TotalAssumeWage { get; set; } = 0;
+
+        [JsonProperty("nat_id")]
         public int NationalId { get; set; } = 33;
 
         [JsonProperty("id_type")]
@@ -45,7 +63,7 @@ namespace NSSFPensionSystem.Models
         public string Phone2 { get; set; }
 
         [JsonProperty("fs_id")]
-        public int FsId { get; set; } = 1;
+        public int FamilyStatusId { get; set; } = 1;
 
         [JsonProperty("mar_date")]
         public DateTime MarDate { get; set; }
@@ -79,6 +97,9 @@ namespace NSSFPensionSystem.Models
 
         [JsonProperty("div_id")]
         public string DivId { get; set; } = "008";
+
+        [JsonProperty("dep_id")]
+        public int DepId { get; set; }
 
         [JsonProperty("input_by")]
         public int InputBy { get; set; } = 2044;

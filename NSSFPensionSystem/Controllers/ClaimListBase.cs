@@ -29,11 +29,12 @@ namespace NSSFPensionSystem.Controllers
 
         #region PROPERTIES
         private DotNetObjectReference<ClaimListBase> objRef;
-        public List<String> TableHeader = new List<string>() { "ល.រ", "លេខទាមទារ", "អត្ត. ប.ស.ស.", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ប្រភេទសោធន", "ស្ថានភាព", "សកម្មភាព" };
+        public List<String> TableHeader = new List<string>() { "ល.រ", "លេខទាមទារ", "ប្រភេទ", "អត្ត. ប.ស.ស.", "គោត្តនាម និងនាម", "ភេទ", "ថ្ងៃខែឆ្នាំកំណើត", "ស្ថានភាព", "សកម្មភាព" };
         public List<ClaimModel> ClaimList = new List<ClaimModel>();
         public ClaimTraceModel ClaimTrace = new ClaimTraceModel();
         public List<PensionTypeModel> PensionTypes = new List<PensionTypeModel>();
         public List<ClaimStatusModel> ClaimStatuses = new List<ClaimStatusModel>();
+        public List<ClaimTraceModel> Traces = new List<ClaimTraceModel>();
         public PaginationModel Paginate = new PaginationModel();
 
 
@@ -44,37 +45,44 @@ namespace NSSFPensionSystem.Controllers
         protected int SearchStatus { get; set; } = 0;
 
 
-        public MessageBox MessageBox { get; set; }
+        public Message MessageBox { get; set; }
+        public Loading Loading { get; set; }
         public Modal ApprovalNoteModal { get; set; }
+        public Modal TraceModal { get; set; }
 
         private int SelectedIndex = -1;
         private int SelectedStatus = -1;
         #endregion
 
 
-        protected override async Task OnInitializedAsync()
-        {
-            var result = await ClaimService.GetClaimList(Paginate, SearchClaimCode, SearchBenId, SearchBenName, SearchPensionType, SearchStatus);
-            this.ClaimList = result.Item1;
-            this.Paginate = result.Item2;
-            
-            this.PensionTypes = await ConstantValue.GetPensionTypes();
-            this.ClaimStatuses = await ConstantValue.GetClaimStatus();
-
-            PensionTypes.Insert(0, new PensionTypeModel() { TypeId = 0, TypeNameKh = "--ប្រភេទសោធន--" });
-            ClaimStatuses.Insert(0, new ClaimStatusModel() { StaId = 0, StaName = "", StaDescription = "--ស្ថានភាព--" });
-        }
 
 
         protected async override Task OnAfterRenderAsync(bool firstRender)
         {
-            base.OnAfterRender(firstRender);
+            
             if (firstRender)
             {
+                Loading.Show();
+                var result = await ClaimService.GetClaimList(Paginate, SearchClaimCode, SearchBenId, SearchBenName, SearchPensionType, SearchStatus);
+                this.ClaimList = result.Item1;
+                this.Paginate = result.Item2;
+
+                this.PensionTypes = await ConstantValue.GetPensionTypes();
+                this.ClaimStatuses = await ConstantValue.GetClaimStatus();
+
+                PensionTypes.Insert(0, new PensionTypeModel() { TypeId = 0, TypeNameKh = "--ប្រភេទសោធន--" });
+                ClaimStatuses.Insert(0, new ClaimStatusModel() { StaId = 0, StaName = "", StaDescription = "--ស្ថានភាព--" });
+
+
+
                 objRef = DotNetObjectReference.Create(this);
                 await Runtime.InvokeAsync<object>("ClaimJS", objRef);
+                //await Runtime.InvokeAsync<object>("InitDatatable", "#tableClaimList");
                 StateHasChanged();
             }
+
+            Loading.Close();
+            base.OnAfterRender(firstRender);
         }
 
 
@@ -123,11 +131,11 @@ namespace NSSFPensionSystem.Controllers
                 {
                     claim.StatusId = this.SelectedStatus;
                     ClaimList[this.SelectedIndex] = claim;
-                    this.ApprovalNoteModal.Close();
-                    MessageBox.Show(Setting.MessageBoxTypes.INFO, "Successfully!");
+                    await this.ApprovalNoteModal.Close();
+                    await MessageBox.Show(Setting.MessageTypes.INFO, "Successfully!");
                 }
             }
-            catch (Exception ex) { MessageBox.Show(MessageBoxTypes.ERROR, ex.Message); }
+            catch (Exception ex) {await MessageBox.Show(MessageTypes.ERROR, ex.Message); }
             finally { StateHasChanged(); }
         }
 
@@ -144,7 +152,7 @@ namespace NSSFPensionSystem.Controllers
                 if(rejectStatus.Contains(statusID)) this.ApprovalNoteModal.Open();
                 else await Approval();
             }
-            catch(Exception ex) { MessageBox.Show(MessageBoxTypes.ERROR, ex.Message); }
+            catch(Exception ex) { await MessageBox.Show(MessageTypes.ERROR, ex.Message); }
             finally { StateHasChanged(); }
         }
 
@@ -155,19 +163,31 @@ namespace NSSFPensionSystem.Controllers
             {
                 if (ClaimTrace.Note.Trim().Length == 0)
                 {
-                    MessageBox.Show(MessageBoxTypes.WARNING, "សូមបញ្ចូលមូលហេតុ!");
+                    await MessageBox.Show(MessageTypes.WARNING, "សូមបញ្ចូលមូលហេតុ!");
                     return;
                 }
                 await Approval();
             }
-            catch (Exception ex) { MessageBox.Show(MessageBoxTypes.ERROR, ex.Message); }
+            catch (Exception ex) { await MessageBox.Show(MessageTypes.ERROR, ex.Message); }
             finally { StateHasChanged(); }
         }
 
-       
+
+        public async Task OnShowTrace(int index)
+        {
+            try
+            {
+                this.Traces = await ClaimService.GetClaimTrace(this.ClaimList[index].GUID);
+                this.TraceModal.Open();   
+            }
+            catch (Exception ex) { await MessageBox.Show(MessageTypes.ERROR, ex.Message); }
+            finally { StateHasChanged(); }
+        }
+
 
         private async void FetchData()
         {
+            Loading.Show();
             this.SearchClaimCode = await Runtime.InvokeAsync<string>("GetMaskCode", "claimcode");
             this.SearchBenId = await Runtime.InvokeAsync<string>("GetMaskPhoneText", "benid");
 
@@ -175,6 +195,7 @@ namespace NSSFPensionSystem.Controllers
             this.ClaimList = result.Item1;
             this.Paginate = result.Item2;
             StateHasChanged();
+            Loading.Close();
         }
 
         public void OnPageChanged(PaginationModel paginate)

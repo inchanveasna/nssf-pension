@@ -1,0 +1,235 @@
+﻿@page "/payments/new"
+@inherits PaymentBase
+
+
+
+<FormHeader Icon="fa-solid fa-file-signature" Title="ទម្រង់ធ្វើសេចក្ដីសម្រេច" />
+<div class="content mx-3 mb-5 pb-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card card-info">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fa-solid fa-file-invoice"></i> សេចក្ដីសម្រេចលើកមុន</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>លេខ</th>
+                                    <td>00013/22</td>
+                                </tr>
+                                <tr>
+                                    <th>កាលបរិច្ឆេទ</th>
+                                    <td>01-06-2022</td>
+                                </tr>
+                                <tr>
+                                    <th>សម្រាប់</th>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>សរុប</th>
+                                    <td>$265.24</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="card card-outline card-info">
+                    <div class="card-header">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <Label Text="លេខសេចក្ដីសម្រេច" for="paymentcode" />
+                                <input type="text" disabled class="form-control" id="paymentcode" @bind="Payment.PayCode">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="paymentdate">កាលបរិច្ឆេទ</label>
+                                <input type="text" disabled class="form-control" id="paymentdate" @bind="Payment.PayDate" @bind:format="dd-MM-yyyy">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="paymentbimonth" class="required">អឌ្ឍមាស</label>
+                                <select id="paymentbimonth" class="form-control" @bind="Payment.ForBimonthly">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="paymentmonth" class="required">ខែ</label>
+                                <select id="paymentmonth" class="form-control" @bind="Payment.ForMonth">
+                                    @for (int i = 1; i <= 12; i++)
+                                    {
+                                        <option value="@i">@(nssfRef.nssfMethod.f_ConvertMonth(i))</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="paymentyear" class="required">ឆ្នាំ</label>
+                                <select id="paymentyear" class="form-control" @bind="Payment.ForYear">
+                                    @for (int i = DateTime.Now.Year - 1; i <= DateTime.Now.Year + 1; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    @foreach (string name in TableHeader)
+                                    {
+                                        <th class="text-center">@name</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (PaymentReviews.Count == 0)
+                                {
+                                    <tr><td colspan="@TableHeader.Count" class="text-center">មិនមានឯកសារត្រូវពិនិត្យ!</td></tr>
+                                }
+                                @foreach (var item in PaymentReviews)
+                                {
+                                    <tr>
+                                        <td class="text-center">@(PaymentReviews.IndexOf(item) + 1)</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-between">
+                                                @item.ClaCode
+                                                @*@if (item.NewCase)
+                                        {<span class="badge badge-danger new position-relative ml-2">ថ្មី</span>}*@
+                                                <a href="javascript:void(0)" @onclick="() => OnNavigateToClaim(item.ClaGUID)"><small><i class="fa-solid fa-eye"></i></small></a>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">@item.PsTypeNameKh</td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-between">
+                                                @item.AlwCode
+                                                <div class="dropdown">
+                                                    <a href="#" data-toggle="dropdown" aria-expanded="true">
+                                                        <small><i class="fa-solid fa-eye"></i></small>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+                                                        <a href="#" class="dropdown-item">
+                                                            <!-- Message Start -->
+                                                            <h3 class="dropdown-item-title">
+                                                                Brad Diesel
+                                                                <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                                            </h3>
+                                                            <p class="text-sm">Call me whenever you can...</p>
+                                                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                                            <!-- Message End -->
+                                                        </a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a href="#" class="dropdown-item">
+                                                            <!-- Message Start -->
+                                                            <h3 class="dropdown-item-title">
+                                                                John Pierce
+                                                                <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                                                            </h3>
+                                                            <p class="text-sm">I got your message bro</p>
+                                                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                                                            <!-- Message End -->
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">@(item.BenNote + "-" + item.BenId + "-" + item.BenChar)</td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-bold">@(item.FullnameKh)</span>
+                                                <div class="dropdown">
+                                                    <a href="#" data-toggle="dropdown" aria-expanded="true">
+                                                        <small><i class="fa-solid fa-eye"></i></small>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+                                                        <div class="dropdown-item">
+                                                            <div class="d-flex flex-row">
+                                                                <i class="fa-solid fa-user-tie text-muted pr-3" style="font-size: 2.5rem;"></i>
+                                                                <div class="media-body">
+                                                                    <h3 class="dropdown-item-title">
+                                                                        @item.FullnameKh
+                                                                        <span class="text-sm text-muted">@(item.SexId == "1" ? "ប្រុស" : "ស្រី")</span>
+                                                                    </h3>
+                                                                    <p class="text-sm pb-1">@item.FullnameEn</p>
+                                                                    <p>@(item.BenNote + "-" + item.BenId + "-" + item.BenChar)</p>
+                                                                    <p class="text-sm">@item.Dob</p>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*<span class="sub">@(item.BenNote + "-"+ item.BenId + "-" + item.BenChar)</span>*@
+                                            </div>
+
+                                            @*<div class="row">
+                                        <div class="col">
+
+                                            <span class="sub ml-3">@(item.SexId == "1" ? "ប្រុស" : "ស្រី")</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+
+                                        </div>
+                                    </div>*@
+                                        </td>
+                                        <td class="text-center">
+                                            @(item.Details.Select(s=> s.BankAccount).FirstOrDefault())
+                                            @*<span class="sub">@(item.Details.Select(s=> s.BankNameKh).FirstOrDefault())</span>*@
+                                        </td>
+                                        @*<td>
+                                    @foreach (var alw in item.Details)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <span class="sub">@("- " + alw.AlwTypeName)</span>
+                                                @if (alw.IntId == 1)
+                                                {
+                                                    <span class="sub">@("(" + alw.ExtraDay.ToString("N0") + "ថ្ងៃ)")</span>
+                                                }
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>@(alw.PensionAmount.ToString("N0") + " ៛")</span>
+                                            </div>
+                                        </div>
+                                    }
+                                </td>*@
+                                        <td class="text-center text-bold text-info">@(item.Details.Sum(s=> s.PensionAmount).ToString("N0"))</td>
+                                        <td class="text-center">
+                                            <div class="dropdown dropup custom-dropdown-icon">
+                                                <a href="#" role="button" id="dropdownMenuLink-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <i class="fa-solid fa-ellipsis-vertical p-2" style="font-size: 1.4rem; color:var(--info)" />
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink-3" style="z-index:999999; will-change: transform; position: absolute; transform: translate3d(-75px, -147px, 0px); top: 0px; left: 0px;" x-placement="top-end;">
+                                                    <a class="dropdown-item" href="javascript:void(0);"><i class="fa-solid fa-lock"></i> ផ្អាកផ្ដល់ប្រាក់សោធន</a>
+                                                    <a class="dropdown-item" href="javascript:void(0);"><i class="fa-regular fa-credit-card"></i> ប្ដូរគណនីធនាគារ</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    @if (PaymentReviews.Count > 0)
+                    {
+                        <div class="card-footer text-right">
+                            <button id="multiple-reset" class="btn btn-dark mr-4"><i class="fas fa-circle-plus"></i> បន្ថែមថ្មី</button>
+                            <button id="multiple-reset" class="btn btn-info" @onclick="OnSave"><i class="fa-regular fa-floppy-disk"></i> រក្សាទុក</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<Message @ref="MessageBox" />
+<Loading @ref="Loading" />

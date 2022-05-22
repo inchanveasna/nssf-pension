@@ -108,6 +108,11 @@ function ClaimJS(dotNetHelper) {
         return dotNetHelper.invokeMethodAsync('OnSexChanged', val);
     });
 
+    $(document).delegate('#claimtype', "change", function (event) {
+        var val = $(this).val();
+        return dotNetHelper.invokeMethodAsync('OnPensionTypeChanged', val);
+    });
+
     //$(document).delegate('#remove-doc', "click", function (event) {
     //    var val = $(this).data('index');
     //    swal({

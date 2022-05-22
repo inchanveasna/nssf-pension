@@ -11,6 +11,6 @@ namespace NSSFPensionSystem.Models
         public string menu_name { get; set; }
         public string menu_link { get; set; }
         public string menu_icon { get; set; }
-        public List<MenuModel> subMenu { get; set; }
+        public List<MenuModel> subMenu { get; set; } = new List<MenuModel>();
     }
 }

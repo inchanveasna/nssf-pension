@@ -1,0 +1,144 @@
+﻿@page "/payments"
+
+    <FormHeader Icon="fa-solid fa-file-signature" Title="ទម្រង់សេចក្ដីសម្រេច" />
+    <div class="content mx-3 mb-5 pb-4">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row py-2">
+                        <div class="col-md-3">
+                            <button type="button" id="btn-add-new" class="btn btn-info" @onclick="OnAddNew">
+                                <i class="fas fa-circle-plus"></i> បន្ថែមថ្មី
+                            </button>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-row justify-content-end">
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control masked-code" id="paymentcode" @bind="SearchPaymentCode" placeholder="លេខសេចក្ដីសម្រេច">
+                                </div>
+                                <div class="col-md-2">
+                                    <select id="paymentbimonth" class="form-control" @bind="SearchPaymentBiMonth">
+                                        <option value="0">--ជ្រើសរើសអឌ្ឍមាស--</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select id="paymentmonth" class="form-control" @bind="SearchPaymentMonth">
+                                        <option value="0">--ជ្រើសរើសខែ--</option>
+                                        @for (int i = 1; i <= 12; i++)
+                                        {
+                                            <option value="@i">@(nssfRef.nssfMethod.f_ConvertMonth(i))</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select id="paymentyear" class="form-control" @bind="SearchPaymentYear">
+                                        <option value="0">--ជ្រើសរើសឆ្នាំ--</option>
+                                        @for (int i = DateTime.Now.Year - 1; i <= DateTime.Now.Year + 1; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <button type="button" class="btn btn-info" @onclick="OnSearch">
+                                    <i class="fa-solid fa-magnifying-glass"></i> ស្វែងរក
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                @foreach (string name in TableHeader)
+                                {
+                                    <th class="text-center">@name</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (PaymentListResult.Count == 0)
+                            {
+                                <tr><td colspan="@TableHeader.Count" class="text-center">មិនមានឯកសារត្រូវពិនិត្យ!</td></tr>
+                            }
+                            @foreach (var item in PaymentListResult)
+                            {
+                                <tr>
+                                    <td class="text-center">@(PaymentListResult.IndexOf(item) + 1)</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-info btn-sm">
+                                            @item.PayCode
+                                        </button>
+                                        @*<div class="d-flex justify-content-between">
+                                            @item.PayCode
+                                            <a href="javascript:void(0)"><small><i class="fa-solid fa-eye"></i></small></a>
+                                        </div>*@
+                                    </td>
+                                    <td class="text-center">@item.PayDate.ToString("dd-MM-yyyy")</td>
+                                    <td class="text-center">
+                                        @("អឌ្ឍមាសទី" +
+                                    nssfRef.nssfMethod.f_convertNumToKH(item.ForBimonthly.ToString()) + " ខែ" +
+                                    nssfRef.nssfMethod.f_ConvertMonth(item.ForMonth) + "  ឆ្នាំ" +
+                                    nssfRef.nssfMethod.f_convertNumToKH(item.ForYear.ToString()))
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <Message @ref="MessageBox" />
+
+    @code {
+
+        [Inject] private IJSRuntime Runtime { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        private IPaymentService PaymentService { get; set; }
+
+        protected List<PensionPaymentModel> PaymentListResult = new();
+        protected List<String> TableHeader = new List<string>() { "ល.រ", "លេខកំណត់បង្ហាញ", "កាលបរិច្ឆេទ", "សម្រាប់" };
+        protected List<PensionPaymentModel> Payments = new();
+        protected Message MessageBox { get; set; }
+
+
+        protected string SearchPaymentCode { get; set; } = "";
+        protected int SearchPaymentBiMonth { get; set; } = 0;
+        protected int SearchPaymentMonth { get; set; } = 0;
+        protected int SearchPaymentYear { get; set; } = 0;
+
+
+        protected async void OnTest()
+        {
+            await MessageBox.Show(MessageTypes.ERROR, "ok");
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                this.PaymentListResult = await this.PaymentService.GetList();
+                StateHasChanged();
+            }
+        }
+
+        protected void OnAddNew()
+        {
+            this.NavigationManager.NavigateTo("payments/new");
+        }
+
+        protected void OnSearch()
+        {
+
+        }
+    }

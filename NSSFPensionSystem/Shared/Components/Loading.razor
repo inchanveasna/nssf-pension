@@ -1,0 +1,51 @@
+﻿
+
+<div id="@Id" class="modal fade @modalClass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex align-items-center">
+                    <div class="spinner-grow text-info align-self-center"></div>
+                    <span class="pl-3">កំពុងដំណើរការ....</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (showBackdrop)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+
+
+@code 
+{
+    [Parameter]
+    public string Id { get; set; } = "id";
+
+
+    private string modalDisplay = "none;";
+    private string modalClass = "";
+    private bool showBackdrop = false;
+
+
+    public void Show()
+    {
+        modalDisplay = "block;";
+        modalClass = "show";
+        showBackdrop = true;
+
+        StateHasChanged();
+    }
+
+
+    public void Close()
+    {
+        modalDisplay = "none";
+        modalClass = "";
+        showBackdrop = false;
+        StateHasChanged();
+    }
+}

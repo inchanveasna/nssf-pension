@@ -1,0 +1,78 @@
+﻿
+<ol class="breadcrumb float-sm-right">
+    @foreach (var link in Links.OrderBy(o => o.OrderIndex))
+    {
+        <li class="breadcrumb-item @(link.IsActive ? "active" : "")">
+            @if (link.IsActive)@link.Title
+            else
+            {
+                <a href="@link.Address" style="color: var(--info)">
+                    <i class="@(link.Name == "home" ? "fa-solid fa-house" : "")"></i> @(" " + link.Title)
+                </a>
+            }
+        </li>
+    }
+</ol>
+
+
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+
+@code {
+    private string currentUrl;
+    private List<BreadcrumbModel> Links { get; set; }
+
+
+    [Parameter] public string IsNull { get; set; } = "";
+
+
+    private Dictionary<string, string> LinksTitle = new Dictionary<string, string>()
+{
+        {"home", "ទំព័រដើម" },
+        {"claims", "អ្នកទាមទារសោធន" },
+        {"new", "បន្ថែមថ្មី" },
+
+        {"allowance", "ប្រាក់សោធន" },
+
+        {"payments", "សេចក្ដីសម្រេច" },
+
+        {"search", "ស្វែងរក" },
+        {"member", "សមាជិក" },
+    };
+
+
+
+    protected override void OnParametersSet()
+    {
+        Links = new();
+        currentUrl = NavigationManager.Uri;
+        var myUrl = currentUrl.Replace(NavigationManager.BaseUri, "");
+        Links.Add(new BreadcrumbModel
+        {
+            Address = NavigationManager.BaseUri,
+            IsActive = NavigationManager.Uri == NavigationManager.BaseUri,
+            OrderIndex = 1,
+            Name = "home",
+            Title = LinksTitle["home"]
+        }) ;
+        var path = myUrl.Split('/');
+        var count = 1;
+
+        foreach (var link in path)
+        {
+            if (link == "") continue;
+            count++;
+            var lastLink = Links.Last();
+            Links.Add(new BreadcrumbModel
+            {
+                Address = $"{lastLink.Address}/{link}",
+                IsActive = link == path.Last(),
+                OrderIndex = count,
+                Name = link,
+                Title = LinksTitle.ContainsKey(link) ? LinksTitle[link] : IsNull,
+            });
+        }
+        base.OnParametersSet();
+    }
+}

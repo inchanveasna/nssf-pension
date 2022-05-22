@@ -27,10 +27,30 @@ namespace NSSFPensionSystem.Services.Impl
             this.HttpClient = httpClient;
         }
 
-        public Task<ClaimPensionerModel> GetPensioner(string id)
+        public async Task<Tuple<ClaimPensionerModel, string>> GetPensioner(string id)
         {
-            return Api.Get<ClaimPensionerModel>(APIEndpoint.ClaimPensioner(id));
+            var res = await Client.GetAsync<ResponseModel>(APIEndpoint.BaseUrl + APIEndpoint.ClaimPensioner(id));
+            if (!res.IsSucceded) throw new Exception(res.Result.Msg);
+            else if (res.Result.Error) throw new Exception(res.Result.Msg);
+            else if (res.Result.Data == null) throw new Exception(res.Result.Msg);
+            else
+            {
+                return Tuple.Create(JsonConvert.DeserializeObject<ClaimPensionerModel>(res.Result.Data.ToString()), res.Result.Msg);
+            }
         }
+
+        public async Task<List<ContributionModel>> GetPensionerContribution(string benid, DateTime effective)
+        {
+            var res = await Client.GetAsync<ResponseModel>(APIEndpoint.BaseUrl + APIEndpoint.ClaimPensionerCon(benid, effective));
+            if (!res.IsSucceded) throw new Exception(res.Result.Msg);
+            else if (res.Result.Error) throw new Exception(res.Result.Msg);
+            else if (res.Result.Data == null) throw new Exception(res.Result.Msg);
+            else
+            {
+                return JsonConvert.DeserializeObject<List<ContributionModel>>(res.Result.Data.ToString());
+            }
+        }
+
 
         public async Task<ClaimModel> Save(ClaimModel data)
         {
@@ -101,5 +121,7 @@ namespace NSSFPensionSystem.Services.Impl
                 return JsonConvert.DeserializeObject<List<ClaimTraceModel>>(res.Result.Data.ToString());
             }
         }
+
+        
     }
 }

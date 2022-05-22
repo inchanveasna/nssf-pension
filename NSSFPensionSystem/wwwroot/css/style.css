@@ -1,0 +1,161 @@
+﻿@font-face{
+    src: url(../fonts/KHMEROSMUOLLIGHT.TTF);
+    font-family: muol;
+}
+
+@font-face {
+    src: url(../fonts/KHMEROSSIEMREAP.TTF);
+    font-family: normal;
+}
+
+
+.brand-text{
+    font-family: muol;
+}
+
+.brand-image{
+    max-height: 44px !important;
+    background-color: white;
+    border-radius: 22px;
+    padding: 2px;
+}
+
+.nav-item a p{
+    font-family: normal;
+}
+
+.nav-treeview{
+    /*margin-left: 22px;*/
+}
+
+.nav-tabs .nav-item .nav-link{
+    font-family: normal;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: var(--info) !important;
+    color: #fff;
+}
+
+.dropdown-menu-lg .dropdown-item {
+    padding: 0.7rem 1rem !important;
+}
+
+.dropdown-item i {
+    background-color: var(--dark);
+    color: white;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    margin-right: 0.4rem;
+}
+
+.dropdown-item.logout{
+    color: var(--danger);
+}
+
+.datepicker:disabled {
+    background-color: #e9ecef !important;
+    opacity: 1;
+    cursor: default !important;
+}
+
+input, select, label, th, button, .btn{
+    font-family: normal !important;
+}
+
+.card-header .card-title {
+    font-family: normal !important;
+    font-size: 1.1rem !important;
+}
+
+
+select.decorated option:hover {
+    box-shadow: 0 0 10px 100px var(--info) inset;
+}
+
+
+.modal-header{
+    padding:0.5rem 1rem !important;
+}
+
+.modal-content.msg-box{
+    border-top: 3px solid var(--info);
+}
+
+.modal-header .modal-title {
+    font-size: 1rem !important;
+    font-weight: bold;
+}
+
+.modal-no-body .card{
+    margin-bottom: 0rem;
+}
+
+.nav-item .nav-link{
+    color: var(--info);
+}
+
+nav.main-header.navbar {
+    left: 0 !important;
+    position: fixed !important;
+    right: 0 !important;
+    top: 0 !important;
+    z-index: 1037;
+}
+
+.content-wrapper {
+    margin-top: calc(3.5rem + 1px) !important;
+}
+
+footer.main-header.navbar {
+    left: 0 !important;
+    position: fixed !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 1037;
+    border-top: 1px solid #dee2e6;
+}
+
+.page-title {
+    font-family: normal;
+    font-size: 1.25rem;
+    /*font-weight: bold;*/
+    /*color: var(--info);*/
+    color: var(--dark);
+}
+
+.form-control {
+    padding: 0.2rem 0.75rem !important;
+}
+
+.flatpickr-calendar.open {
+    z-index: 99999 !important;
+}
+
+
+.table td {
+    padding: 0.4rem 0.4rem !important;
+    vertical-align: middle !important;
+    /*border-top: 0.25px solid #dee2e6 !important;*/
+    font-family: normal;
+}
+
+table thead tr {
+    background-color: #f8f9fa !important;
+}
+
+td btn-sm{
+    padding: 0.15rem 0.4rem !important;
+}
+
+.table td a small i{
+    color: var(--secondary);
+}
+
+.badge{
+    padding:0.3rem 0.4rem !important;
+}
+
+.text-bold{
+    font-weight: bold;
+}

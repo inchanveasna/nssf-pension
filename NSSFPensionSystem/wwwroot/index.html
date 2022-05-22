@@ -6,93 +6,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>NSSF Pension System</title>
     <base href="/" />
-    <!--<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />-->
     <link href="css/app.css" rel="stylesheet" />
-
-
-    <link rel="icon" type="image/x-icon" href="template/assets/img/favicon.ico" />
-    <link href="template/assets/css/loader.css" rel="stylesheet" type="text/css" />
-    <!--<script src="template/assets/js/loader.js"></script>-->
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link href="template/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="template/assets/css/plugins.css" rel="stylesheet" type="text/css" />
-    <!-- END GLOBAL MANDATORY STYLES -->
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-    <link href="template/plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
-    <link href="template/assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
-    <link href="template/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
-    <link href="template/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="template/plugins/select2/select2.min.css">
-
-    <link href="template/plugins/flatpickr/flatpickr.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="AdminLte/plugins/fontawesome/css/all.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="AdminLte/dist/css/adminlte.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="AdminLte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- overlay scrollbars -->
+    <link type="text/css" href="AdminLte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" />
     <link href="template/plugins/noUiSlider/nouislider.min.css" rel="stylesheet" type="text/css">
-    <link href="template/plugins/flatpickr/custom-flatpickr.css" rel="stylesheet" type="text/css">
-    <link href="template/plugins/noUiSlider/custom-nouiSlider.css" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" type="text/css" href="template/assets/css/forms/theme-checkbox-radio.css">
-    <link href="template/assets/css/elements/tooltip.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="template/plugins/table/datatable/datatables.css">
-    <link rel="stylesheet" type="text/css" href="template/plugins/table/datatable/dt-global_style.css">
-    <link href="template/assets/css/elements/custom-pagination.css" rel="stylesheet" type="text/css" />
-    <link href="template/assets/css/components/timeline/custom-timeline.css" rel="stylesheet" type="text/css" />
-    <link href="template/assets/css/elements/popover.css" rel="stylesheet" type="text/css" />
-    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
-    <link href="template/custom.css" rel="stylesheet" type="text/css">
+    <link type="text/css" href="AdminLte/plugins/flatpickr/flatpickr.css" rel="stylesheet" />
+    <link type="text/css" href="AdminLte/plugins/flatpickr/custom-flatpickr.css" rel="stylesheet" />
+ 
+
+    <link type="text/css" href="AdminLte/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link type="text/css" href="AdminLte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link type="text/css" href="css/style.css" rel="stylesheet" />
 </head>
 
-<body>
-    <app>Loading...</app>
+<body class="hold-transition sidebar-mini" style="height: auto;">
+
+    <app>
+        <!--<div class="overlay">
+            <div class="d-flex align-items-center justify-content-center">
+                <div><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
+                <div>កំពុងដំណើរការ....</div>
+            </div>
+        </div>-->
+
+        <div id="@Id" class="modal fade @modalClass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="d-flex align-items-center">
+                            <div class="spinner-grow text-info align-self-center">កំពុងដំណើរការ....</div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </app>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
     <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
 
 
-    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-    <script src="template/assets/js/libs/jquery-3.1.1.min.js"></script>
-    <script src="template/bootstrap/js/popper.min.js"></script>
-    <script src="template/bootstrap/js/bootstrap.min.js"></script>
-    <script src="template/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="template/assets/js/app.js"></script>
-    <script src="template/custom.js"></script>
+    <script src="AdminLte/plugins/jquery/jquery.min.js"></script>
+    <script src="AdminLte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="AdminLte/plugins/select2/js/select2.full.min.js"></script>
+    <script src="AdminLte/plugins/moment/moment.min.js"></script>
+    <script src="AdminLte/plugins/inputmask/jquery.inputmask.min.js"></script>
+
+    <script src="_content/Blazorized.AdminLte/js/interop.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script src="AdminLte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="AdminLte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="AdminLte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="AdminLte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="AdminLte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="AdminLte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="AdminLte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="AdminLte/plugins/jszip/jszip.min.js"></script>
+    <script src="AdminLte/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="AdminLte/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="AdminLte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="AdminLte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="AdminLte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script src="AdminLte/plugins/flatpickr/flatpickr.js"></script>
+    <script src="AdminLte/dist/js/adminlte.min.js"></script>
+    <script src="AdminLte/custom.js"></script>
 
 
-    <script src="template/plugins/highlight/highlight.pack.js"></script>
-    <script src="template/assets/js/custom.js"></script>
-    <script src="template/assets/js/scrollspyNav.js"></script>
-    <!-- END GLOBAL MANDATORY SCRIPTS -->
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-    <script src="template/plugins/apex/apexcharts.min.js"></script>
-    <script src="template/assets/js/dashboard/dash_1.js"></script>
-    <script src="template/plugins/input-mask/jquery.inputmask.bundle.min.js"></script>
-    <script src="template/plugins/select2/select2.min.js"></script>
-    <script src="template/plugins/flatpickr/flatpickr.js"></script>
-    <script src="template/assets/js/elements/tooltip.js"></script>
-    <script src="template/plugins/table/datatable/datatables.js"></script>
-    
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
-    <script>
-        $('#tableClaimList').DataTable({
-            "oLanguage": {
-                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
-                "sInfo": "Showing page _PAGE_ of _PAGES_",
-                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-                "sSearchPlaceholder": "Search...",
-                "sLengthMenu": "Results :  _MENU_",
-            },
-            "stripeClasses": [],
-            "lengthMenu": [7, 10, 20, 50],
-            "pageLength": 7
-        });
-
-    </script>
 </body>
 
 </html>

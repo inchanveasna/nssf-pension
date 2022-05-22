@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace NSSFPensionSystem.Models
 {
@@ -14,6 +15,7 @@ namespace NSSFPensionSystem.Models
         [JsonProperty("cla_id")]
         public int ClaId { get; set; } = 0;
 
+        [Required]
         [JsonProperty("first_name_kh")]
         public string FirstNameKh { get; set; } = "";
 

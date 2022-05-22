@@ -16,13 +16,13 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.runtime\3.2.0\build\netstandard1.0\Microsoft.AspNetCore.Components.WebAssembly.Runtime.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.runtime\3.2.0\build\netstandard1.0\Microsoft.AspNetCore.Components.WebAssembly.Runtime.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.build\3.2.1\build\netstandard1.0\Microsoft.AspNetCore.Components.WebAssembly.Build.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.build\3.2.1\build\netstandard1.0\Microsoft.AspNetCore.Components.WebAssembly.Build.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.authentication\3.2.1\buildTransitive\Microsoft.AspNetCore.Components.WebAssembly.Authentication.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.authentication\3.2.1\buildTransitive\Microsoft.AspNetCore.Components.WebAssembly.Authentication.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.authentication\5.0.13\buildTransitive\Microsoft.AspNetCore.Components.WebAssembly.Authentication.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly.authentication\5.0.13\buildTransitive\Microsoft.AspNetCore.Components.WebAssembly.Authentication.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly\5.0.13\build\net5.0\Microsoft.AspNetCore.Components.WebAssembly.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.webassembly\5.0.13\build\net5.0\Microsoft.AspNetCore.Components.WebAssembly.props')" />
+    <Import Project="$(NuGetPackageRoot)blazorized.adminlte.content\3.0.7\buildTransitive\Blazorized.AdminLte.Content.props" Condition="Exists('$(NuGetPackageRoot)blazorized.adminlte.content\3.0.7\buildTransitive\Blazorized.AdminLte.Content.props')" />
+    <Import Project="$(NuGetPackageRoot)blazor-state\3.4.4\buildTransitive\Blazor-State.props" Condition="Exists('$(NuGetPackageRoot)blazor-state\3.4.4\buildTransitive\Blazor-State.props')" />
+    <Import Project="$(NuGetPackageRoot)blazorized.adminlte\0.1.8\buildTransitive\Blazorized.AdminLte.props" Condition="Exists('$(NuGetPackageRoot)blazorized.adminlte\0.1.8\buildTransitive\Blazorized.AdminLte.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMicrosoft_AspNetCore_Components_WebAssembly_Runtime Condition=" '$(PkgMicrosoft_AspNetCore_Components_WebAssembly_Runtime)' == '' ">C:\Users\INCHANVEASNA\.nuget\packages\microsoft.aspnetcore.components.webassembly.runtime\3.2.0</PkgMicrosoft_AspNetCore_Components_WebAssembly_Runtime>
-    <PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer Condition=" '$(PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer)' == '' ">C:\Users\INCHANVEASNA\.nuget\packages\microsoft.aspnetcore.components.webassembly.devserver\3.2.1</PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer>
-    <PkgMicrosoft_AspNetCore_Components_WebAssembly_Build Condition=" '$(PkgMicrosoft_AspNetCore_Components_WebAssembly_Build)' == '' ">C:\Users\INCHANVEASNA\.nuget\packages\microsoft.aspnetcore.components.webassembly.build\3.2.1</PkgMicrosoft_AspNetCore_Components_WebAssembly_Build>
+    <PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer Condition=" '$(PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer)' == '' ">C:\Users\INCHANVEASNA\.nuget\packages\microsoft.aspnetcore.components.webassembly.devserver\5.0.13</PkgMicrosoft_AspNetCore_Components_WebAssembly_DevServer>
   </PropertyGroup>
 </Project>

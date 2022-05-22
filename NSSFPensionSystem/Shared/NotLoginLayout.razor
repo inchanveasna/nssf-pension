@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex align-items-center">
+        <a class="btn btn-danger" href="#" onclick="GoToLogin">Login</a>
+        @Body
+    </div>
+</div>
+
+
+
+@code {
+    private void GoToLogin()
+    {
+        Navigation.NavigateTo($"authentication/login?returnUrl={Uri.EscapeDataString(Navigation.Uri)}");
+    }
+}

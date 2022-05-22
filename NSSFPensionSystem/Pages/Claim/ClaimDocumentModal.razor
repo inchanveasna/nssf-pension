@@ -1,0 +1,89 @@
+﻿<Modal @ref="MyModal">
+    <Title>
+        <h5 class="modal-title">ឯកសារសោធនិក</h5>
+    </Title>
+    <Body>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <Label IsRequire="true" Text="ប្រភេទលិខិត" for="doctype" />
+                <select id="doctype" class="form-control" @bind="ClaimDocument.DocID">
+                    @foreach (DocumentModel doc in Documents)
+                    {
+                        <option value="@doc.DocID">@doc.DocName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="doccode">លេខលិខិត</label>
+                <input type="text" class="form-control" id="doccode" @bind="ClaimDocument.DocCode" />
+            </div>
+            <div class="form-group col-md-4">
+                <Label IsRequire="true" Text="ថ្ងៃខែឆ្នាំចុះលិខិត" for="docdate" />
+                <div class="input-group">
+                    <input type="text" class="form-control datepicker masked-date" id="docdate" @bind="ClaimDocument.DocDate" @bind:format="dd-MM-yyyy">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="docby">ចេញលិខិតដោយ</label>
+                <input type="text" class="form-control" id="docby" @bind="ClaimDocument.DocBy" />
+            </div>
+            <div class="form-group col-md-4">
+                <label for="docby">ចេញលិខិតនៅ</label>
+                <input type="text" class="form-control" id="docat" @bind="ClaimDocument.DocAt" />
+            </div>
+        </div>
+    </Body>
+    <Footer>
+        <button class="btn btn-dark btn-sm" @onclick="()=> MyModal.Close()">
+            <i class="fas fa-xmark"></i>
+            បោះបង់
+        </button>
+        <button type="button" class="btn btn-info btn-sm" @onclick="Submit">
+            <i class="fas fa-circle-check"></i>
+            @(Index == -1 ? "បន្ថែម" : "កែប្រែ")
+        </button>
+    </Footer>
+</Modal>
+
+
+@code
+{
+    [Parameter] public List<DocumentModel> Documents { get; set; }
+    [Parameter] public EventCallback<Tuple<int, ClaimDocumentModel>> OnSubmit { get; set; }
+
+
+    private Modal MyModal { get; set; }
+    private ClaimDocumentModel ClaimDocument { get; set; } = new ClaimDocumentModel() { DocID = 1 };
+    private int Index { get; set; } = -1;
+
+
+
+    public async Task Show(int index)
+    {
+        this.Index = index;
+
+        if (Index == -1) ClaimDocument = new ClaimDocumentModel() { DocID = 1 };
+        await MyModal.Show();
+    }
+
+
+    public async Task Close()
+    {
+        await MyModal.Close();
+    }
+
+
+
+    private async Task Submit()
+    {
+        await this.OnSubmit.InvokeAsync(Tuple.Create(Index, ClaimDocument));
+    }
+
+
+}

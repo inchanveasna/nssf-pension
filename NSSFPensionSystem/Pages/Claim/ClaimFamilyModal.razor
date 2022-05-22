@@ -1,0 +1,274 @@
+﻿
+<Modal @ref="MyModal" Size="xl" WithoutBody="true">
+    <Title>
+        <h5 class="modal-title">អ្នកពាក់ព័ន្ធសោធនិក</h5>
+    </Title>
+    <Body>
+        <div class="card card-info card-outline card-outline-tabs">
+            <div class="card-header p-0 border-bottom-0">
+                <ul class="nav nav-tabs" id="simpletab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">ប្រវត្តិរូប</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="document-tab" data-toggle="tab" href="#document" role="tab" aria-controls="document" aria-selected="false">ឯកសារ</a>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <div class="tab-content" id="simpletabContent">
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label class="required" for="memfnamekh">គោត្តនាម</label>
+                                    <input type="text" class="form-control" id="memfnamekh" required @bind="Member.FirstNameKh" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="required" for="memlnamekh">នាម</label>
+                                    <input type="text" class="form-control" id="memlnamekh" @bind="Member.LastNameKh" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="required" for="memfnameen">គោត្តនាម (ឡាតាំង)</label>
+                                    <input type="text" class="form-control" id="memfnameen" @bind="Member.FirstNameLatin" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="required" for="memlnameen">នាម (ឡាតាំង)</label>
+                                    <input type="text" class="form-control" id="memlnameen" @bind="Member.LastNameLatin" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label class="required" for="memsex">ភេទ</label>
+                                    <select id="memsex" class="form-control" @bind="Member.GenId">
+                                        @foreach (GenderModel gen in Genders)
+                                        {
+                                            <option value="@gen.GenID">@gen.GenName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="required" for="memdob">ថ្ងៃខែឆ្នាំកំណើត</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control datepicker" id="memdob" @bind="Member.Dob" @bind:format="dd-MM-yyyy">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="required" for="memnat">សញ្ជាតិ</label>
+                                    <select id="memnat" class="form-control select2 select2bs4 select2-hidden-accessible" style="width: 100%;" @bind="Member.NationalId">
+                                        @foreach (NationalityModel nat in Nationalities)
+                                        {
+                                            <option data-select-2-id="@nat.NatID" value="@nat.NatID">@nat.NatNameKh</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="required" for="memidcard">អត្ត.ប័ណ្ណ/លិខិតឆ្លងដែន</label>
+                                    <input type="text" class="form-control" id="memidcard" @bind="Member.IdNumber">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label class="required" for="memrel">ត្រូវជា</label>
+                                    <select id="memrel" class="form-control" @bind="Member.RelId">
+                                        @foreach (RelationshipModel rel in Relationships)
+                                        {
+                                            <option value="@rel.RelId">@rel.RelDesc</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="required" for="memphone">លេខទូរស័ព្ទ</label>
+                                    <input type="text" class="form-control masked-phone" id="memphone" @bind="Member.Phone" />
+                                </div>
+                                <div class="n-chk col-md-2">
+                                    <label class="new-control new-checkbox checkbox-info">
+                                        <input type="checkbox" class="new-control-input" @bind="Member.IsRepresenter">
+                                        <span class="new-control-indicator"></span>@("អ្នកតំណាង")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
+                            <button type="button" class="btn btn-outline-info float-right mb-2" @onclick="() => DocumentModal.Show(-1)">
+                                <i class="fas fa-circle-plus"></i>
+                            </button>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            @foreach (string name in TableHeaderDocument)
+                                            {
+                                                <th class="text-center">@name</th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Member.Documents.Count == 0)
+                                        {
+                                            <tr><td colspan="@TableHeaderDocument.Count" class="text-center">មិនទាន់មានឯកសារ</td></tr>
+                                        }
+                                        else
+                                        {
+                                            @foreach (ClaimFamilyMemberDocumentModel doc in Member.Documents)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">@(Member.Documents.IndexOf(doc) + 1)</td>
+                                                    <td>@doc.DocName</td>
+                                                    <td>@doc.DocCode</td>
+                                                    <td>@doc.DocDateString</td>
+                                                    <td>@doc.DocBy</td>
+                                                    <td>@doc.DocAt</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0)"><i class="fas fa-pen-to-square"></i></a>
+                                                        <a @onclick="() => OnRemoveDocument(Member.Documents.IndexOf(doc))" href="javascript:void(0)"><i class="fa-solid fa-trash-can"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Body>
+    <Footer>
+        <button class="btn btn-dark btn-sm" @onclick="()=> MyModal.Close()">
+            <i class="fas fa-xmark"></i>
+            បោះបង់
+        </button>
+        <button type="submit" class="btn btn-info btn-sm" @onclick="Submit">
+            <i class="fas fa-circle-check"></i>
+            @(Index == -1 ? "បន្ថែម" : "កែប្រែ")
+        </button>
+    </Footer>
+</Modal>
+
+
+<ClaimDocumentModal @ref="DocumentModal" Documents="Documents" OnSubmit="@((e) => OnAddDocument(e.Item1, e.Item2))" />
+<Message @ref="MessageBox" />
+
+
+
+
+
+@code {
+
+    [Inject] private IJSRuntime Runtime { get; set; }
+    [Inject] private IConstantValueService ConstantValue { get; set; }
+
+
+
+    private ClaimFamilyMemberModel Member { get; set; } = new();
+
+    [Parameter] public List<GenderModel> Genders { get; set; }
+    [Parameter] public List<NationalityModel> Nationalities { get; set; }
+    [Parameter] public List<RelationshipModel> Relationships { get; set; }
+    [Parameter] public List<String> TableHeaderDocument { get; set; }
+    [Parameter] public List<DocumentModel> Documents { get; set; }
+    [Parameter] public EventCallback<Tuple<int, ClaimFamilyMemberModel>> OnSubmit { get; set; }
+
+
+    private Modal MyModal { get; set; }
+    private ClaimDocumentModal DocumentModal { get; set; }
+    private int Index { get; set; } = -1;
+    private ClaimFamilyMemberDocumentModel MemberDoc { get; set; } = new();
+    private Message MessageBox { get; set; }
+    private DotNetObjectReference<ClaimFamilyModal> JsRef;
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            JsRef = DotNetObjectReference.Create(this);
+            await Runtime.InvokeAsync<object>("ClaimFamily", JsRef);
+        }
+
+        await this.OnSexChanged(Member.GenId);
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+
+    public async Task Show(int index)
+    {
+        this.Index = index;
+
+        if (Index == -1) Member = new ClaimFamilyMemberModel();
+        await MyModal.Show();
+    }
+
+   
+
+    private async Task Submit()
+    {
+        Member.Nationality = Nationalities.Where(w => w.NatID == Member.NationalId).FirstOrDefault().NatNameKh;
+        Member.Relationship = Relationships.Where(w => w.RelId == Member.RelId).FirstOrDefault().RelDesc;
+        Member.Phone = await Runtime.InvokeAsync<string>("GetMaskPhoneText", "memphone");
+
+        await this.OnSubmit.InvokeAsync(Tuple.Create(Index, Member));
+    }
+
+
+
+    async Task OnAddDocument(int index, ClaimDocumentModel doc)
+    {
+        int countCheck = Member.Documents.Where(w => w.DocID == doc.DocID).Count();
+
+        ClaimFamilyMemberDocumentModel document = new ClaimFamilyMemberDocumentModel()
+        {
+            Active = true,
+            DocAt = doc.DocAt,
+            DocBy = doc.DocBy,
+            DocCode = doc.DocCode,
+            DocDate = doc.DocDate,
+            DocID = doc.DocID,
+            DocName = Documents.Where(w => w.DocID == doc.DocID).SingleOrDefault().DocName,
+            MemId = Member.MemId
+        };
+
+
+
+        if (index == -1 && countCheck == 0)
+        {
+            Member.Documents.Add(document);
+            await DocumentModal.Close();
+        }
+        //UPDATE
+        else if (index >= 0 && countCheck == 1)
+        {
+            Member.Documents.RemoveAt(index);
+            Member.Documents.Insert(index, document);
+            await DocumentModal.Close();
+        }
+        else await MessageBox.Show(MessageTypes.WARNING, "ប្រភេទឯកសារនេះធ្លាប់បានបញ្ចូលរួចហើយ!");
+        StateHasChanged();
+    }
+
+
+
+    [JSInvokable]
+    public async Task OnSexChanged(object val)
+    {
+        this.Relationships = await ConstantValue.GetRelationShips(val.ToString());
+        Member.RelId = Relationships.FirstOrDefault().RelId;
+        this.StateHasChanged();
+    }
+
+    private void OnRemoveDocument(int index)
+    {
+        Member.Documents.RemoveAt(index);
+    }
+
+    public async Task Close()
+    {
+        await MyModal.Close();
+    }
+
+
+
+}

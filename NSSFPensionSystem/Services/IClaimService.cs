@@ -8,7 +8,9 @@ namespace NSSFPensionSystem.Services
 {
     interface IClaimService
     {
-        Task<ClaimPensionerModel> GetPensioner(string id);
+        Task<Tuple<ClaimPensionerModel, string>> GetPensioner(string id);
+
+        Task<List<ContributionModel>> GetPensionerContribution(string benid, DateTime effective);
 
         Task<ClaimModel> Save(ClaimModel data);
 

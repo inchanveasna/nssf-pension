@@ -64,6 +64,15 @@
     min-width: 100% !important;
 }
 
+.nav-link{
+    font-family: var(--font-family-muol);
+    font-size: 15px !important;
+}
+
+.header-container .navbar{
+    background: #336699 !important;
+}
+
 #content{
     /* margin-top: 159px !important;*/
     /*padding-bottom: 50px !important;*/
@@ -251,14 +260,7 @@ thead {
     border: none !important;
 }
 
-.cell-text {
-    font-weight: bold !important;
-    margin-bottom: 0px !important;
-}
 
-.cell-subtext {
-    font-size: 11px !important;
-}
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
@@ -372,3 +374,12 @@ thead {
     box-shadow: 0 10px 20px -10px var(--info);
 }
 
+
+.info-text{
+    color: var(--info);
+    font-weight: bold;
+}
+
+.bold-text{
+    font-weight: bold;
+}

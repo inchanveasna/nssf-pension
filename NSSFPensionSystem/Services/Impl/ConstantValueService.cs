@@ -4,16 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NSSFPensionSystem.Setting;
+using AKSoftware.WebApi.Client;
+using Newtonsoft.Json;
 
 namespace NSSFPensionSystem.Services.Impl
 {
     public class ConstantValueService : IConstantValueService
     {
         private ApiService Api { get; set; }
+        private ServiceClient Client { get; set; }
 
-        public ConstantValueService(ApiService apiService)
+
+
+        public ConstantValueService(ApiService apiService, ServiceClient client)
         {
             this.Api = apiService;
+            this.Client = client;
         }
 
         //public Task<List<BranchModel>> GetBranches()
@@ -49,13 +55,19 @@ namespace NSSFPensionSystem.Services.Impl
         {
             return Api.Get<List<PensionTypeModel>>(APIEndpoint.PensionTypes);
         }
-        //public Task<List<FamilyStatus>> GetFamilyStatuses()
-        //{
-        //    return apiService.Get<List<FamilyStatus>>(ApiEndpoint.FamilyStatus);
-        //}
+
+        public Task<List<FamilyStatusModel>> GetFamilyStatuses()
+        {
+            return Api.Get<List<FamilyStatusModel>>(APIEndpoint.FamilyStatus);
+        }
         public Task<List<BankModel>> GetBanks()
         {
             return Api.Get<List<BankModel>>(APIEndpoint.Banks);
+        }
+
+        public Task<List<CardTypeModel>> GetCardTypes()
+        {
+            return Api.Get<List<CardTypeModel>>(APIEndpoint.CardTypes);
         }
         public Task<List<NationalityModel>> GetNationalities()
         {
@@ -77,6 +89,18 @@ namespace NSSFPensionSystem.Services.Impl
         public Task<List<DocumentModel>> GetDocuments()
         {
             return Api.Get<List<DocumentModel>>(APIEndpoint.Documents);
+        }
+
+        public async Task<DateTime> GetLaunchDate()
+        {
+            var res = await Client.GetAsync<ResponseModel>(APIEndpoint.BaseUrl + APIEndpoint.LaunchDate);
+            if (!res.IsSucceded) throw new Exception(res.Result.Msg);
+            else if (res.Result.Error) throw new Exception(res.Result.Msg);
+            else if (res.Result.Data == null) throw new Exception(res.Result.Msg);
+            else
+            {
+                return Convert.ToDateTime(res.Result.Data.ToString());
+            }
         }
         //public Task<Tuple<FilterClaim, string>> GetFilterClaims(string ben_id)
         //{

@@ -1,13 +1,13 @@
-﻿@inherits ClaimTraceBase
-@page "/claims/{Id:guid}/trace"
+﻿@*@inherits ClaimTraceBase*@
+@*@page "/claims/{Id:guid}/trace"*@
 
 
 
-    <div class="container-fluid bottom-spacing">
+    @*<div class="container-fluid bottom-spacing">
         <div class="layout-top-spacing ">
-            <div class="widget-content-area widget-shadow">
+            <div class="widget-content-area widget-shadow">*@
                 <div class="timeline-line">
-                    @foreach (ClaimTraceModel trace in Traces.OrderByDescending(o => o.InputDatetime))
+                    @foreach (ClaimTraceModel trace in Data.OrderByDescending(o => o.InputDatetime))
                     {
                         <div class="item-timeline">
                             <p class="t-time">@trace.InputDatetime.ToString("dd-MM-yyyy HH:mm")</p>
@@ -21,6 +21,48 @@
                     }
                 </div>
 
+            @*</div>
             </div>
-            </div>
-        </div>
+        </div>*@
+
+
+
+@code  {
+
+    //[Parameter]
+    //public string Id { get; set; }
+
+    [Parameter]
+    public List<ClaimTraceModel> Data { get; set; }
+
+
+    protected string GetClassByClaimStatus(int sta)
+    {
+        string result = "";
+        switch (sta)
+        {
+            case 1:
+                result = "t-dot-dark";
+                break;
+            case 2:
+                result = "t-dot-info";
+                break;
+            case 3:
+                result = "t-dot-warning";
+                break;
+            case 5:
+                result = "t-dot-primary";
+                break;
+            case 4:
+            case 6:
+            case 8:
+                result = "t-dot-danger";
+                break;
+            default:
+                result = "t-dot-success";
+                break;
+        }
+
+        return result;
+    }
+}

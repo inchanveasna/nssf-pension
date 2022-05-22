@@ -1,0 +1,143 @@
+﻿<div id="message-modal" class="modal fade @modalClass" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display:@modalDisplay; overflow-y: auto;">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content msg-box">
+            <div class="modal-header">
+                <h5 class="modal-title">@Title</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        @if (Type == MessageTypes.INFO)
+                        {
+                            <img src="AdminLte/img/msg/information.png" style="height: 48px; width: 48px;" /> }
+                        else if (Type == MessageTypes.CONFIRM)
+                        {
+                            <img src="AdminLte/img/msg/confirm.png" style="height: 48px; width: 48px;" /> }
+                        else if (Type == MessageTypes.ERROR)
+                        {
+                            <img src="AdminLte/img/msg/error.png" style="height: 48px; width: 48px;" /> }
+                        else if (Type == MessageTypes.WARNING)
+                        {
+                            <img src="AdminLte/img/msg/warning.png" style="height: 48px; width: 48px;" />}
+                    </div>
+                    <div class="col-md-9">
+                        @Msg
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 4px 8px !important;">
+                @if (Type == MessageTypes.CONFIRM)
+                {
+                    <button class="btn btn-danger btn-sm" @onclick="Cancel"><i class="fa-solid fa-xmark"></i> បដិសេធ</button>
+                }
+                <button type="button" class="btn btn-info btn-sm ml-2" @onclick="Confirmed"><i class="fa-solid fa-check"></i> យល់ព្រម</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (showBackdrop)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+
+@code {
+    private MessageTypes Type { get; set; } = MessageTypes.INFO;
+    private string Title { get; set; } = "";
+    private string Msg { get; set; } = "";
+
+    private TaskCompletionSource<bool> cancel = new TaskCompletionSource<bool>();
+
+    private string modalDisplay = "none;";
+    private string modalClass = "";
+    private bool showBackdrop = false;
+
+    public Task<bool> IsCancel => cancel.Task;
+
+    public async Task Show(MessageTypes type, string message)
+    {
+        await Task.Factory.StartNew(() =>
+        {
+            cancel = new TaskCompletionSource<bool>();
+
+            this.Type = type;
+            this.Title = this.GetTitle(type);
+            this.Msg = message;
+
+            modalDisplay = "block;";
+            modalClass = "show";
+            showBackdrop = true;
+        });
+        StateHasChanged();
+    }
+
+
+    public async Task Show(MessageTypes type, MessageText text)
+    {
+        await Show(type, GetMessageText(text));
+    }
+
+
+    private async Task Cancel()
+    {
+        cancel.TrySetResult(true);
+        await Close();
+    }
+
+    private async Task Confirmed()
+    {
+        cancel.TrySetResult(false);
+        await Close();
+    }
+
+
+    private async Task Close()
+    {
+        await Task.Factory.StartNew(() =>
+        {
+            modalDisplay = "none";
+            modalClass = "";
+            showBackdrop = false;
+        });
+        StateHasChanged();
+    }
+
+
+    private string GetTitle(MessageTypes type)
+    {
+        string title = "";
+        switch (type)
+        {
+            case MessageTypes.CONFIRM:
+                title = "សារបញ្ជាក់"; break;
+            case MessageTypes.ERROR:
+                title = "សារកំហុស"; break;
+            case MessageTypes.INFO:
+                title = "សារជូនដំណឹង"; break;
+            case MessageTypes.WARNING:
+                title = "សារជូនដំណឹង"; break;
+        }
+
+        return title;
+    }
+
+    private string GetMessageText(MessageText type)
+    {
+        string text = "";
+        switch (type)
+        {
+            case MessageText.REMOVE_CONFIRMATION:
+                text = "តើអ្នកពិតជាចង់ដកចេញមែនទេ?"; break;
+            case MessageText.SUCCESS:
+                text = "ប្រតិបត្តិការទទួលបានជោគជ័យ!"; break;
+            case MessageText.UNSUCCESS:
+                text = "ប្រតិបត្តិការមិនទទួលបានជោគជ័យ!"; break;
+            case MessageText.NO_DATA:
+                text = "ទិន្នន័យមិនមាននៅក្នុងប្រព័ន្ធ!"; break;
+        }
+
+        return text;
+    }
+}

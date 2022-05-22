@@ -1,22 +1,22 @@
-﻿<div class="d-flex justify-content-between">
-    <div class="paginating-container pagination-solid">
-        <label>បង្ហាញ</label>
+﻿<div class="d-flex justify-content-between ">
+
+    <div class="form-row">
+        <label class="d-flex align-items-center" style="margin-bottom: 0rem !important">បង្ហាញ</label>
         <input type="text" class="form-control mx-1" value="@Paginate.Size" @onchange="((val)=> OnPageSizeChange(val))" style="width: 80px" />
-        <label>សរុប: @(Paginate.Total.HasValue ? Paginate.Total.Value.ToString("N0") : "0" )</label>
+        <label class="d-flex align-items-center" style="margin-bottom: 0rem !important">សរុប: @(Paginate.Total.HasValue ? Paginate.Total.Value.ToString("N0") : "0" )</label>
     </div>
 
-    <div class="paginating-container pagination-solid">
-        <ul class="pagination">
-            <li class="prev"><a @onclick="OnFirst"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-left"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg></a></li>
-            <li class="next"><a @onclick="OnPrev"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></a></li>
-        </ul>
+
+    <div class="form-row d-flex align-items-center">
+        <button type="button" class="btn btn-outline-info btn-sm" @onclick="OnFirst"> <i class="fa-solid fa-angles-left"></i> </button>
+        <button type="button" class="btn btn-outline-info btn-sm ml-1" @onclick="OnPrev"> <i class="fa-solid fa-angle-left"></i> </button>
+
         <input type="text" class="form-control mx-1" value="@Paginate.Page" @onchange="@((val) => OnPageChange(val))" style="width: 80px" />
-        <label>/</label>
-        <input type="text" class="form-control mx-1" disabled style="width: 80px" value="@(Paginate.TotalPages.HasValue ? Paginate.TotalPages.Value.ToString("N0") : "0")"  />
-        <ul class="pagination">
-            <li class="next"><a @onclick="OnNext"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></a></li>
-            <li class="next"><a @onclick="OnLast"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-right"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg></a></li>
-        </ul>
+        <label class="d-flex align-items-center" style="margin-bottom: 0rem !important">/</label>
+        <input type="text" class="form-control mx-1" disabled style="width: 80px" value="@(Paginate.TotalPages.HasValue ? Paginate.TotalPages.Value.ToString("N0") : "0")" />
+
+        <button type="button" class="btn btn-outline-info btn-sm ml-1" @onclick="OnNext"> <i class="fa-solid fa-angle-right"></i> </button>
+        <button type="button" class="btn btn-outline-info btn-sm ml-1" @onclick="OnLast"> <i class="fa-solid fa-angles-right"></i> </button>
     </div>
 </div>
 
@@ -24,16 +24,14 @@
 
 @code {
 
-    [Parameter]
-    public PaginationModel Paginate { get; set; } = new PaginationModel();
+    [Parameter] public PaginationModel Paginate { get; set; } = new PaginationModel();
 
-    [Parameter]
-    public EventCallback<PaginationModel> OnChangedPage { get; set; }
+    [Parameter] public EventCallback<PaginationModel> OnChangedPage { get; set; }
 
     public void OnPageSizeChange(ChangeEventArgs val)
     {
         int size = 0;
-        if(Int32.TryParse(val.Value.ToString(), out size) && size > 0)
+        if (Int32.TryParse(val.Value.ToString(), out size) && size > 0)
         {
             Paginate.Size = size;
             OnChangedPage.InvokeAsync(Paginate);
@@ -44,7 +42,7 @@
     public void OnPageChange(ChangeEventArgs val)
     {
         int page = 0;
-        if(Int32.TryParse(val.Value.ToString(), out page) && page !> Paginate.TotalPages)
+        if (Int32.TryParse(val.Value.ToString(), out page) && page! > Paginate.TotalPages)
         {
             Paginate.Page = page;
             OnChangedPage.InvokeAsync(Paginate);

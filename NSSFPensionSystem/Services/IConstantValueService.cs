@@ -8,6 +8,7 @@ namespace NSSFPensionSystem.Services
 {
     public interface IConstantValueService
     {
+        Task<DateTime> GetLaunchDate();
         Task<List<ProvinceModel>> GetProvices();
         Task<List<DistrictModel>> GetDistricts(int pro_id);
         Task<List<CommuneModel>> GetCommunes(int disID);
@@ -16,8 +17,10 @@ namespace NSSFPensionSystem.Services
         Task<List<PensionTypeModel>> GetPensionTypes();
         //Task<List<FamilyStatus>> GetFamilyStatuses();
         Task<List<BankModel>> GetBanks();
+        Task<List<CardTypeModel>> GetCardTypes();
         Task<List<NationalityModel>> GetNationalities();
         Task<List<RelationshipModel>> GetRelationShips(string sexId);
+        Task<List<FamilyStatusModel>> GetFamilyStatuses();
         //Task<List<HealthStatus>> GetHealthStatuses();
         ////Task<Tuple<FilterClaim, string>> GetFilterClaims(string ben_id);
         Task<List<DocumentModel>> GetDocuments();

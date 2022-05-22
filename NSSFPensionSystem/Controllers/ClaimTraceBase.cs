@@ -31,7 +31,7 @@ namespace NSSFPensionSystem.Controllers
 
         protected async override Task OnParametersSetAsync()
         {
-            if (Id != null && Id.ToString().Length == 36 && Id.ToString() != "00000000-0000-0000-0000-000000000000")
+            if (Id.ToString().Length == 36 && Id.ToString() != "00000000-0000-0000-0000-000000000000")
             {
                 this.Traces = await ClaimService.GetClaimTrace(this.Id.ToString());
             }

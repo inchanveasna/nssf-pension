@@ -1,0 +1,118 @@
+﻿@page "/allowance/new"
+@inherits AllowanceBase
+
+    <FormHeader Icon="fa-solid fa-file-signature" Title="ទម្រង់ប្រាក់សោធន" />
+    <div class="content mx-3 mb-5 pb-4">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row justify-content-end">
+                        <button id="btnrefresh" class="btn btn-info" @onclick="OnRefresh">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                @foreach (string name in TableHeader)
+                                {
+                                    <th class="text-center">@name</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (AllowanceReviews.Count == 0)
+                            {
+                                <tr><td colspan="@TableHeader.Count" class="text-center">មិនមានឯកសារត្រូវពិនិត្យ!</td></tr>
+                            }
+                            else
+                            {
+                                @foreach (var Allowance in AllowanceReviews)
+                                {
+                                    <tr>
+                                        <td class="text-center">@(AllowanceReviews.IndexOf(Allowance) + 1)</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info" @onclick="() => OnNavigateToClaim(Allowance.GUID)">
+                                                @Allowance.ClaCode
+                                            </button>
+                                        </td>
+                                        <td class="text-center">@Allowance.PsTypeNameKh</td>
+                                        <td class="text-center">@(Allowance.BenNote + "-"+ @Allowance.BenId + "-" + Allowance.BenChar)</td>
+                                        <td class="text-center">@Allowance.FullnameKh</td>
+                                        <td class="text-center"> @(Allowance.SexId=="1" ? "ប្រុស" : "ស្រី" )</td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="mb-1">-រយៈពេល</span>
+                                                <div>
+                                                    <span class="text-bold">@(Allowance.NumConYear * 12 + Allowance.NumConMonth)</span>
+                                                    <span class="sub">@("ខែ (" + Allowance.NumConYear + "ឆ្នាំ " + Allowance.NumConMonth + "ខែ)")</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="mb-1">-អស</span>
+                                                <div>
+                                                    <span class="text-bold">@((Allowance.PsRate * 100).ToString("N2"))</span>
+                                                    <span class="sub">%</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="mb-1">-បឈម</span>
+                                                <div>
+                                                    <span class="bold-text" style="font-weight: bold;">@Allowance.AvgAssumeWage.ToString("N0")</span>
+                                                    <span class="sub">៛</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @foreach (var detail in Allowance.Details.Select(s => new { s.IntId, s.IntName }).Distinct())
+                                            {
+                                                <div class="mb-2">
+                                                    <div class="row">
+                                                        <span class="bold-text">@detail.IntName</span>
+                                                    </div>
+                                                    @foreach (var alw in Allowance.Details.Where(w => w.IntId == detail.IntId))
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-md-6 offset-md-1">
+                                                                <span class="sub">@("- " + alw.AlwTypeName)</span>
+                                                                @if (alw.IntId == 1)
+                                                                {
+                                                                    <span class="sub">@("(" + alw.ExtraDay + "ថ្ងៃ)")</span>
+                                                                }
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <span class="bold-text">@alw.PensionAmount.ToString("N0")</span>
+                                                                <span class="sub">៛</span>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-sm" @onclick="() => OnRemoveClick(Allowance.ClaId)">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+                        <button id="multiple-reset" class="btn btn-info" disabled="@(AllowanceReviews.Count==0)" @onclick="OnSave">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            ឯកភាព
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <Message @ref="MessageBox" />
+    <Loading @ref="Loading" />
